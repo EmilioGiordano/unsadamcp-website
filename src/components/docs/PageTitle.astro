@@ -1,6 +1,8 @@
 ---
+import { mdxToMarkdown } from "../../lib/mdx-to-markdown";
+
 const { entry } = Astro.locals.starlightRoute;
-const markdown = (entry.body ?? "").replace(/^import .*\n/gm, "").trimStart();
+const markdown = mdxToMarkdown(entry.body ?? "");
 ---
 
 <header class="page-title">
