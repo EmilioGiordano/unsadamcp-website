@@ -2,6 +2,7 @@ import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
+  prefetch: { prefetchAll: true, defaultStrategy: "hover" },
   devToolbar: { enabled: false },
   integrations: [
     starlight({
@@ -31,6 +32,7 @@ export default defineConfig({
         SiteTitle: "./src/components/docs/SiteTitle.astro",
         PageTitle: "./src/components/docs/PageTitle.astro",
         ThemeSelect: "./src/components/docs/ThemeSelect.astro",
+        Head: "./src/components/docs/Head.astro",
         SocialIcons: "./src/components/docs/SocialIcons.astro",
         Pagination: "./src/components/docs/Pagination.astro",
       },

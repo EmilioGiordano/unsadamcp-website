@@ -159,18 +159,21 @@ const options = [
   lightQuery.addEventListener("change", () => {
     if (readStoredTheme() === "auto") applyTheme("auto");
   });
+  // The docs swap pages in place, replacing <html> attributes and the toggle itself.
+  document.addEventListener("astro:after-swap", () => applyTheme(readStoredTheme()));
 
-  for (const toggle of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
-    const buttons = [...toggle.querySelectorAll<HTMLButtonElement>("button")];
-    buttons.forEach((button, index) => {
-      button.addEventListener("click", () => chooseTheme(parseTheme(button.dataset.value)));
-      button.addEventListener("keydown", (event) => {
-        const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-        if (!step) return;
-        const next = buttons[(index + step + buttons.length) % buttons.length];
-        next.focus();
-        chooseTheme(parseTheme(next.dataset.value));
-      });
-    });
-  }
+  document.addEventListener("click", (event) => {
+    const button = event.target instanceof Element ? event.target.closest("[data-theme-toggle] button") : null;
+    if (button instanceof HTMLButtonElement) chooseTheme(parseTheme(button.dataset.value));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    const button = event.target instanceof Element ? event.target.closest("[data-theme-toggle] button") : null;
+    if (!step || !(button instanceof HTMLButtonElement)) return;
+    const buttons = [...(button.parentElement?.querySelectorAll<HTMLButtonElement>("button") ?? [])];
+    const next = buttons[(buttons.indexOf(button) + step + buttons.length) % buttons.length];
+    next.focus();
+    chooseTheme(parseTheme(next.dataset.value));
+  });
 </script>

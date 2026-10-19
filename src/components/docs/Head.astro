@@ -1,0 +1,25 @@
+---
+import Default from "@astrojs/starlight/components/Head.astro";
+import { ClientRouter } from "astro:transitions";
+---
+
+<Default />
+<ClientRouter fallback="none" />
+
+<script>
+  let sidebarScroll = 0;
+
+  document.addEventListener("astro:before-swap", (event) => {
+    sidebarScroll = document.getElementById("starlight__sidebar")?.scrollTop ?? 0;
+    // Starlight's search binds Ctrl+K on window for every instance it creates, so reuse the live one
+    // before the new page's copy is upgraded and leaves a listener on a detached dialog.
+    const search = document.querySelector("site-search");
+    if (search) event.newDocument.querySelector("site-search")?.replaceWith(search);
+  });
+
+  // The sidebar is replaced on every page; keep it where the reader left it.
+  document.addEventListener("astro:after-swap", () => {
+    const sidebar = document.getElementById("starlight__sidebar");
+    if (sidebar) sidebar.scrollTop = sidebarScroll;
+  });
+</script>

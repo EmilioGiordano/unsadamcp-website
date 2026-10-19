@@ -66,14 +66,15 @@ const markdown = (entry.body ?? "").replace(/^import .*\n/gm, "").trimStart();
 </style>
 
 <script>
-  for (const button of document.querySelectorAll<HTMLButtonElement>(".copy-page")) {
+  // Delegated so it keeps working after the docs swap pages in place.
+  document.addEventListener("click", async (event) => {
+    const button = event.target instanceof Element ? event.target.closest(".copy-page") : null;
+    if (!(button instanceof HTMLButtonElement)) return;
     const label = button.querySelector("span");
-    button.addEventListener("click", async () => {
-      const title = document.getElementById("_top")?.textContent ?? "";
-      await navigator.clipboard.writeText(`# ${title}\n\n${button.dataset.source ?? ""}`);
-      if (!label) return;
-      label.textContent = "Copiado";
-      setTimeout(() => (label.textContent = "Copiar como Markdown"), 1600);
-    });
-  }
+    const title = document.getElementById("_top")?.textContent ?? "";
+    await navigator.clipboard.writeText(`# ${title}\n\n${button.dataset.source ?? ""}`);
+    if (!label) return;
+    label.textContent = "Copiado";
+    setTimeout(() => (label.textContent = "Copiar como Markdown"), 1600);
+  });
 </script>
