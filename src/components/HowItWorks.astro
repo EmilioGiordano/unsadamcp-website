@@ -11,31 +11,32 @@
         class="diagram"
         data-diagram
         role="img"
-        aria-label="En tu computadora, tu agente habla con unsada-mcp por stdio, y unsada-mcp abre Edge o Chrome una vez para entrar con Google. Desde tu computadora, unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión."
+        aria-label="Dentro de tu computadora, tu agente le habla a unsada-mcp por stdio con JSON-RPC, y unsada-mcp abre Edge o Chrome una sola vez para que entres con Google. Desde ahí, unsada-mcp lee el aula virtual de la UNSAdA, moodle.unsada.edu.ar, por HTTPS con tu sesión y en modo de solo lectura."
       >
         <div class="machine"><span>Tu computadora</span></div>
         <div class="node agent">
-          <p class="node-role">cliente MCP</p>
+          <p class="node-role"><span>nodo 01</span><span>cliente mcp</span></p>
           <p class="node-name">Tu agente</p>
-          <p class="node-note">Claude, Codex, OpenCode o Cursor. Entiende lo que le pides.</p>
+          <p class="node-note">Claude, Codex, OpenCode, Cursor o cualquier cliente MCP. Entiende tu pedido y decide qué abrir.</p>
         </div>
-        <div class="edge e1"><span>stdio</span><i class="packet"></i></div>
+        <div class="edge e1"><span>stdio · json-rpc</span><i class="signal"></i></div>
         <div class="node server">
-          <p class="node-role">servidor MCP</p>
+          <p class="node-role"><span>nodo 02</span><span>en tu computadora</span></p>
           <p class="node-name">unsada-mcp</p>
-          <p class="node-note">Busca en el aula lo que tu agente necesita y guarda tu sesión en tu computadora.</p>
+          <p class="node-note">Navega el aula, lee los archivos por partes y guarda tu sesión sin sacarla de tu computadora.</p>
         </div>
-        <div class="edge e2"><span>HTTPS con tu sesión</span><i class="packet"></i></div>
+        <div class="edge e2"><span>https · tu sesión</span><i class="signal"></i></div>
         <div class="node moodle">
-          <p class="node-role">aula virtual <span class="status">solo lectura</span></p>
-          <p class="node-name">moodle.unsada.edu.ar</p>
-          <p class="node-note">Lo ve igual que tú desde el navegador.</p>
+          <p class="node-role"><span>nodo 03</span><span class="status">en línea</span></p>
+          <p class="node-name">Aula virtual UNSAdA</p>
+          <p class="node-host">moodle.unsada.edu.ar</p>
+          <p class="node-note">Cursos, secciones, foros, archivos, entregas, notas y calendario. Solo lectura.</p>
         </div>
-        <div class="drop"><span>una vez, para entrar</span></div>
+        <div class="drop"><span>google sso · una vez</span></div>
         <div class="node browser">
-          <p class="node-role">navegador</p>
+          <p class="node-role"><span>nodo 04</span><span>solo al entrar</span></p>
           <p class="node-name">Edge o Chrome</p>
-          <p class="node-note">Inicio de sesión con tu cuenta de Google. La ventana se cierra sola.</p>
+          <p class="node-note">Se abre una vez para que entres con Google y se cierra sola. Vuelve solo si vence la sesión.</p>
         </div>
       </div>
       <figcaption>Todo lo que está dentro de la línea punteada pasa en tu computadora. Al aula solo llegan pedidos para leer páginas.</figcaption>
@@ -65,9 +66,9 @@
 
   .diagram {
     --inset: 28px;
-    --dot: 7px;
+    --streak: 56px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(56px, 0.42fr) minmax(0, 1fr) minmax(112px, 0.8fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(128px, 0.5fr) minmax(0, 1fr) minmax(144px, 0.75fr) minmax(0, 1fr);
     grid-template-rows: auto 72px auto;
     align-items: center;
     padding: calc(var(--inset) + 40px) 0 var(--inset) var(--inset);
@@ -123,21 +124,23 @@
 
   .node-role {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 12px;
+    gap: 2px 12px;
     margin: 0 -18px 12px;
     padding: 10px 18px;
     border-bottom: 1px solid var(--line);
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--text-3);
+    white-space: nowrap;
   }
 
   .status {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: var(--accent);
+    gap: 7px;
+    color: var(--text-2);
   }
 
   .status::before {
@@ -145,7 +148,18 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: currentColor;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px var(--ok-soft);
+  }
+
+  :global(.motion) .in-view .status::before {
+    animation: blink 2.4s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
   }
 
   .node-name {
@@ -153,6 +167,13 @@
     font-weight: 600;
     font-size: 1.08rem;
     letter-spacing: -0.01em;
+  }
+
+  .node-host {
+    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-3);
   }
 
   .node-note {
@@ -176,12 +197,6 @@
     font-size: 0.98rem;
     font-weight: 500;
     color: var(--accent);
-  }
-
-  .moodle .node-name {
-    font-family: var(--font-mono);
-    font-size: 0.92rem;
-    font-weight: 500;
   }
 
   .agent {
@@ -247,12 +262,6 @@
     transform: translateX(-50%);
   }
 
-  .e2 span {
-    left: auto;
-    right: 6px;
-    transform: none;
-  }
-
   .drop {
     position: relative;
     justify-self: center;
@@ -267,62 +276,52 @@
     transform: translateY(-50%);
   }
 
-  .packet {
+  .signal {
+    --direction: 90deg;
+    --size: var(--streak) 100%;
+    --from: calc(-1 * var(--streak)) 0;
+    --to: calc(100% + var(--streak)) 0;
     position: absolute;
-    top: calc(var(--dot) / -2);
-    left: 0;
-    width: var(--dot);
-    height: var(--dot);
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-    opacity: 0;
+    inset: 0 6px 0 0;
+    background: linear-gradient(var(--direction), transparent, var(--accent), transparent) no-repeat var(--from) /
+      var(--size);
   }
 
-  :global(.motion) .in-view .e1 .packet {
-    animation: travel-e1 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  .signal::before {
+    content: "";
+    position: absolute;
+    inset: -2px 0;
+    background: inherit;
+    filter: blur(3px);
+    opacity: 0.6;
   }
 
-  :global(.motion) .in-view .e2 .packet {
-    animation: travel-e2 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  :global(.motion) .in-view .e1 .signal {
+    animation: signal-e1 3.6s linear infinite;
   }
 
-  @keyframes travel-e1 {
+  :global(.motion) .in-view .e2 .signal {
+    animation: signal-e2 3.6s linear infinite;
+  }
+
+  @keyframes signal-e1 {
     0% {
-      left: 0;
-      opacity: 0;
+      background-position: var(--from);
     }
-    4%,
-    24% {
-      opacity: 1;
-    }
-    24%,
+    36%,
     100% {
-      left: calc(100% - var(--dot));
-    }
-    28%,
-    100% {
-      opacity: 0;
+      background-position: var(--to);
     }
   }
 
-  @keyframes travel-e2 {
+  @keyframes signal-e2 {
     0%,
-    34% {
-      left: 0;
-      opacity: 0;
+    36% {
+      background-position: var(--from);
     }
-    38%,
-    62% {
-      opacity: 1;
-    }
-    62%,
+    80%,
     100% {
-      left: calc(100% - var(--dot));
-    }
-    66%,
-    100% {
-      opacity: 0;
+      background-position: var(--to);
     }
   }
 
@@ -373,6 +372,7 @@
   @media (max-width: 900px) {
     .diagram {
       --inset: 18px;
+      --streak: 40px;
       grid-template-columns: 1fr;
       grid-template-rows: none;
       max-width: 440px;
@@ -440,61 +440,16 @@
       transform: translateY(-50%);
     }
 
-    .e2 span {
-      left: 14px;
-      right: auto;
+    .signal {
+      --direction: 180deg;
+      --size: 100% var(--streak);
+      --from: 0 calc(-1 * var(--streak));
+      --to: 0 calc(100% + var(--streak));
+      inset: 0 0 6px;
     }
 
-    .packet {
-      top: 0;
-      left: calc(var(--dot) / -2);
-    }
-
-    :global(.motion) .in-view .e1 .packet {
-      animation-name: fall-e1;
-    }
-
-    :global(.motion) .in-view .e2 .packet {
-      animation-name: fall-e2;
-    }
-
-    @keyframes fall-e1 {
-      0% {
-        top: 0;
-        opacity: 0;
-      }
-      4%,
-      24% {
-        opacity: 1;
-      }
-      24%,
-      100% {
-        top: calc(100% - var(--dot));
-      }
-      28%,
-      100% {
-        opacity: 0;
-      }
-    }
-
-    @keyframes fall-e2 {
-      0%,
-      34% {
-        top: 0;
-        opacity: 0;
-      }
-      38%,
-      62% {
-        opacity: 1;
-      }
-      62%,
-      100% {
-        top: calc(100% - var(--dot));
-      }
-      66%,
-      100% {
-        opacity: 0;
-      }
+    .signal::before {
+      inset: 0 -2px;
     }
 
     .steps {
