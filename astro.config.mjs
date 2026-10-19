@@ -25,6 +25,7 @@ export default defineConfig({
       components: {
         SiteTitle: "./src/components/docs/SiteTitle.astro",
         PageTitle: "./src/components/docs/PageTitle.astro",
+        ThemeSelect: "./src/components/docs/ThemeSelect.astro",
       },
       expressiveCode: {
         themes: ["github-dark-default", "github-light-default"],

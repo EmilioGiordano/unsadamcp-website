@@ -1,0 +1,176 @@
+---
+const options = [
+  { value: "auto", label: "Tema del sistema" },
+  { value: "light", label: "Tema claro" },
+  { value: "dark", label: "Tema oscuro" },
+] as const;
+---
+
+<div class="theme-toggle" role="radiogroup" aria-label="Tema" data-theme-toggle data-current="auto">
+  <span class="thumb" aria-hidden="true"></span>
+  {
+    options.map((option) => (
+      <button type="button" role="radio" aria-checked="false" data-value={option.value} aria-label={option.label} title={option.label}>
+        {option.value === "auto" && (
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <rect x="2" y="3" width="12" height="8" rx="1.5" />
+            <path d="M5.5 13.5h5M8 11v2.5" />
+          </svg>
+        )}
+        {option.value === "light" && (
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="8" cy="8" r="2.8" />
+            <path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9" />
+          </svg>
+        )}
+        {option.value === "dark" && (
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M13.3 9.6A5.6 5.6 0 0 1 6.4 2.7a5.6 5.6 0 1 0 6.9 6.9Z" />
+          </svg>
+        )}
+      </button>
+    ))
+  }
+</div>
+
+{/* Inline so the saved choice shows before first paint. */}
+<script is:inline>
+  (() => {
+    let stored = "";
+    try {
+      stored = localStorage.getItem("starlight-theme") || "";
+    } catch {}
+    const current = stored === "light" || stored === "dark" ? stored : "auto";
+    for (const toggle of document.querySelectorAll("[data-theme-toggle]")) toggle.dataset.current = current;
+  })();
+</script>
+
+<style>
+  .theme-toggle {
+    --size: 28px;
+    position: relative;
+    flex: none;
+    align-self: center;
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--bg-sunken);
+  }
+
+  .thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: var(--bg-raised);
+    box-shadow:
+      0 0 0 1px var(--line-strong),
+      0 1px 3px rgb(0 0 0 / 0.18);
+    transition: transform 0.25s cubic-bezier(0.3, 0.7, 0.2, 1);
+  }
+
+  [data-current="light"] .thumb {
+    transform: translateX(var(--size));
+  }
+
+  [data-current="dark"] .thumb {
+    transform: translateX(calc(2 * var(--size)));
+  }
+
+  button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--size);
+    height: var(--size);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--text-3);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+
+  button:hover {
+    color: var(--text);
+  }
+
+  [data-current="auto"] [data-value="auto"],
+  [data-current="light"] [data-value="light"],
+  [data-current="dark"] [data-value="dark"] {
+    color: var(--accent);
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+
+<script>
+  type Theme = "auto" | "light" | "dark";
+
+  const storageKey = "starlight-theme";
+  const lightQuery = matchMedia("(prefers-color-scheme: light)");
+
+  const parseTheme = (value: string | null | undefined): Theme =>
+    value === "light" || value === "dark" ? value : "auto";
+
+  function readStoredTheme(): Theme {
+    try {
+      return parseTheme(localStorage.getItem(storageKey));
+    } catch {
+      return "auto";
+    }
+  }
+
+  function applyTheme(theme: Theme) {
+    const resolved = theme === "auto" ? (lightQuery.matches ? "light" : "dark") : theme;
+    document.documentElement.dataset.theme = resolved;
+    for (const toggle of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+      toggle.dataset.current = theme;
+      for (const button of toggle.querySelectorAll<HTMLButtonElement>("button")) {
+        const checked = button.dataset.value === theme;
+        button.setAttribute("aria-checked", String(checked));
+        button.tabIndex = checked ? 0 : -1;
+      }
+    }
+  }
+
+  function chooseTheme(theme: Theme) {
+    applyTheme(theme);
+    try {
+      localStorage.setItem(storageKey, theme === "auto" ? "" : theme);
+    } catch {
+      // Private windows can refuse storage; the choice still applies to this page.
+    }
+  }
+
+  applyTheme(readStoredTheme());
+  lightQuery.addEventListener("change", () => {
+    if (readStoredTheme() === "auto") applyTheme("auto");
+  });
+
+  for (const toggle of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+    const buttons = [...toggle.querySelectorAll<HTMLButtonElement>("button")];
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => chooseTheme(parseTheme(button.dataset.value)));
+      button.addEventListener("keydown", (event) => {
+        const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+        if (!step) return;
+        const next = buttons[(index + step + buttons.length) % buttons.length];
+        next.focus();
+        chooseTheme(parseTheme(next.dataset.value));
+      });
+    });
+  }
+</script>

@@ -136,10 +136,6 @@ site-search button[data-open-modal] {
   --sl-color-asides-text-accent: var(--sl-color-accent);
 }
 
-starlight-theme-select label {
-  --sl-select-width: 9em !important;
-}
-
 body {
   isolation: isolate;
 }
@@ -163,4 +159,8 @@ body::before {
     -1px -1px,
     -1px -1px;
   mask-image: linear-gradient(rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.25));
+}
+
+.social-icons::after {
+  display: none;
 }

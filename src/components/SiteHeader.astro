@@ -1,5 +1,6 @@
 ---
 import Mark from "./Mark.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 
 import { base } from "../lib/base";
 ---
@@ -24,6 +25,7 @@ import { base } from "../lib/base";
           ></path></svg
         >
       </a>
+      <ThemeToggle />
     </nav>
   </div>
 </header>
@@ -48,6 +50,7 @@ import { base } from "../lib/base";
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    white-space: nowrap;
     text-decoration: none;
   }
 
@@ -89,11 +92,22 @@ import { base } from "../lib/base";
   .github {
     display: inline-flex;
     padding: 8px;
+    margin-right: 8px;
   }
 
   @media (max-width: 720px) {
     .hide-s {
       display: none;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .github {
+      display: none;
+    }
+
+    nav a {
+      padding: 6px 8px;
     }
   }
 </style>
