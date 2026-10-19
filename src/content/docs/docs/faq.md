@@ -29,7 +29,7 @@ Para el aula es una visita tuya más: abrir una actividad queda en sus registros
 
 ## ¿Cuánto cuesta?
 
-Nada. Es software libre con licencia ISC. Necesitas un cliente con un modelo (Claude, Codex, Cursor…), que puede tener su propio costo.
+Nada. Es software libre con licencia AGPL-3.0-or-later. Necesitas un cliente con un modelo (Claude, Codex, Cursor…), que puede tener su propio costo.
 
 ## ¿Qué cliente me conviene si no sé programar?
 

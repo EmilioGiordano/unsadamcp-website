@@ -32,4 +32,4 @@ Lo único que escribe es en tu disco, cuando le pides que descargue algo, y solo
 
 ## Aviso
 
-Este proyecto no está afiliado ni avalado por la Universidad Nacional de San Antonio de Areco. Es software libre con licencia ISC, inspirado en [utn-mcp](https://github.com/nialvape/utn-mcp). Úsalo bajo tu responsabilidad.
+Este proyecto no está afiliado ni avalado por la Universidad Nacional de San Antonio de Areco. Es software libre con licencia AGPL-3.0-or-later, inspirado en [utn-mcp](https://github.com/nialvape/utn-mcp). Úsalo bajo tu responsabilidad.

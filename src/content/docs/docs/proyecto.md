@@ -46,4 +46,4 @@ Las reglas del proyecto (estructura, seguridad, estilo) están en [`AGENTS.md`](
 
 Inspirado en [utn-mcp](https://github.com/nialvape/utn-mcp), el servidor MCP no oficial de la UTN. La lectura de documentos (`src/documents/`) viene de ahí; ver `THIRD_PARTY_NOTICES` en el repositorio.
 
-Licencia ISC.
+Licencia AGPL-3.0-or-later desde la versión 0.3.0; hasta la 0.2.2, ISC. El código de `src/documents/` sigue bajo ISC.
