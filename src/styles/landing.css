@@ -77,8 +77,14 @@ pre {
 }
 
 .section {
+  --section-bg: var(--bg);
   padding: clamp(72px, 9vw, 120px) 0;
   border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--section-bg) 40%, transparent);
+}
+
+main > .section:nth-of-type(even) {
+  --section-bg: var(--bg-alt);
 }
 
 .section-title {

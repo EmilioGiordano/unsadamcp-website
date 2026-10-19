@@ -70,10 +70,6 @@ import { base } from "../lib/base";
     color: var(--text-2);
   }
 
-  .host {
-    color: var(--text);
-  }
-
   .install {
     margin-top: 36px;
     max-width: 440px;
@@ -86,13 +82,12 @@ import { base } from "../lib/base";
   }
 
   .install-note a {
-    color: var(--text-2);
+    color: var(--accent);
     text-underline-offset: 3px;
-    text-decoration-color: var(--line-strong);
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
   .install-note a:hover {
-    color: var(--text);
     text-decoration-color: currentColor;
   }
 
