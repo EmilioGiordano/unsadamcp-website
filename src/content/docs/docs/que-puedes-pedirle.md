@@ -5,6 +5,15 @@ description: Ejemplos de preguntas, ordenados por tema.
 
 Háblale como a un compañero que tiene el aula abierta. El agente elige qué [herramientas](../herramientas/) usar y en qué orden; no hace falta nombrarlas.
 
+## Pedidos completos
+
+Lo más útil no son las preguntas sueltas, sino los pedidos que combinan varias herramientas del servidor con lo que tu agente ya sabe hacer:
+
+- *"Descarga todo el material de Algoritmos y Programación II, ordénalo en la carpeta de la materia y ayúdame a preparar el parcial. Prepárame ejercicios de código sobre listas enlazadas, arreglos, condicionales, switch-case y colas, y sobre el resto de los temas que dio la cátedra."*
+- *"Prepárame una presentación en .pptx sobre el TP2 de Bases de Datos. Ya lo entregué en el aula: usa como base el trabajo que subí."*
+
+El servidor descarga los archivos y lee la consigna y tu entrega. Los ejercicios y la presentación los arma tu agente, así que el resultado depende del cliente que uses: por ejemplo, Claude Code puede escribir el `.pptx` en tu carpeta.
+
 ## Entregas y fechas
 
 - *"¿Qué tengo que entregar esta semana?"*
