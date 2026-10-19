@@ -13,9 +13,9 @@ import { base } from "../lib/base";
       <span class="unofficial">no oficial</span>
     </a>
     <nav aria-label="Principal">
-      <a class="hide-s" href="#herramientas">Herramientas</a>
-      <a class="hide-s" href="#seguridad">Seguridad</a>
-      <a class="hide-s" href="#instalar">Instalar</a>
+      <a class="hide-s" href="#herramientas" data-section-link>Herramientas</a>
+      <a class="hide-s" href="#seguridad" data-section-link>Seguridad</a>
+      <a class="hide-s" href="#instalar" data-section-link>Instalar</a>
       <a href={`${base}docs/`}>Docs</a>
       <a class="github" href="https://github.com/EmilioGiordano/unsada-mcp" aria-label="Código en GitHub">
         <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"
@@ -111,3 +111,15 @@ import { base } from "../lib/base";
     }
   }
 </style>
+
+<script>
+  // Scroll without writing the section into the URL, so the address stays clean.
+  for (const link of document.querySelectorAll<HTMLAnchorElement>("a[data-section-link]")) {
+    link.addEventListener("click", (event) => {
+      const target = document.getElementById(link.hash.slice(1));
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView();
+    });
+  }
+</script>
