@@ -8,6 +8,7 @@
   --bg-sunken: #0e0f10;
   --line: #26282c;
   --line-strong: #383b40;
+  --wire: #4a4e55;
   --term-bg: #0c0d0f;
   --term-bar: #141518;
   --term-shadow:
@@ -44,6 +45,7 @@
   --bg-sunken: #eeeeeb;
   --line: #e2e2de;
   --line-strong: #cfcfca;
+  --wire: #a7aaa4;
   --text: #17181a;
   --text-2: #4d5056;
   --text-3: #7c7f85;
@@ -69,6 +71,7 @@
     --bg-sunken: #eeeeeb;
     --line: #e2e2de;
     --line-strong: #cfcfca;
+    --wire: #a7aaa4;
     --text: #17181a;
     --text-2: #4d5056;
     --text-3: #7c7f85;

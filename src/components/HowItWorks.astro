@@ -70,7 +70,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(56px, 0.42fr) minmax(0, 1fr) minmax(112px, 0.8fr) minmax(0, 1fr);
     grid-template-rows: auto 72px auto;
     align-items: center;
-    padding: calc(var(--inset) + 12px) 0 var(--inset) var(--inset);
+    padding: calc(var(--inset) + 40px) 0 var(--inset) var(--inset);
   }
 
   .agent,
@@ -84,21 +84,31 @@
     align-self: stretch;
     position: relative;
     margin: calc(-1 * var(--inset) - 12px) calc(-1 * var(--inset)) calc(-1 * var(--inset));
-    border: 1px dashed var(--line-strong);
+    border: 1px dashed var(--wire);
     border-radius: var(--radius-l);
-    background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+    background-color: color-mix(in srgb, var(--accent) 4%, transparent);
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1.5px);
     background-size: 22px 22px;
   }
 
   .machine span {
     position: absolute;
-    top: -0.75em;
-    left: 20px;
-    padding: 0 8px;
-    background: var(--bg);
+    bottom: calc(100% + 8px);
+    left: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: var(--font-mono);
     font-size: 0.76rem;
     color: var(--text-2);
+  }
+
+  .machine span::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    border: 1px dashed var(--wire);
   }
 
   .node {
@@ -108,6 +118,7 @@
     background: var(--bg-raised);
     padding: 0 18px 18px;
     min-height: 136px;
+    box-shadow: 0 10px 28px -20px rgb(0 0 0 / 0.35);
   }
 
   .node-role {
@@ -200,13 +211,15 @@
   .browser {
     grid-area: 3 / 3;
     border-style: dashed;
-    background: var(--bg);
+    border-color: var(--wire);
+    background: color-mix(in srgb, var(--bg-raised) 55%, transparent);
+    box-shadow: none;
   }
 
   .edge {
     position: relative;
     height: 1px;
-    background: var(--line-strong);
+    background: var(--wire);
   }
 
   .edge::after {
@@ -215,7 +228,7 @@
     right: -1px;
     top: -4px;
     border: 4.5px solid transparent;
-    border-left: 6px solid var(--line-strong);
+    border-left: 6px solid var(--wire);
     border-right: 0;
   }
 
@@ -235,8 +248,9 @@
   }
 
   .e2 span {
-    padding: 0 6px;
-    background: var(--bg);
+    left: auto;
+    right: 6px;
+    transform: none;
   }
 
   .drop {
@@ -244,7 +258,7 @@
     justify-self: center;
     width: 1px;
     height: 100%;
-    background: repeating-linear-gradient(var(--line-strong) 0 4px, transparent 4px 8px);
+    background: repeating-linear-gradient(var(--wire) 0 4px, transparent 4px 8px);
   }
 
   .drop span {
@@ -362,7 +376,7 @@
       grid-template-columns: 1fr;
       grid-template-rows: none;
       max-width: 440px;
-      padding: calc(var(--inset) + 12px) var(--inset) 0;
+      padding: calc(var(--inset) + 40px) var(--inset) 0;
     }
 
     .machine {
@@ -415,7 +429,7 @@
       top: auto;
       bottom: -1px;
       border: 4.5px solid transparent;
-      border-top: 6px solid var(--line-strong);
+      border-top: 6px solid var(--wire);
       border-bottom: 0;
     }
 
@@ -427,8 +441,8 @@
     }
 
     .e2 span {
-      padding: 0;
-      background: none;
+      left: 14px;
+      right: auto;
     }
 
     .packet {
