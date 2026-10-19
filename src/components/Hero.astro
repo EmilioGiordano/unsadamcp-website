@@ -35,21 +35,18 @@ import { base } from "../lib/base";
     overflow: hidden;
   }
 
-  .hero::before {
+  .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 56px 56px;
-    background-position: -1px -1px;
-    mask-image: radial-gradient(ellipse 70% 70% at 70% 40%, black, transparent 75%);
-    opacity: 0.45;
     pointer-events: none;
+    background: radial-gradient(ellipse 30% 40% at 74% 50%, var(--accent-glow), transparent 70%);
+    filter: blur(30px);
   }
 
   .grid {
     position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
     gap: clamp(40px, 6vw, 88px);
@@ -104,7 +101,11 @@ import { base } from "../lib/base";
     }
 
     h1 {
-      max-width: 12ch;
+      max-width: 16ch;
+    }
+
+    .hero::after {
+      background: radial-gradient(ellipse 60% 25% at 50% 75%, var(--accent-glow), transparent 70%);
     }
   }
 </style>

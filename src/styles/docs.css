@@ -139,3 +139,28 @@ site-search button[data-open-modal] {
 starlight-theme-select label {
   --sl-select-width: 9em !important;
 }
+
+body {
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--sl-color-gray-5) 1px, transparent 1.6px),
+    linear-gradient(var(--sl-color-hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--sl-color-hairline) 1px, transparent 1px);
+  background-size:
+    28px 28px,
+    112px 112px,
+    112px 112px;
+  background-position:
+    13px 13px,
+    -1px -1px,
+    -1px -1px;
+  mask-image: linear-gradient(rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.25));
+}

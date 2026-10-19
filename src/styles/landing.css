@@ -31,6 +31,27 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--line-strong) 1px, transparent 1.6px),
+    linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:
+    28px 28px,
+    112px 112px,
+    112px 112px;
+  background-position:
+    13px 13px,
+    -1px -1px,
+    -1px -1px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, rgb(0 0 0 / 0.9) 30%, rgb(0 0 0 / 0.5) 100%);
 }
 
 h1,
