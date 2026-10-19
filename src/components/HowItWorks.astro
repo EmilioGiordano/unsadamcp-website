@@ -6,28 +6,39 @@
       después lee el aula con esa sesión, igual que si abrieras las páginas a mano.
     </p>
 
-    <div class="diagram" role="img" aria-label="Tu agente habla con unsada-mcp por stdio; unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión; Edge o Chrome se abre una vez para entrar con Google.">
-      <div class="node agent">
-        <p class="node-name">Tu agente</p>
-        <p class="node-note">Claude, Codex, OpenCode o Cursor. Decide qué herramienta usar.</p>
+    <figure class="figure">
+      <div
+        class="diagram"
+        role="img"
+        aria-label="En tu compu, tu agente habla con unsada-mcp por stdio, y unsada-mcp abre Edge o Chrome una vez para entrar con Google. Desde tu compu, unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión."
+      >
+        <div class="machine"><span>Tu compu</span></div>
+        <div class="node agent">
+          <p class="node-role">cliente MCP</p>
+          <p class="node-name">Tu agente</p>
+          <p class="node-note">Claude, Codex, OpenCode o Cursor. Decide qué herramienta usar.</p>
+        </div>
+        <div class="edge e1"><span>stdio</span><i class="packet"></i></div>
+        <div class="node server">
+          <p class="node-role">servidor MCP</p>
+          <p class="node-name">unsada-mcp</p>
+          <p class="node-note">Revisa cada dirección antes de pedirla. Guarda la sesión en tu carpeta de usuario.</p>
+        </div>
+        <div class="edge e2"><span>HTTPS con tu sesión</span><i class="packet"></i></div>
+        <div class="node moodle">
+          <p class="node-role">aula virtual <span class="status">solo lectura</span></p>
+          <p class="node-name">moodle.unsada.edu.ar</p>
+          <p class="node-note">Solo páginas de lectura conocidas.</p>
+        </div>
+        <div class="drop"><span>una vez, para entrar</span></div>
+        <div class="node browser">
+          <p class="node-role">navegador</p>
+          <p class="node-name">Edge o Chrome</p>
+          <p class="node-note">Entrás con tu cuenta de Google. La ventana se cierra sola.</p>
+        </div>
       </div>
-      <div class="edge e1"><span>stdio</span></div>
-      <div class="node server">
-        <p class="node-name">unsada-mcp</p>
-        <p class="node-note">En tu compu. Guarda la sesión en tu carpeta de usuario.</p>
-      </div>
-      <div class="edge e2"><span>HTTPS con tu sesión</span></div>
-      <div class="node moodle">
-        <p class="node-name">moodle.unsada.edu.ar</p>
-        <p class="node-note">Solo páginas de lectura conocidas.</p>
-      </div>
-      <div class="drop"><span>una vez, para entrar</span></div>
-      <div class="node browser">
-        <p class="node-name">Edge o Chrome</p>
-        <p class="node-when">unsada-mcp lo abre una vez, para entrar.</p>
-        <p class="node-note">Entrás con tu cuenta de Google. La ventana se cierra sola.</p>
-      </div>
-    </div>
+      <figcaption>Lo que está dentro de la línea punteada corre en tu compu. Hacia el aula solo salen los pedidos de cada página.</figcaption>
+    </figure>
 
     <ol class="steps">
       <li>
@@ -50,20 +61,82 @@
 </section>
 
 <style>
+  .figure {
+    margin: clamp(48px, 7vw, 80px) 0 0;
+  }
+
   .diagram {
-    margin-top: clamp(48px, 7vw, 80px);
+    --inset: 28px;
+    --dot: 7px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(64px, 0.55fr) minmax(0, 1fr) minmax(64px, 0.7fr) minmax(0, 1fr);
-    grid-template-rows: auto 64px auto;
+    grid-template-columns: minmax(0, 1fr) minmax(56px, 0.42fr) minmax(0, 1fr) minmax(112px, 0.8fr) minmax(0, 1fr);
+    grid-template-rows: auto 72px auto;
     align-items: center;
+    padding: calc(var(--inset) + 12px) 0 var(--inset) var(--inset);
+  }
+
+  .agent,
+  .server,
+  .moodle {
+    align-self: stretch;
+  }
+
+  .machine {
+    grid-area: 1 / 1 / 4 / 4;
+    align-self: stretch;
+    position: relative;
+    margin: calc(-1 * var(--inset) - 12px) calc(-1 * var(--inset)) calc(-1 * var(--inset));
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-l);
+    background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  .machine span {
+    position: absolute;
+    top: -0.75em;
+    left: 20px;
+    padding: 0 8px;
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-2);
   }
 
   .node {
+    position: relative;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-m);
     background: var(--bg-raised);
-    padding: 16px 18px;
-    min-height: 108px;
+    padding: 0 18px 18px;
+    min-height: 136px;
+  }
+
+  .node-role {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 -18px 12px;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-3);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ok);
+  }
+
+  .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
   }
 
   .node-name {
@@ -83,6 +156,10 @@
   .server {
     border-color: var(--accent);
     box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .server .node-role {
+    border-bottom-color: color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
   .server .node-name {
@@ -122,18 +199,10 @@
     grid-area: 2 / 3;
   }
 
-  .node-when {
-    display: none;
-    margin-top: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    color: var(--text-3);
-  }
-
   .browser {
     grid-area: 3 / 3;
     border-style: dashed;
-    background: transparent;
+    background: var(--bg);
   }
 
   .edge {
@@ -163,8 +232,13 @@
 
   .edge span {
     left: 50%;
-    bottom: 8px;
+    bottom: 10px;
     transform: translateX(-50%);
+  }
+
+  .e2 span {
+    padding: 0 6px;
+    background: var(--bg);
   }
 
   .drop {
@@ -179,6 +253,71 @@
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  .packet {
+    position: absolute;
+    top: calc(var(--dot) / -2);
+    left: 0;
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    opacity: 0;
+  }
+
+  :global(.motion) .e1 .packet {
+    animation: travel-e1 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  }
+
+  :global(.motion) .e2 .packet {
+    animation: travel-e2 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  }
+
+  @keyframes travel-e1 {
+    0% {
+      left: 0;
+      opacity: 0;
+    }
+    4%,
+    24% {
+      opacity: 1;
+    }
+    24%,
+    100% {
+      left: calc(100% - var(--dot));
+    }
+    28%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes travel-e2 {
+    0%,
+    34% {
+      left: 0;
+      opacity: 0;
+    }
+    38%,
+    62% {
+      opacity: 1;
+    }
+    62%,
+    100% {
+      left: calc(100% - var(--dot));
+    }
+    66%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  figcaption {
+    margin-top: 20px;
+    font-size: 0.86rem;
+    color: var(--text-3);
   }
 
   .steps {
@@ -221,52 +360,50 @@
 
   @media (max-width: 900px) {
     .diagram {
+      --inset: 18px;
       grid-template-columns: 1fr;
       grid-template-rows: none;
-      max-width: 420px;
+      max-width: 440px;
+      padding: calc(var(--inset) + 12px) var(--inset) 0;
     }
 
-    .agent,
-    .e1,
-    .server,
-    .e2,
-    .moodle,
-    .drop,
-    .browser {
-      grid-area: auto;
-    }
-
-    .server {
-      order: 3;
-    }
-
-    .e1 {
-      order: 2;
+    .machine {
+      grid-area: 1 / 1 / 6 / 2;
+      margin: calc(-1 * var(--inset) - 12px) calc(-1 * var(--inset)) 0;
     }
 
     .agent {
-      order: 1;
+      grid-area: 1 / 1;
     }
 
-    .e2 {
-      order: 4;
+    .e1 {
+      grid-area: 2 / 1;
     }
 
-    .moodle {
-      order: 5;
+    .server {
+      grid-area: 3 / 1;
     }
 
     .drop {
-      display: none;
+      grid-area: 4 / 1;
+      height: 48px;
     }
 
     .browser {
-      order: 6;
-      margin-top: 32px;
+      grid-area: 5 / 1;
+      margin-bottom: var(--inset);
     }
 
-    .node-when {
-      display: block;
+    .e2 {
+      grid-area: 6 / 1;
+    }
+
+    .moodle {
+      grid-area: 7 / 1;
+    }
+
+    .node {
+      min-height: 0;
     }
 
     .edge {
@@ -289,6 +426,63 @@
       bottom: auto;
       top: 50%;
       transform: translateY(-50%);
+    }
+
+    .e2 span {
+      padding: 0;
+      background: none;
+    }
+
+    .packet {
+      top: 0;
+      left: calc(var(--dot) / -2);
+    }
+
+    :global(.motion) .e1 .packet {
+      animation-name: fall-e1;
+    }
+
+    :global(.motion) .e2 .packet {
+      animation-name: fall-e2;
+    }
+
+    @keyframes fall-e1 {
+      0% {
+        top: 0;
+        opacity: 0;
+      }
+      4%,
+      24% {
+        opacity: 1;
+      }
+      24%,
+      100% {
+        top: calc(100% - var(--dot));
+      }
+      28%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes fall-e2 {
+      0%,
+      34% {
+        top: 0;
+        opacity: 0;
+      }
+      38%,
+      62% {
+        opacity: 1;
+      }
+      62%,
+      100% {
+        top: calc(100% - var(--dot));
+      }
+      66%,
+      100% {
+        opacity: 0;
+      }
     }
 
     .steps {
