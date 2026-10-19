@@ -6,7 +6,7 @@ function asideTitle(tag: string): string {
   return title ?? asideTitles[type] ?? "Nota";
 }
 
-export function mdxToMarkdown(source: string): string {
+export function mdxToMarkdown(source: string, pageUrl: URL): string {
   const output: string[] = [];
   let inTab = false;
   let inAside = false;
@@ -46,5 +46,9 @@ export function mdxToMarkdown(source: string): string {
     output.push(line);
   }
 
-  return output.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return output
+    .join("\n")
+    .replace(/\]\((\.{1,2}\/[^)]*)\)/g, (_, path: string) => `](${new URL(path, pageUrl).href})`)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }

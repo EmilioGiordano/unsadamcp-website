@@ -2,7 +2,7 @@
 import { mdxToMarkdown } from "../../lib/mdx-to-markdown";
 
 const { entry } = Astro.locals.starlightRoute;
-const markdown = mdxToMarkdown(entry.body ?? "");
+const markdown = mdxToMarkdown(entry.body ?? "", new URL(Astro.url.pathname, Astro.site));
 ---
 
 <header class="page-title">
