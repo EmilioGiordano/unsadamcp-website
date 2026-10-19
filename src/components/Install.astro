@@ -1,66 +1,96 @@
 ---
+import { Code } from "astro:components";
 import { clients } from "../data/clients";
+import CopyButton from "./CopyButton.astro";
 import CopyCommand from "./CopyCommand.astro";
+import WindowLights from "./WindowLights.astro";
 
 import { base } from "../lib/base";
 ---
 
 <section class="section" id="instalar">
   <div class="wrap">
-    <h2 class="section-title">Instalarlo lleva dos minutos.</h2>
-
     <div class="split">
-      <ol class="steps">
+      <div>
+        <h2 class="section-title">Instalarlo lleva dos minutos.</h2>
+        <ol class="steps">
         <li>
-          <h3>Tené Node 22 y Edge o Chrome</h3>
+          <h3>Requisitos: Node 22 y Edge o Chrome</h3>
           <p>
-            Si no tenés Node, bajalo de <a href="https://nodejs.org/">nodejs.org</a> (la versión LTS). Edge ya viene con
+            Si no tienes Node, descárgalo de <a href="https://nodejs.org/">nodejs.org</a> (la versión LTS). Edge ya viene con
             Windows.
           </p>
         </li>
         <li>
-          <h3>Entrá una vez con Google</h3>
-          <p>Se abre una ventana del aula. Entrás con tu cuenta y se cierra sola.</p>
+          <h3>Inicio de sesión con Google, una sola vez</h3>
+          <p>Se abre una ventana del aula. Inicias sesión con tu cuenta y se cierra sola.</p>
           <CopyCommand command="npx -y unsada-mcp login" />
         </li>
         <li>
-          <h3>Conectalo a tu cliente</h3>
-          <p>Elegí el tuyo, pegá la configuración y reinicialo. Después preguntale lo que quieras.</p>
+          <h3>Configuración del agente</h3>
+          <p>Elige tu cliente, pega la configuración y reinícialo. Después pregúntale lo que quieras.</p>
         </li>
-      </ol>
+        </ol>
+      </div>
 
-      <div class="clients" data-clients>
-        <div class="tabs" role="tablist" aria-label="Clientes">
+      <div class="side">
+      <div>
+        <div class="window" data-clients>
+          <div class="chrome">
+            <WindowLights />
+            <span class="title" data-client-file>{clients[0].file}</span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Clientes">
+            {
+              clients.map((client, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`client-tab-${client.id}`}
+                  aria-controls={`client-${client.id}`}
+                  aria-selected={index === 0 ? "true" : "false"}
+                  tabindex={index === 0 ? 0 : -1}
+                  data-file={client.file}
+                >
+                  {client.name}
+                </button>
+              ))
+            }
+          </div>
           {
             clients.map((client, index) => (
-              <button
-                type="button"
-                role="tab"
-                id={`client-tab-${client.id}`}
-                aria-controls={`client-${client.id}`}
-                aria-selected={index === 0 ? "true" : "false"}
-                tabindex={index === 0 ? 0 : -1}
+              <div
+                class="client"
+                data-lang={client.lang}
+                role="tabpanel"
+                id={`client-${client.id}`}
+                aria-labelledby={`client-tab-${client.id}`}
+                hidden={index !== 0}
               >
-                {client.name}
-              </button>
+                <div class="code">
+                  <Code class="config" code={client.config} lang={client.lang} theme="css-variables" />
+                  <CopyButton text={client.config} label={`Copiar configuración de ${client.name}`} />
+                </div>
+                <p class="where">{client.where}</p>
+              </div>
             ))
           }
         </div>
-        {
-          clients.map((client, index) => (
-            <div class="client" role="tabpanel" id={`client-${client.id}`} aria-labelledby={`client-tab-${client.id}`} hidden={index !== 0}>
-              <p class="where">{client.where}</p>
-              <div class="code">
-                <pre><code>{client.config}</code></pre>
-                <button type="button" data-copy={client.config}>Copiar</button>
-              </div>
-            </div>
-          ))
-        }
         <p class="more">
-          ¿En Windows y el cliente no encuentra <code class="inline-code">npx</code>? Mirá la{" "}
+          ¿En Windows y el cliente no encuentra <code class="inline-code">npx</code>? Consulta la{" "}
           <a href={`${base}docs/instalacion/`}>guía completa por sistema</a>.
         </p>
+      </div>
+
+      <div class="try">
+        <p>Para empezar, prueba con:</p>
+        <ul>
+          <li>“¿Qué tengo que entregar esta semana?”</li>
+          <li>“Descarga el material de la última unidad de Física.”</li>
+          <li>“Resume el apunte que subieron ayer.”</li>
+        </ul>
+        <a href={`${base}docs/que-puedes-pedirle/`}>Más ideas de pedidos</a>
+      </div>
       </div>
     </div>
   </div>
@@ -68,7 +98,6 @@ import { base } from "../lib/base";
 
 <style>
   .split {
-    margin-top: clamp(40px, 6vw, 64px);
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(40px, 6vw, 88px);
@@ -78,7 +107,7 @@ import { base } from "../lib/base";
   .steps {
     list-style: none;
     counter-reset: step;
-    margin: 0;
+    margin: clamp(32px, 5vw, 48px) 0 0;
     padding: 0;
     display: grid;
     gap: 32px;
@@ -129,97 +158,193 @@ import { base } from "../lib/base";
 
   .steps a,
   .more a {
-    color: var(--text);
+    color: var(--accent);
     text-underline-offset: 3px;
-    text-decoration-color: var(--line-strong);
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
-  .clients {
+  .window {
     border: 1px solid var(--line-strong);
-    border-radius: var(--radius-l);
-    background: var(--bg-raised);
+    border-radius: 14px;
+    background: var(--term-bg);
+    box-shadow: var(--term-shadow);
     overflow: hidden;
+  }
+
+  .chrome {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    background: var(--term-bar);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  .title {
+    color: var(--text-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .tabs {
     display: flex;
-    gap: 2px;
-    padding: 8px;
+    gap: 4px;
+    padding: 0 12px;
     border-bottom: 1px solid var(--line);
+    background: var(--term-bar);
     overflow-x: auto;
     scrollbar-width: none;
   }
 
   .tabs button {
-    font: inherit;
-    font-size: 0.88rem;
-    color: var(--text-2);
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-3);
     background: none;
     border: 0;
-    border-radius: var(--radius-s);
-    padding: 7px 12px;
+    padding: 9px 10px 10px;
     cursor: pointer;
     white-space: nowrap;
   }
 
-  .tabs button:hover {
-    color: var(--text);
-  }
-
+  .tabs button:hover,
   .tabs button[aria-selected="true"] {
     color: var(--text);
-    background: var(--bg-sunken);
-    box-shadow: 0 0 0 1px var(--line-strong);
   }
 
-  .client {
-    padding: 20px;
-  }
-
-  .where {
-    font-size: 0.9rem;
-    color: var(--text-2);
-    margin-bottom: 14px;
+  .tabs button[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
   }
 
   .code {
     position: relative;
-    border-radius: var(--radius-m);
-    background: var(--bg-sunken);
-    border: 1px solid var(--line);
   }
 
-  pre {
-    margin: 0;
-    padding: 18px 92px 18px 20px;
-    overflow-x: auto;
-    font-size: 0.84rem;
-    line-height: 1.7;
-    min-height: 92px;
-  }
-
-  .code button {
+  .code :global(.copy-button) {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font: inherit;
-    font-size: 0.78rem;
-    color: var(--text-2);
-    background: var(--bg-raised);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-s);
-    padding: 4px 10px;
-    cursor: pointer;
+    top: 12px;
+    right: 12px;
   }
 
-  .code button:hover {
-    color: var(--text);
+  .client :global(.config) {
+    margin: 0;
+    min-height: 156px;
+    padding: 20px 56px 20px 20px;
+    background: transparent;
+    font-size: 0.84rem;
+    line-height: 1.75;
+    --astro-code-foreground: var(--text);
+    --astro-code-background: transparent;
+    --astro-code-token-constant: var(--text);
+    --astro-code-token-string: var(--accent);
+    --astro-code-token-string-expression: var(--accent);
+    --astro-code-token-keyword: var(--text);
+    --astro-code-token-parameter: var(--text-2);
+    --astro-code-token-function: var(--text);
+    --astro-code-token-punctuation: var(--text-3);
+    --astro-code-token-comment: var(--text-3);
+    --astro-code-token-link: var(--accent);
+  }
+
+  .client[data-lang="sh"] :global(.config) {
+    --astro-code-token-string: var(--text-2);
+  }
+
+  .client :global(.config code) {
+    counter-reset: line;
+    font-size: inherit;
+  }
+
+  .client :global(.config .line)::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 2ch;
+    margin-right: 20px;
+    text-align: right;
+    color: var(--text-3);
+    opacity: 0.6;
+  }
+
+  .where {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 11px 20px;
+    border-top: 1px solid var(--line);
+    background: var(--term-bar);
+    font-size: 0.86rem;
+    color: var(--text-2);
+  }
+
+  .where::before {
+    content: "";
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-1px);
   }
 
   .more {
-    padding: 0 20px 20px;
-    font-size: 0.88rem;
+    margin-top: 14px;
+    padding: 0 4px;
+    font-size: 0.86rem;
     color: var(--text-3);
+  }
+
+  .side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .try {
+    padding: 0 4px;
+    font-size: 0.95rem;
+    color: var(--text-2);
+  }
+
+  .try ul {
+    list-style: none;
+    margin: 12px 0 14px;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  .try li {
+    padding-left: 18px;
+    position: relative;
+    color: var(--text);
+  }
+
+  .try li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+  .try a {
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
   @media (max-width: 900px) {
@@ -233,12 +358,14 @@ import { base } from "../lib/base";
   for (const root of document.querySelectorAll<HTMLElement>("[data-clients]")) {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
     const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const title = root.querySelector<HTMLElement>("[data-client-file]");
     const select = (index: number) =>
       tabs.forEach((tab, position) => {
         const selected = position === index;
         tab.setAttribute("aria-selected", String(selected));
         tab.tabIndex = selected ? 0 : -1;
         panels[position].hidden = !selected;
+        if (selected && title) title.textContent = tab.dataset.file ?? "";
       });
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => select(index));

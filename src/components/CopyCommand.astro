@@ -1,15 +1,27 @@
 ---
+import CopyButton from "./CopyButton.astro";
+
 interface Props {
   command: string;
 }
 
 const { command } = Astro.props;
+const [program, ...words] = command.split(" ");
 ---
 
 <div class="copy-command">
   <span class="prompt" aria-hidden="true">$</span>
-  <code>{command}</code>
-  <button type="button" data-copy={command}>Copiar</button>
+  <code
+    ><span class="program">{program}</span>{
+      words.map((word) => (
+        <>
+          {" "}
+          <span class:list={[word.startsWith("-") ? "flag" : word.includes("unsada") ? "package" : "word"]}>{word}</span>
+        </>
+      ))
+    }</code
+  >
+  <CopyButton text={command} label="Copiar comando" />
 </div>
 
 <style>
@@ -17,17 +29,24 @@ const { command } = Astro.props;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 6px 6px 6px 16px;
+    height: 50px;
+    padding: 0 9px 0 18px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-m);
-    background: var(--bg-sunken);
+    background: var(--term-bg);
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     max-width: 100%;
+    transition: border-color 0.15s;
+  }
+
+  .copy-command:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
   }
 
   .prompt {
-    color: var(--text-3);
+    color: var(--accent);
+    user-select: none;
   }
 
   code {
@@ -36,33 +55,19 @@ const { command } = Astro.props;
     overflow-x: auto;
     scrollbar-width: none;
     font-size: inherit;
+    color: var(--text-2);
   }
 
-  button {
-    flex: none;
-    font: inherit;
-    font-family: var(--font-body);
-    font-size: 0.85rem;
+  .program {
     color: var(--text);
-    background: var(--bg-raised);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-s);
-    padding: 6px 12px;
-    cursor: pointer;
-    min-width: 84px;
+    font-weight: 500;
   }
 
-  button:hover {
-    border-color: var(--text-3);
+  .flag {
+    color: var(--text-3);
+  }
+
+  .package {
+    color: var(--accent);
   }
 </style>
-
-<script>
-  for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-copy]")) {
-    button.addEventListener("click", async () => {
-      await navigator.clipboard.writeText(button.dataset.copy ?? "");
-      button.textContent = "Copiado";
-      setTimeout(() => (button.textContent = "Copiar"), 1600);
-    });
-  }
-</script>
