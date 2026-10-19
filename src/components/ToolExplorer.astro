@@ -2,15 +2,25 @@
 import { tools } from "../data/tools";
 
 const access = { disk: "Escribe en tu disco", browser: "Abre tu navegador" } as const;
+const readOnlyCount = tools.filter((tool) => !tool.writes).length;
 ---
 
 <section class="section" id="herramientas">
   <div class="wrap">
-    <h2 class="section-title">Nueve herramientas. Ninguna escribe en el aula.</h2>
-    <p class="section-lede">
-      Tu agente elige cuál usar según lo que le pidas. Estos son los nombres reales y la forma de lo que devuelven, con
-      datos de ejemplo.
-    </p>
+    <div class="head">
+      <h2 class="section-title">Nueve herramientas. Ninguna escribe en el aula.</h2>
+      <div>
+        <p class="section-lede">
+          No hace falta aprenderlas: tu agente elige cuál usar según lo que le pidas. Aquí puedes ver qué hace cada una
+          y qué le devuelve.
+        </p>
+        <ul class="legend">
+          <li><strong>{readOnlyCount}</strong> solo leen el aula</li>
+          <li><strong>1</strong> guarda archivos en tu computadora</li>
+          <li><strong>1</strong> abre tu navegador para entrar</li>
+        </ul>
+      </div>
+    </div>
 
     <div class="explorer" data-explorer>
       <div class="list" role="tablist" aria-label="Herramientas" aria-orientation="vertical">
@@ -70,6 +80,39 @@ const access = { disk: "Escribe en tu disco", browser: "Abre tu navegador" } as 
 </section>
 
 <style>
+  .head {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: end;
+  }
+
+  .head .section-lede {
+    margin-top: 0;
+  }
+
+  .legend {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.86rem;
+    color: var(--text-2);
+  }
+
+  .legend li {
+    padding: 5px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+  }
+
+  .legend strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
   .explorer {
     margin-top: clamp(40px, 6vw, 64px);
     display: grid;
@@ -224,6 +267,10 @@ const access = { disk: "Escribe en tu disco", browser: "Abre tu navegador" } as 
   }
 
   @media (max-width: 860px) {
+    .head {
+      grid-template-columns: 1fr;
+    }
+
     .explorer {
       grid-template-columns: 1fr;
     }

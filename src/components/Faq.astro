@@ -74,6 +74,11 @@ const questions = [
     align-items: start;
   }
 
+  .split > div:first-child {
+    position: sticky;
+    top: 104px;
+  }
+
   .section-lede a {
     color: var(--accent);
     text-underline-offset: 3px;
@@ -134,6 +139,10 @@ const questions = [
   @media (max-width: 900px) {
     .split {
       grid-template-columns: 1fr;
+    }
+
+    .split > div:first-child {
+      position: static;
     }
   }
 </style>
