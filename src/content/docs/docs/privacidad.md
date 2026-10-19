@@ -1,60 +1,60 @@
 ---
 title: Privacidad y seguridad
-description: Qué datos toca el servidor, adónde van y qué se rechaza antes de pedirlo.
+description: Datos que maneja el servidor, adónde se envían y qué solicitudes se rechazan.
 ---
 
-## En una línea
+## Resumen
 
-El servidor corre en tu computadora, entra al aula con tu sesión y solo lee. Tu sesión no sale de tu computadora; lo que el agente lee sí llega al modelo que uses.
+El servidor corre en la computadora, usa la sesión del aula y solo lee. La sesión no sale de la computadora. El contenido que lee el agente se envía al modelo del cliente.
 
-## Tu sesión
+## Sesión
 
-- No hay contraseña guardada: entras con Google en una ventana de incógnito de tu navegador, que no guarda nada en el disco. Google nunca queda con la sesión abierta.
-- Se guardan la cookie de sesión del aula y su clave de sesión en un archivo solo legible por tu usuario, dentro de `%APPDATA%\unsada-mcp` (Windows) o `~/.config/unsada-mcp` (Linux y macOS). Es lo único que se guarda.
-- La sesión nunca aparece en lo que devuelven las herramientas, en los registros del servidor ni en solicitudes a otros sitios.
-- `unsada-mcp logout` borra la sesión guardada.
-- Si tu agente puede ejecutar comandos en la terminal, puede leer ese archivo como cualquier otro de tu usuario. Configúralo para que te pregunte antes, por ejemplo en OpenCode con `"permission": { "bash": "ask" }`.
+- La contraseña no se guarda. El inicio de sesión se hace con Google en una ventana de incógnito, que no guarda datos en el disco.
+- La cookie de sesión del aula y su clave (`sesskey`) se guardan en un archivo legible solo por el usuario, en `%APPDATA%\unsada-mcp` (Windows) o `~/.config/unsada-mcp` (Linux y macOS). Es lo único que se guarda.
+- La sesión nunca aparece en las respuestas de las herramientas, en los registros ni en solicitudes a otros sitios.
+- `unsada-mcp logout` borra la sesión.
+- Un agente que ejecuta comandos de terminal puede leer ese archivo. Configúralo para pedir confirmación, por ejemplo en OpenCode con `"permission": { "bash": "ask" }`.
 
-## Qué pide al aula
+## Solicitudes al aula
 
-Solo solicitudes de lectura (`GET`) a `moodle.unsada.edu.ar`. Antes de cada una, la dirección se compara con una lista de páginas de lectura conocidas, con sus parámetros:
+Solo solicitudes `GET` a `moodle.unsada.edu.ar`. Cada dirección se valida, con sus parámetros, contra una lista de páginas de lectura:
 
-| Se lee | Ejemplo |
+| Página | Ejemplo |
 |---|---|
 | Tablero | `/my/` |
-| Curso y sus pestañas | `/course/view.php?id=2481&section=3` |
+| Curso y pestañas | `/course/view.php?id=2481&section=3` |
 | Actividades | `/mod/forum/view.php?id=94428`, `/mod/assign/view.php?id=95112` |
 | Discusiones | `/mod/forum/discuss.php?d=18822` |
 | Archivos | `/pluginfile.php/…` |
 | Notas | `/grade/report/overview/index.php` |
 | Calendario | `/calendar/view.php?view=month` |
 
-Cualquier otra se rechaza **sin pedirla**:
+Se rechazan **antes de enviarse**:
 
-- Cerrar sesión (`/login/logout.php`), publicar (`post.php`), suscribirse (`subscribe.php`), editar o borrar.
-- Cualquier dirección con la clave de sesión (`sesskey`) o con parámetros desconocidos.
-- Cualquier otro sitio. Las redirecciones se siguen una por una y cada salto se vuelve a comprobar; si alguno sale del aula, se corta ahí y tu sesión no viaja con él.
+- Cierre de sesión (`/login/logout.php`), publicación (`post.php`), suscripción (`subscribe.php`), edición y borrado.
+- Direcciones con `sesskey` o con parámetros desconocidos.
+- Otros sitios. Cada redirección se valida; si sale del aula, se detiene y la sesión no se envía.
 
-La única excepción es un aviso fijo cada 10 minutos para que la sesión no venza mientras el servidor está corriendo. No se arma con nada que diga el modelo y solo extiende la sesión.
+Única excepción: una solicitud fija cada 10 minutos que mantiene activa la sesión. No depende de datos del modelo y solo extiende la sesión.
 
-Además, cada herramienta hace como mucho cuatro solicitudes a la vez, para no cargar el servidor del aula.
+Cada herramienta hace como máximo cuatro solicitudes simultáneas.
 
-## Lo que queda en el aula
+## Registro en el aula
 
-Para el aula, el servidor eres tú navegando. Abrir una actividad queda en los registros del aula y puede marcarla como vista, igual que si la abrieras en el navegador.
+El aula registra las visitas del servidor como visitas del usuario. Abrir una actividad puede marcarla como vista.
 
-## Lo que llega al modelo
+## Datos enviados al modelo
 
-El contenido que abre el agente (un apunte, un foro, tus notas) se lo pasa al modelo que uses (Claude, GPT…), como cuando pegas algo en el chat. Qué hace el proveedor con eso depende de su política, no de este servidor. Si hay algo que no quieres compartir, no se lo pidas.
+El contenido que abre el agente (apuntes, foros, notas) se envía al modelo del cliente. Su tratamiento depende de la política del proveedor.
 
 ## Contenido hostil
 
-Lo que hay en una página o un archivo es contenido, no órdenes para el servidor. Si un PDF trajera instrucciones escondidas para el modelo, igual no hay herramienta que publique, entregue o borre nada en el aula, y las descargas tienen sus propias [reglas](../descargas/): nunca sobrescriben archivos ni escriben en carpetas ocultas o de configuración.
+El contenido de páginas y archivos se trata como datos, no como instrucciones. Ninguna herramienta publica, entrega ni borra en el aula, y las descargas siguen sus propias [reglas](../descargas/): sin sobrescritura y sin escritura en carpetas ocultas o de configuración.
 
 ## Lectura de documentos
 
-Los archivos se leen en tu computadora con límites de tamaño y de partes, sin ejecutar nada de lo que traen (macros, scripts, enlaces). La lectura de documentos viene de [utn-mcp](https://github.com/nialvape/utn-mcp).
+Los archivos se procesan localmente, con límites de tamaño y de partes, sin ejecutar macros, scripts ni enlaces. El lector de documentos proviene de [utn-mcp](https://github.com/nialvape/utn-mcp).
 
-## Reportar un problema de seguridad
+## Reportar vulnerabilidades
 
-Si encuentras una forma de que el servidor escriba en el aula, filtre la sesión o guarde archivos fuera de lugar, abre un issue en [GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues) sin publicar los detalles del ataque y pide un canal privado.
+Para reportar una forma de escribir en el aula, filtrar la sesión o guardar archivos fuera de lugar, abre un issue en [GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues) sin detalles del ataque y solicita un canal privado.

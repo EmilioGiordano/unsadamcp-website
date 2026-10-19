@@ -1,29 +1,29 @@
 ---
 title: Comandos y variables
-description: Los comandos de la terminal y las variables de entorno opcionales.
+description: Comandos de la CLI y variables de entorno.
 ---
 
 ## Comandos
 
-| Comando | Qué hace |
+| Comando | Descripción |
 |---|---|
-| `unsada-mcp` | Arranca el servidor MCP por stdio. Lo lanza tu cliente; no hace falta ejecutarlo a mano. |
-| `unsada-mcp login` | Abre el navegador para entrar con Google. |
-| `unsada-mcp status` | Dice si hay una sesión guardada y desde cuándo. |
-| `unsada-mcp logout` | Borra la sesión del aula guardada. |
+| `unsada-mcp` | Inicia el servidor MCP por stdio. Lo ejecuta el cliente MCP. |
+| `unsada-mcp login` | Inicia sesión con Google en una ventana del navegador. |
+| `unsada-mcp status` | Muestra el estado de la sesión guardada. |
+| `unsada-mcp logout` | Borra la sesión guardada. |
 | `unsada-mcp help` | Muestra la ayuda. |
 
-Con `npx` van precedidos de `npx -y`, por ejemplo `npx -y unsada-mcp@latest status`.
+Con npx: `npx -y unsada-mcp@latest <comando>`.
 
 ## Variables de entorno
 
-Todas son opcionales. Se configuran en el cliente (el bloque `env` en JSON, `-e` en `claude mcp add`) o en tu terminal antes de ejecutar un comando.
+Todas son opcionales. Se definen en la configuración del cliente (bloque `env` en JSON, `-e` en `claude mcp add`) o en la terminal.
 
-| Variable | Para qué sirve | Ejemplo |
+| Variable | Descripción | Ejemplo |
 |---|---|---|
-| `UNSADA_BROWSER` | Qué navegador abre el login. Por defecto prueba Edge y Chrome. | `msedge`, `chrome` |
-| `UNSADA_MCP_HOME` | Otra carpeta para la sesión del aula. | `D:\unsada-mcp` |
-| `UNSADA_MOODLE_URL` | Otro Moodle 3.x en lugar del de la UNSAdA. | `https://moodle.otra.edu.ar` |
-| `UNSADA_DOWNLOAD_ROOTS` | Carpetas extra donde se puede descargar, separadas por `;` en Windows y `:` en Linux y macOS. Ver [Descargas](../descargas/). | `D:\Facultad;E:\Apuntes` |
+| `UNSADA_BROWSER` | Navegador para el inicio de sesión. Por defecto, Edge o Chrome. | `msedge`, `chrome` |
+| `UNSADA_MCP_HOME` | Carpeta de la sesión. | `D:\unsada-mcp` |
+| `UNSADA_MOODLE_URL` | URL de otro Moodle 3.x. | `https://moodle.otra.edu.ar` |
+| `UNSADA_DOWNLOAD_ROOTS` | Carpetas adicionales para descargas, separadas por `;` (Windows) o `:` (Linux y macOS). Ver [Descargas](../descargas/). | `D:\Facultad;E:\Apuntes` |
 
-`UNSADA_MOODLE_URL` es para quien quiera probarlo en otro Moodle con Google: el servidor solo está probado con el de la UNSAdA.
+`UNSADA_MOODLE_URL` solo está probado con el Moodle de la UNSAdA.

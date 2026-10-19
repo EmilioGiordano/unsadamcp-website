@@ -1,66 +1,66 @@
 ---
 title: Solución de problemas
-description: Qué hacer cuando la sesión vence, el cliente no encuentra el servidor o no se abre el navegador.
+description: Sesión vencida, cliente sin servidor, navegador que no abre y otros errores.
 ---
 
 import { Aside } from "@astrojs/starlight/components";
 
-## La sesión venció
+## Sesión vencida
 
-**Qué ves:** el agente te dice que se abrió una ventana para entrar al aula.
+**Síntoma:** el agente indica que se abrió una ventana para iniciar sesión.
 
-Entra con Google en esa ventana (te pide el correo, la contraseña y la verificación de nuevo) y pídele al agente que lo intente de nuevo. Si la ventana no aparece, puede haber quedado detrás de otras. Si aun así no la ves, ejecuta:
+Inicia sesión con Google en esa ventana y repite el pedido. Si la ventana no está visible, revisa detrás de otras ventanas o ejecuta:
 
 ```bash
 npx -y unsada-mcp@latest login
 ```
 
-Si el aula rechaza una sesión recién creada, bórrala y entra de nuevo:
+Si el aula rechaza una sesión nueva, bórrala e inicia sesión otra vez:
 
 ```bash
 npx -y unsada-mcp@latest logout
 npx -y unsada-mcp@latest login
 ```
 
-## Ya hay una ventana de login abierta
+## Ventana de inicio de sesión ya abierta
 
-**Qué ves:** *"A classroom sign-in window is already open."*
+**Síntoma:** *"A classroom sign-in window is already open."*
 
-Termina de entrar en la ventana que ya está abierta, o ciérrala, y vuelve a intentarlo. Solo puede haber una a la vez.
+Solo puede haber una ventana a la vez. Termina el inicio de sesión en la ventana abierta, o ciérrala, y repite el pedido.
 
-## Pasaron cinco minutos sin entrar
+## Tiempo de inicio de sesión agotado
 
-**Qué ves:** *"Five minutes passed without the user finishing the sign-in."*
+**Síntoma:** *"Five minutes passed without the user finishing the sign-in."*
 
-La ventana espera cinco minutos. Ejecuta `npx -y unsada-mcp@latest login` otra vez cuando puedas completar el login.
+La ventana espera cinco minutos. Ejecuta `npx -y unsada-mcp@latest login` otra vez.
 
 ## No se abre Edge ni Chrome
 
-**Qué ves:** *"Could not open Edge or Chrome to sign in."*
+**Síntoma:** *"Could not open Edge or Chrome to sign in."*
 
-- Instala [Microsoft Edge](https://www.microsoft.com/edge) o [Google Chrome](https://www.google.com/chrome/). En Windows, Edge ya viene instalado.
-- Si tienes los dos y quieres elegir, usa `UNSADA_BROWSER=msedge` o `UNSADA_BROWSER=chrome`.
+- Instala [Microsoft Edge](https://www.microsoft.com/edge) o [Google Chrome](https://www.google.com/chrome/). Windows incluye Edge.
+- Para elegir el navegador: `UNSADA_BROWSER=msedge` o `UNSADA_BROWSER=chrome`.
 - En Linux, instala el paquete oficial de Chrome o Edge.
 
-## Versión de Node vieja
+## Versión de Node.js antigua
 
-**Qué ves:** un aviso `EBADENGINE` de npm, o errores apenas arranca el servidor.
+**Síntoma:** aviso `EBADENGINE` de npm o errores al iniciar el servidor.
 
-Necesitas Node 22 o más nuevo. Compruébalo con `node -v` y, si es más viejo, instala la versión LTS de [nodejs.org](https://nodejs.org/). Después cierra y abre de nuevo la terminal y el cliente.
+Se requiere Node.js 22 o superior. Verifica con `node -v` e instala la versión LTS de [nodejs.org](https://nodejs.org/) si es anterior. Después reinicia la terminal y el cliente.
 
-<Aside>Si usas nvm o varias versiones de Node, el cliente puede estar usando una distinta de la de tu terminal. Prueba poner la ruta completa de `npx` en la configuración.</Aside>
+<Aside>Con nvm o varias versiones de Node.js, el cliente puede usar una versión distinta a la de la terminal. Usa la ruta completa de `npx` en la configuración.</Aside>
 
 ## El cliente no encuentra npx (Windows)
 
-**Qué ves:** el servidor no arranca, con errores como `spawn npx ENOENT`, `Connection closed` o `-32000`.
+**Síntoma:** el servidor no inicia, con `spawn npx ENOENT`, `Connection closed` o `-32000`.
 
-Algunos clientes no pueden lanzar `npx` directamente en Windows. Usa `cmd /c` delante:
+Algunos clientes no pueden lanzar `npx` en Windows. Antepón `cmd /c`:
 
 ```bash
 claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp@latest
 ```
 
-En la configuración JSON:
+En JSON:
 
 ```json
 {
@@ -70,20 +70,20 @@ En la configuración JSON:
 }
 ```
 
-## El agente no ve las herramientas
+## El agente no muestra las herramientas
 
-- Reinicia el cliente después de cambiar la configuración. En Claude Desktop, ciérralo también desde la bandeja del sistema.
-- En Claude Code, `claude mcp list` muestra si el servidor está conectado.
-- Revisa que el JSON sea válido: una coma de más basta para que el cliente ignore el archivo.
+- Reinicia el cliente después de cambiar la configuración. Claude Desktop debe cerrarse también desde la bandeja del sistema.
+- En Claude Code, `claude mcp list` muestra el estado del servidor.
+- Verifica que el JSON sea válido. Una coma sobrante hace que el cliente ignore el archivo.
 
-## No encuentro los archivos descargados
+## Archivos descargados no encontrados
 
-Se guardan dentro de la carpeta desde donde el cliente lanzó el servidor; la respuesta de `unsada_download` trae la ruta completa en `directory`. Con Claude Desktop esa carpeta puede no ser la que esperas: configura `UNSADA_DOWNLOAD_ROOTS` como dice [Descargas](../descargas/).
+Los archivos se guardan en la carpeta desde donde el cliente inició el servidor. La respuesta de `unsada_download` incluye la ruta completa en `directory`. Con Claude Desktop, configura `UNSADA_DOWNLOAD_ROOTS` (ver [Descargas](../descargas/)).
 
-## No puede leer un archivo
+## Archivo no legible
 
-Los `.doc` y `.ppt` viejos, `.zip`, `.rar` y videos no se pueden leer. El agente te pasa el enlace, o se lo puedes pedir con `unsada_download`.
+Los `.doc` y `.ppt` antiguos, `.zip`, `.rar` y videos no se pueden leer. Descárgalos con `unsada_download`.
 
-## Una herramienta devuelve datos raros o vacíos
+## Datos incorrectos o vacíos
 
-El servidor lee las mismas páginas que ves en el navegador. Si la UNSAdA actualizó Moodle o cambió el diseño, alguna página puede haber dejado de entenderse. Abre un [issue en GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues) con lo que pediste y lo que devolvió, sin pegar datos personales.
+El servidor interpreta las mismas páginas que muestra el navegador. Un cambio de versión o de diseño del aula puede romper esa interpretación. Abre un [issue en GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues) con el pedido y la respuesta, sin datos personales.

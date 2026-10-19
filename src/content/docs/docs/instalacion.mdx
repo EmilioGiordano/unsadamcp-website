@@ -1,18 +1,16 @@
 ---
 title: Instalación
-description: Instala Node, inicia sesión una vez y conecta el servidor a tu cliente.
+description: Requisitos, inicio de sesión y configuración del cliente MCP.
 ---
 
 import { Aside, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
 
-No hace falta clonar nada: `npx` descarga el paquete [`unsada-mcp`](https://www.npmjs.com/package/unsada-mcp) y lo ejecuta. Necesitas dos cosas instaladas.
+## Requisitos
 
-| Requisito | Cómo comprobarlo |
-|---|---|
-| Node.js 22 o más nuevo | `node -v` muestra `v22` o mayor |
-| Microsoft Edge o Google Chrome | Edge ya viene con Windows |
+- Node.js 22 o superior
+- Microsoft Edge o Google Chrome
 
-## 1. Instalación de Node
+## 1. Instalar Node.js
 
 <Tabs syncKey="os">
   <TabItem label="Windows">
@@ -28,7 +26,7 @@ No hace falta clonar nada: `npx` descarga el paquete [`unsada-mcp`](https://www.
 
     </Steps>
 
-    <Aside>Si ya tenías una terminal abierta antes de instalar, ciérrala y abre otra: si no, no encuentra `node`.</Aside>
+    <Aside>Las terminales abiertas antes de la instalación no encuentran `node`. Abre una nueva.</Aside>
   </TabItem>
   <TabItem label="macOS">
     Con el instalador de [nodejs.org](https://nodejs.org/) o con Homebrew:
@@ -39,39 +37,41 @@ No hace falta clonar nada: `npx` descarga el paquete [`unsada-mcp`](https://www.
     ```
   </TabItem>
   <TabItem label="Linux">
-    Usa el gestor de tu distribución o [nvm](https://github.com/nvm-sh/nvm), que instala versiones nuevas sin tocar las del sistema:
+    Con el gestor de paquetes de la distribución o con [nvm](https://github.com/nvm-sh/nvm):
 
     ```bash
     nvm install --lts
     node -v
     ```
 
-    También necesitas Google Chrome o Microsoft Edge instalado. Si quieres elegir cuál usa, indícalo con `UNSADA_BROWSER` (ver [Comandos y variables](../comandos/)).
+    Para elegir el navegador, usa `UNSADA_BROWSER` (ver [Comandos y variables](../comandos/)).
   </TabItem>
 </Tabs>
 
-## 2. Inicio de sesión
+## 2. Iniciar sesión
+
+`npx` descarga y ejecuta [`unsada-mcp`](https://www.npmjs.com/package/unsada-mcp). No requiere instalación previa.
 
 ```bash
 npx -y unsada-mcp@latest login
 ```
 
-Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cuenta y la ventana se cierra sola. Está explicado paso a paso en [Primer inicio de sesión](../primer-login/).
+Se abre una ventana de Google para entrar al aula. Ver [Primer inicio de sesión](../primer-login/).
 
-## 3. Conexión con tu cliente
+## 3. Configurar el cliente
 
 <Tabs syncKey="client">
   <TabItem label="Claude Code">
-    En una terminal. Con `-s user` queda disponible en todas tus carpetas.
+    `-s user` lo registra para todos los proyectos.
 
     ```bash
     claude mcp add unsada -s user -- npx -y unsada-mcp@latest
     ```
 
-    Comprueba que aparece con `claude mcp list`.
+    Para verificarlo: `claude mcp list`.
   </TabItem>
   <TabItem label="Claude Desktop">
-    Abre **Settings → Developer → Edit Config** y agrega el servidor en `claude_desktop_config.json`:
+    En **Settings → Developer → Edit Config**, agrega el servidor a `claude_desktop_config.json`:
 
     ```json
     {
@@ -81,7 +81,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     }
     ```
 
-    En Windows el archivo está en `%APPDATA%\Claude\claude_desktop_config.json`. Cierra Claude Desktop por completo (también desde la bandeja del sistema) y ábrelo de nuevo.
+    En Windows, el archivo está en `%APPDATA%\Claude\claude_desktop_config.json`. Cierra Claude Desktop por completo, también desde la bandeja del sistema, y vuelve a abrirlo.
   </TabItem>
   <TabItem label="Codex">
     En `~/.codex/config.toml` (en Windows, `%USERPROFILE%\.codex\config.toml`):
@@ -104,7 +104,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     ```
   </TabItem>
   <TabItem label="Cursor">
-    En `~/.cursor/mcp.json` para todos tus proyectos, o en `.cursor/mcp.json` dentro de uno:
+    En `~/.cursor/mcp.json` (global) o `.cursor/mcp.json` (por proyecto):
 
     ```json
     {
@@ -116,19 +116,19 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
   </TabItem>
 </Tabs>
 
-Reinicia el cliente y pregúntale algo, por ejemplo *"¿qué materias tengo este año?"*.
+Reinicia el cliente. Para probarlo: *"¿Qué materias tengo este año?"*.
 
-<Aside type="caution" title="En Windows, si el cliente no encuentra npx">
-  Algunos clientes no lanzan `npx` directamente en Windows y el servidor no arranca (errores como `spawn npx ENOENT` o `-32000`). En ese caso usa `cmd /c` delante: por ejemplo `claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp@latest`, o en JSON `"command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp@latest"]`. Más en [Solución de problemas](../problemas/).
+<Aside type="caution" title="npx en Windows">
+  Algunos clientes no pueden lanzar `npx` en Windows (`spawn npx ENOENT` o `-32000`). Antepón `cmd /c`: `claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp@latest`, o en JSON `"command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp@latest"]`. Más en [Solución de problemas](../problemas/).
 </Aside>
 
 ## Actualizar
 
-Para actualizar, reinicia tu agente: `@latest` baja la versión nueva al arrancar. Tras un release puede tardar unos minutos en aparecer.
+Reinicia el cliente: `@latest` descarga la última versión al iniciar. Una versión nueva puede tardar unos minutos en estar disponible.
 
 ## Desde el código
 
-Si prefieres no depender de npm, o quieres modificarlo:
+Para modificar el servidor o usarlo sin npm:
 
 ```bash
 git clone https://github.com/EmilioGiordano/unsada-mcp
@@ -138,4 +138,4 @@ npm run build
 claude mcp add unsada -s user -- node C:/ruta/a/unsada-mcp/build/index.js
 ```
 
-Para iniciar sesión con esta instalación: `node build/index.js login`.
+Inicio de sesión: `node build/index.js login`.

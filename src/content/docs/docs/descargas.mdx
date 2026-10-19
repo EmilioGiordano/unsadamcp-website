@@ -1,40 +1,40 @@
 ---
 title: Descargas
-description: Dónde guarda los archivos unsada_download y cómo permitir otras carpetas.
+description: Ubicación de las descargas, reglas de escritura y carpetas adicionales.
 ---
 
 import { Aside, TabItem, Tabs } from "@astrojs/starlight/components";
 
-Cuando le pides *"descárgame el material de Bases de Datos"*, el agente usa `unsada_download`. Es lo único del servidor que escribe, y solo en tu disco.
+`unsada_download` guarda archivos del aula en el disco. Es la única herramienta que escribe.
 
-## Dónde guarda
+## Ubicación
 
-Dentro de la **carpeta donde abriste el agente**, en la subcarpeta que elija el modelo. Si abriste Claude Code en `C:\Facultad` y el modelo elige `Bases de Datos/Unidad 1`, los archivos quedan en `C:\Facultad\Bases de Datos\Unidad 1`. La carpeta se crea si no existe.
+Los archivos se guardan en una subcarpeta, elegida por el modelo, de la **carpeta donde se abrió el agente**. Con Claude Code abierto en `C:\Facultad` y la subcarpeta `Bases de Datos/Unidad 1`, el destino es `C:\Facultad\Bases de Datos\Unidad 1`. Las carpetas se crean si no existen.
 
-Por eso conviene abrir el agente en la carpeta donde guardas las cosas de la facultad, no en tu carpeta de usuario.
+Abre el agente en la carpeta de la facultad, no en la carpeta de usuario.
 
 <Aside title="Claude Desktop y otras apps de escritorio">
-  Las apps que no se abren en una carpeta (como Claude Desktop) lanzan el servidor desde una carpeta que elige la app, y puede no ser la que esperas. Con ellas, agrega tu carpeta de la facultad a `UNSADA_DOWNLOAD_ROOTS` (ver abajo) y pídele al agente que guarde ahí con la ruta completa, por ejemplo *"descárgalo en D:\Facultad\Bases de Datos"*.
+  Estas apps inician el servidor en una carpeta que elige la app. Agrega la carpeta de destino a `UNSADA_DOWNLOAD_ROOTS` e indica la ruta completa, por ejemplo *"descárgalo en D:\Facultad\Bases de Datos"*.
 </Aside>
 
 ## Reglas
 
-- **Nunca sobrescribe un archivo.** Si ya existe uno con el mismo nombre y el mismo tamaño, lo omite. Si es distinto, guarda el nuevo con ` (2)` al final del nombre.
-- **Nada en carpetas ocultas** ni de configuración: ninguna parte de la ruta puede empezar con punto (`.git`, `.claude`, `.vscode`…) ni ser `node_modules`.
-- **Nombres sensibles con guion bajo.** Un archivo que se llame como las instrucciones de un agente o algo que Windows ejecuta solo (`CLAUDE.md`, `AGENTS.md`, `desktop.ini`, `autorun.inf`…) se guarda con `_` adelante, por ejemplo `_CLAUDE.md`. Así un archivo del aula no se convierte en instrucciones para tu agente.
-- **Nombres válidos en Windows.** Cambia los caracteres no permitidos (`<>:"/\|?*`) por `_` y evita nombres reservados como `CON` o `NUL`.
-- **Sin salirse de la carpeta.** Cada ruta final se resuelve y se comprueba antes de escribir, también si hay enlaces simbólicos en el camino.
-- **Escritura segura.** Cada archivo se descarga a un temporal en la misma carpeta y solo al final toma su nombre, así no quedan archivos a medias.
+- **Sin sobrescritura.** Un archivo con el mismo nombre y tamaño se omite. Si el tamaño difiere, el nuevo se guarda con el sufijo ` (2)`.
+- **Sin carpetas ocultas ni de configuración.** Ninguna parte de la ruta puede empezar con punto (`.git`, `.claude`, `.vscode`) ni ser `node_modules`.
+- **Nombres sensibles con prefijo.** Los archivos de instrucciones de agentes o que Windows procesa solo (`CLAUDE.md`, `AGENTS.md`, `desktop.ini`, `autorun.inf`) se guardan con `_` delante, por ejemplo `_CLAUDE.md`, para que no actúen como instrucciones.
+- **Nombres válidos en Windows.** Los caracteres `<>:"/\|?*` se reemplazan por `_` y se evitan nombres reservados como `CON` o `NUL`.
+- **Contención.** Cada ruta final se resuelve y se valida antes de escribir, incluidos los enlaces simbólicos.
+- **Escritura atómica.** Cada archivo se descarga a un temporal y se renombra al terminar. No quedan archivos incompletos.
 
 Límites: hasta 200 archivos por pedido y 500 MB por archivo.
 
 ## Permitir otras carpetas
 
-Si quieres que pueda guardar fuera de la carpeta donde abriste el agente, agrega las carpetas a la variable `UNSADA_DOWNLOAD_ROOTS`. Se separan con `;` en Windows y con `:` en Linux y macOS. El modelo puede usar una ruta absoluta solo si está dentro de una de ellas.
+`UNSADA_DOWNLOAD_ROOTS` define carpetas adicionales, separadas por `;` (Windows) o `:` (Linux y macOS). El modelo solo puede usar rutas absolutas dentro de ellas.
 
 <Tabs syncKey="os">
   <TabItem label="Windows">
-    En la configuración del cliente, por ejemplo Claude Desktop:
+    Configuración del cliente, por ejemplo Claude Desktop:
 
     ```json
     {
@@ -68,5 +68,5 @@ Si quieres que pueda guardar fuera de la carpeta donde abriste el agente, agrega
 </Tabs>
 
 <Aside type="caution">
-  Agrega solo carpetas de material. Nunca tu carpeta de usuario entera, la de inicio de Windows ni una con proyectos de código: ahí un archivo descargado podría terminar ejecutándose o leído como configuración.
+  Agrega solo carpetas de material. No uses la carpeta de usuario, la de inicio de Windows ni carpetas con proyectos de código: un archivo descargado podría ejecutarse o leerse como configuración.
 </Aside>

@@ -1,29 +1,29 @@
 ---
 title: Herramientas
-description: Las nueve herramientas que el servidor le ofrece a tu agente, con lo que reciben y devuelven.
+description: Las nueve herramientas del servidor, con sus entradas y salidas.
 ---
 
 import { Aside } from "@astrojs/starlight/components";
 
-El agente las elige solo según lo que le pidas. Todas devuelven JSON compacto, nunca HTML. Los ejemplos de esta página usan datos inventados.
+El agente elige las herramientas según el pedido. Todas devuelven JSON compacto, sin HTML. Los ejemplos usan datos inventados.
 
-| Herramienta | Qué hace | Escribe |
+| Herramienta | Descripción | Escribe |
 |---|---|---|
-| [`unsada_list_courses`](#unsada_list_courses) | Tus cursos, los más recientes primero | No |
+| [`unsada_list_courses`](#unsada_list_courses) | Cursos, del más reciente al más antiguo | No |
 | [`unsada_get_course`](#unsada_get_course) | Secciones, actividades y recursos de un curso | No |
 | [`unsada_open`](#unsada_open) | Cursos, foros, páginas, carpetas, tareas, enlaces y otras actividades | No |
 | [`unsada_read_file`](#unsada_read_file) | PDF, Word, PowerPoint, Excel, imágenes y texto, por partes | No |
-| [`unsada_download`](#unsada_download) | Guarda archivos del aula en tu disco | En tu disco |
+| [`unsada_download`](#unsada_download) | Guarda archivos del aula en el disco | En el disco |
 | [`unsada_list_assignments`](#unsada_list_assignments) | Tareas de un curso con vencimiento, estado y nota | No |
-| [`unsada_get_grades`](#unsada_get_grades) | Notas de todos los cursos o el detalle de uno | No |
+| [`unsada_get_grades`](#unsada_get_grades) | Notas de todos los cursos o detalle de uno | No |
 | [`unsada_get_calendar`](#unsada_get_calendar) | Vencimientos y eventos con hora exacta | No |
-| [`unsada_login`](#unsada_login) | Abre el navegador para volver a entrar | Abre tu navegador |
+| [`unsada_login`](#unsada_login) | Abre el navegador para iniciar sesión | Abre el navegador |
 
 Ninguna escribe en el aula.
 
 ## unsada_list_courses
 
-Tus cursos, del año lectivo más nuevo al más viejo. Es el punto de partida: el `id` de cada curso lo usan las demás. Junta el tablero con el resumen de notas, porque el tablero deja fuera los cursos viejos.
+Devuelve los cursos, del año lectivo más reciente al más antiguo. Las demás herramientas usan su `id`. Combina el tablero con el resumen de notas, porque el tablero omite los cursos antiguos.
 
 ```json
 [{"id":2481,"name":"Bases de Datos","category":"Licenciatura en Sistemas","year":2026}]
@@ -31,54 +31,54 @@ Tus cursos, del año lectivo más nuevo al más viejo. Es el punto de partida: e
 
 ## unsada_get_course
 
-El contenido de un curso: sus secciones (semanas, unidades o pestañas) con actividades y recursos. Recorre todas las pestañas de los cursos con formato de pestañas. Las etiquetas traen su texto, que suele tener horarios de cursada y links de las clases. Las secciones vacías se omiten.
+Devuelve las secciones de un curso (semanas, unidades o pestañas) con sus actividades y recursos. En cursos con formato de pestañas, recorre todas. Incluye el texto de las etiquetas, que suelen contener horarios y enlaces de clase. Omite las secciones vacías.
 
-| Recibe | |
+| Entrada | |
 |---|---|
-| `courseId` | El `id` que devolvió `unsada_list_courses` |
+| `courseId` | `id` devuelto por `unsada_list_courses` |
 
 ## unsada_open
 
 Abre una dirección del aula y devuelve su contenido según el tipo (`kind`):
 
-- `course`: un curso. Si la dirección trae `&section=N`, solo esa sección.
-- `forum`: el foro con sus discusiones. Con `page` pide la página siguiente cuando `hasMorePages` es verdadero.
+- `course`: un curso. Con `&section=N`, solo esa sección.
+- `forum`: el foro y sus discusiones. Si `hasMorePages` es verdadero, `page` pide la página siguiente.
 - `discussion`: la discusión con todos sus mensajes.
 - `page`: una página con su texto.
 - `folder`: una carpeta con sus archivos.
-- `assignment`: una tarea con la consigna, los archivos, el estado de tu entrega y la devolución.
-- `link`: un enlace externo, con la dirección a la que lleva.
+- `assignment`: una tarea con consigna, archivos, estado de la entrega y devolución.
+- `link`: un enlace externo y su destino.
 - `file`: un archivo, para leer con `unsada_read_file`.
-- `module`: cualquier otra actividad, por ejemplo un cuestionario (`mod/quiz/view.php`), con su texto.
+- `module`: otra actividad, por ejemplo un cuestionario (`mod/quiz/view.php`), con su texto.
 
-Las direcciones salen de los campos `url` que devuelven las otras herramientas.
+Las direcciones provienen de los campos `url` de las demás herramientas.
 
 ## unsada_read_file
 
-Lee un archivo del aula: PDF, Word (`.docx`), PowerPoint (`.pptx`), Excel (`.xlsx`), imágenes y texto. Las páginas escaneadas de un PDF llegan como imagen para que el modelo las lea. En las páginas con texto, cada página indica cuántas figuras tiene; el agente lee primero sin `figures` y las pide solo si hacen falta.
+Lee archivos del aula: PDF, Word (`.docx`), PowerPoint (`.pptx`), Excel (`.xlsx`), imágenes y texto. Las páginas escaneadas de un PDF se devuelven como imagen. Las páginas con texto indican cuántas figuras contienen; las figuras se piden con `figures`.
 
-El archivo llega por partes (páginas, diapositivas o bloques), las que entran en una respuesta. Si quedan más, `next` dice desde dónde seguir.
+Devuelve las partes (páginas, diapositivas o bloques) que caben en una respuesta. Si quedan más, `next` indica desde dónde continuar.
 
-| Recibe | |
+| Entrada | |
 |---|---|
 | `url` | Un archivo (`pluginfile.php`) o un recurso (`mod/resource/view.php`) |
-| `from` | Opcional: página, diapositiva o bloque desde donde empezar |
-| `figures` | Opcional, solo PDF: también devuelve las figuras de cada página, recortadas como imagen |
+| `from` | Opcional. Página, diapositiva o bloque inicial |
+| `figures` | Opcional, solo PDF. Devuelve también las figuras de cada página como imagen |
 
 ```json
 {"file":"Semana 3 - Transacciones.pdf","format":"pdf","unit":"page","total":14,"from":1,"to":8,"next":9}
 ```
 
-<Aside>Los formatos que no puede leer (`.doc` y `.ppt` viejos, `.zip`, `.rar`, videos) devuelven un error con la dirección, para que lo descargues.</Aside>
+<Aside>Los formatos no compatibles (`.doc` y `.ppt` antiguos, `.zip`, `.rar`, videos) devuelven un error con la dirección para descargarlos.</Aside>
 
 ## unsada_download
 
-Guarda archivos del aula en tu disco: archivos sueltos, recursos y carpetas enteras (una carpeta del aula se guarda en una subcarpeta con su nombre). Es lo único que escribe, y solo dentro de la carpeta donde abriste el agente. Las reglas completas están en [Descargas](../descargas/).
+Guarda archivos, recursos y carpetas del aula en el disco. Cada carpeta del aula se guarda en una subcarpeta con su nombre. Solo escribe dentro de la carpeta donde se abrió el agente. Ver [Descargas](../descargas/).
 
-| Recibe | |
+| Entrada | |
 |---|---|
-| `urls` | Entre 1 y 50 direcciones, como las devuelven las otras herramientas |
-| `directory` | Destino relativo a la carpeta donde abriste el agente, por ejemplo `Bases de Datos/Unidad 1` |
+| `urls` | De 1 a 50 direcciones devueltas por otras herramientas |
+| `directory` | Destino relativo a la carpeta del agente, por ejemplo `Bases de Datos/Unidad 1` |
 
 ```json
 {"directory":"C:\\Facultad\\Bases de Datos","saved":11,"skipped":1,"failed":0,"files":[{"url":"…","status":"saved","path":"Semana 3 - Transacciones.pdf","bytes":1843221}]}
@@ -86,7 +86,7 @@ Guarda archivos del aula en tu disco: archivos sueltos, recursos y carpetas ente
 
 ## unsada_list_assignments
 
-Las tareas de un curso: sección, nombre, vencimiento, estado de tu entrega y nota. El vencimiento llega como fecha ISO en hora de Argentina y el estado es uno de `submitted`, `draft`, `notSubmitted` o `noOnlineSubmission`; si el aula muestra otro texto, viene aparte en `submissionText`. Sin nota, `grade` no aparece. Para la consigna completa y la devolución, el agente abre la tarea con `unsada_open`.
+Devuelve las tareas de un curso: sección, nombre, vencimiento, estado de la entrega y nota. El vencimiento es una fecha ISO en hora de Argentina. El estado es `submitted`, `draft`, `notSubmitted` o `noOnlineSubmission`; otros textos del aula se devuelven en `submissionText`. `grade` se omite si no hay nota. La consigna y la devolución se obtienen con `unsada_open`.
 
 ```json
 [{"section":"Unidad 2","name":"TP2: Normalización","dueDate":"2026-10-20T23:59-03:00","submission":"notSubmitted","url":"…"}]
@@ -94,7 +94,7 @@ Las tareas de un curso: sección, nombre, vencimiento, estado de tu entrega y no
 
 ## unsada_get_grades
 
-Sin `courseId`, la nota total de cada curso. Con `courseId`, cada ítem calificado con nota, rango, porcentaje, ponderación y comentario. La nota y el porcentaje llegan como números cuando lo son (`8,00` pasa a `8`, `80,00 %` a `80`) y como texto cuando no, por ejemplo `"Aprobado"`.
+Sin `courseId`, devuelve la nota total de cada curso. Con `courseId`, cada ítem calificado con nota, rango, porcentaje, ponderación y comentario. Nota y porcentaje son números cuando el aula muestra números (`8,00` → `8`, `80,00 %` → `80`) y texto en otro caso, por ejemplo `"Aprobado"`.
 
 ```json
 {"courseId":2481,"items":[{"item":"TP1: Modelo entidad-relación","grade":8,"range":"0–10","percentage":80,"feedback":"Revisa la cardinalidad de Inscripción."}]}
@@ -102,18 +102,18 @@ Sin `courseId`, la nota total de cada curso. Con `courseId`, cada ítem califica
 
 ## unsada_get_calendar
 
-Vencimientos de tareas, cierres de cuestionarios, exámenes y eventos de los cursos, en orden y en hora de Argentina, con el curso y la dirección de la actividad cuando la hay.
+Devuelve vencimientos de tareas, cierres de cuestionarios, exámenes y eventos de curso, ordenados y en hora de Argentina, con el curso y la dirección de la actividad.
 
-La exportación del calendario del aula pierde las horas, por eso el servidor lee las vistas de mes y de día. Si el rango tiene demasiados días con eventos, la respuesta trae `truncated` y conviene pedir uno más corto.
+La exportación iCal del aula omite las horas, por eso se leen las vistas de mes y de día. Si el rango tiene demasiados días con eventos, la respuesta incluye `truncated`; pide un rango más corto.
 
-| Recibe | |
+| Entrada | |
 |---|---|
-| `daysAhead` | Opcional: cuántos días hacia adelante, de 1 a 365. Por defecto 30 |
-| `daysBack` | Opcional: cuántos días hacia atrás, de 0 a 30. Por defecto 0 |
+| `daysAhead` | Opcional. Días hacia adelante, de 1 a 365. Por defecto, 30 |
+| `daysBack` | Opcional. Días hacia atrás, de 0 a 30. Por defecto, 0 |
 
 ## unsada_login
 
-Abre una ventana del navegador para entrar al aula con Google. Casi nunca hace falta: cuando la sesión vence, el servidor la abre solo. Sirve para cambiar de cuenta o cuando la ventana no se ve.
+Abre una ventana del navegador para iniciar sesión con Google. El servidor la abre solo cuando la sesión vence; esta herramienta sirve para cambiar de cuenta o reabrir una ventana oculta.
 
 ```json
 {"signedIn":true}

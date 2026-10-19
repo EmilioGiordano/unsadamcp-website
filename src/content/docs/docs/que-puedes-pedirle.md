@@ -1,18 +1,18 @@
 ---
 title: Qué puedes pedirle
-description: Ejemplos de preguntas, ordenados por tema.
+description: Ejemplos de pedidos, ordenados por tema.
 ---
 
-Háblale como a un compañero que tiene el aula abierta. El agente elige qué [herramientas](../herramientas/) usar y en qué orden; no hace falta nombrarlas.
+Los pedidos se escriben en lenguaje natural. El agente elige qué [herramientas](../herramientas/) usar y en qué orden.
 
-## Pedidos completos
+## Pedidos compuestos
 
-Lo más útil no son las preguntas sueltas, sino los pedidos que combinan varias herramientas del servidor con lo que tu agente ya sabe hacer:
+Combinan varias herramientas del servidor con las capacidades del agente:
 
 - *"Descarga todo el material de Algoritmos y Programación II, ordénalo en la carpeta de la materia y ayúdame a preparar el parcial. Prepárame ejercicios de código sobre listas enlazadas, arreglos, condicionales, switch-case y colas, y sobre el resto de los temas que dio la cátedra."*
 - *"Prepárame una presentación en .pptx sobre el TP2 de Bases de Datos. Ya lo entregué en el aula: usa como base el trabajo que subí."*
 
-El servidor descarga los archivos y lee la consigna y tu entrega. Los ejercicios y la presentación los arma tu agente, así que el resultado depende del cliente que uses: por ejemplo, Claude Code puede escribir el `.pptx` en tu carpeta.
+El servidor descarga los archivos y lee la consigna y la entrega. Los ejercicios y la presentación los genera el agente, según las capacidades del cliente; por ejemplo, Claude Code puede escribir el `.pptx` en la carpeta.
 
 ## Entregas y fechas
 
@@ -21,7 +21,7 @@ El servidor descarga los archivos y lee la consigna y tu entrega. Los ejercicios
 - *"¿A qué hora cierra el cuestionario de Análisis?"*
 - *"Ármame un calendario de las entregas del mes."*
 
-Las horas salen del calendario del aula, en hora de Argentina.
+Las horas provienen del calendario del aula, en hora de Argentina.
 
 ## Apuntes y material
 
@@ -30,7 +30,7 @@ Las horas salen del calendario del aula, en hora de Argentina.
 - *"Explícame la diapositiva 12 de la clase de normalización."*
 - *"Descárgame todo el material de Bases de Datos."*
 
-Lee PDF (también escaneados), Word, PowerPoint, Excel, imágenes y texto. Los `.doc` o `.ppt` viejos, `.zip`, `.rar` y videos no los puede leer, pero sí [descargar](../descargas/).
+Formatos legibles: PDF (también escaneados), Word, PowerPoint, Excel, imágenes y texto. Los `.doc` y `.ppt` antiguos, `.zip`, `.rar` y videos solo se pueden [descargar](../descargas/).
 
 ## Foros y avisos
 
@@ -46,8 +46,10 @@ Lee PDF (también escaneados), Word, PowerPoint, Excel, imágenes y texto. Los `
 ## Cursos y horarios
 
 - *"¿Qué materias estoy cursando este año?"*
-- *"¿Cuál es el link de la clase de los jueves?"* Los horarios y links suelen estar en las etiquetas del curso, que el servidor también lee.
+- *"¿Cuál es el link de la clase de los jueves?"*
 
-## Lo que no puede hacer
+Los horarios y enlaces suelen estar en las etiquetas del curso, que el servidor también lee.
 
-No puede entregar, publicar, responder en foros ni inscribirte en nada: el servidor no tiene herramientas para eso y rechaza esas direcciones. Tampoco ve lo que no ves tú: si un curso o una actividad está oculta para tu usuario, no aparece.
+## Limitaciones
+
+El servidor no entrega, no publica, no responde en foros ni inscribe: no tiene herramientas para eso y rechaza esas direcciones. Tampoco ve cursos ni actividades ocultos para el usuario.

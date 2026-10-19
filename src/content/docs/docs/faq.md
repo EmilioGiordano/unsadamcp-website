@@ -1,56 +1,56 @@
 ---
 title: Preguntas frecuentes
-description: Lo que más se pregunta sobre unsada-mcp.
+description: Preguntas frecuentes sobre unsada-mcp.
 ---
 
 ## ¿Es oficial de la UNSAdA?
 
-No. Es un proyecto independiente de código abierto. No está afiliado ni avalado por la Universidad Nacional de San Antonio de Areco.
+No. Es un proyecto independiente de código abierto, no afiliado ni avalado por la Universidad Nacional de San Antonio de Areco.
 
 ## ¿Qué es MCP?
 
-El [Model Context Protocol](https://modelcontextprotocol.io) es un estándar para conectar agentes de IA con herramientas. Este servidor le agrega a tu agente nueve herramientas para leer el aula.
+El [Model Context Protocol](https://modelcontextprotocol.io) es un estándar para conectar agentes de IA con herramientas externas. unsada-mcp expone nueve herramientas para el aula.
 
-## ¿Puede entregar una tarea o escribir en un foro por mí?
+## ¿Puede entregar tareas o escribir en foros?
 
-No. En el aula solo lee. Cualquier dirección que publique, entregue, suscriba o cierre sesión se rechaza antes de pedirla. Ver [Privacidad y seguridad](../privacidad/).
+No. En el aula solo lee. Las direcciones que publican, entregan, suscriben o cierran sesión se rechazan antes de pedirlas. Ver [Privacidad y seguridad](../privacidad/).
 
-## ¿Guarda mi contraseña?
+## ¿Guarda la contraseña?
 
-No hay contraseña que guardar: entras con Google en tu propio navegador. Lo que queda en tu computadora es la sesión del aula. Ver [Primer inicio de sesión](../primer-login/).
+No. El inicio de sesión se hace con Google en una ventana de incógnito. Solo se guarda la sesión del aula. Ver [Primer inicio de sesión](../primer-login/).
 
-## ¿Lo que lee le llega a la IA?
+## ¿El contenido llega al modelo?
 
-Sí. El contenido que abre el agente se lo pasa al modelo que uses, como cuando pegas un apunte en el chat. Tu sesión, en cambio, nunca sale de tu computadora.
+Sí. Lo que lee el agente se envía al modelo del cliente. La sesión no sale de la computadora.
 
-## ¿Se dan cuenta en el aula?
+## ¿Queda registro en el aula?
 
-Para el aula es una visita tuya más: abrir una actividad queda en sus registros y puede marcarla como vista. No hace nada que no puedas hacer tú desde el navegador.
+Sí, como cualquier visita: abrir una actividad queda en los registros y puede marcarla como vista.
 
-## ¿Cuánto cuesta?
+## ¿Tiene costo?
 
-Nada. Es software libre con licencia AGPL-3.0-or-later. Necesitas un cliente con un modelo (Claude, Codex, Cursor…), que puede tener su propio costo.
+No. Es software libre con licencia AGPL-3.0-or-later. El cliente y el modelo pueden tener su propio costo.
 
-## ¿Qué cliente me conviene si no sé programar?
+## ¿Qué cliente conviene sin experiencia en programación?
 
-Claude Desktop: lo configuras una vez con el archivo de [Instalación](../instalacion/) y después es un chat común. Para descargar archivos conviene configurar también [`UNSADA_DOWNLOAD_ROOTS`](../descargas/).
+Claude Desktop. Se configura una vez (ver [Instalación](../instalacion/)) y se usa como un chat. Para descargas, configura también [`UNSADA_DOWNLOAD_ROOTS`](../descargas/).
 
 ## ¿Funciona en el celular o en la web?
 
-No por ahora. El servidor corre en tu computadora y habla con el agente por stdio, así que lo usas desde un cliente de escritorio o una terminal.
+No. El servidor corre en la computadora y se comunica por stdio con un cliente de escritorio o de terminal.
 
-## ¿Funciona con Mac y Linux?
+## ¿Funciona en macOS y Linux?
 
-Sí. Necesitas Node 22 o más nuevo y Chrome o Edge instalado.
+Sí, con Node.js 22 o superior y Chrome o Edge.
 
-## ¿Puedo usarlo con otra cuenta?
+## ¿Cómo se cambia de cuenta?
 
-Sí. Pídele al agente que vuelva a entrar, o ejecuta `npx -y unsada-mcp@latest logout` y después `login` con la otra cuenta. `logout` borra la sesión del aula, y Google nunca queda abierto, así que cada login te pide la cuenta de nuevo.
+Pide al agente que vuelva a iniciar sesión, o ejecuta `npx -y unsada-mcp@latest logout` y después `login`. `logout` borra la sesión del aula; la de Google nunca se guarda.
 
-## ¿Qué pasa si cambian el aula?
+## ¿Qué pasa si cambia el aula?
 
-Como lee las mismas páginas que ves tú, si la UNSAdA actualiza Moodle o cambia el diseño, alguna herramienta puede dejar de entender una página hasta que se ajuste. Si te pasa, avisa en [GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues).
+Si la UNSAdA actualiza Moodle o su diseño, alguna herramienta puede dejar de interpretar una página. Repórtalo en [GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues).
 
-## ¿Puedo colaborar?
+## ¿Cómo se colabora?
 
-Sí. El código está en [GitHub](https://github.com/EmilioGiordano/unsada-mcp). Mira [Cómo está hecho](../proyecto/) para empezar.
+El código está en [GitHub](https://github.com/EmilioGiordano/unsada-mcp). Ver [Cómo está hecho](../proyecto/).
