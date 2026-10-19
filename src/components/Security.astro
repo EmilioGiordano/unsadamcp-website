@@ -1,0 +1,250 @@
+---
+const requests = [
+  { allowed: true, path: "/my/", reason: "Tu tablero" },
+  { allowed: true, path: "/course/view.php?id=2481&section=3", reason: "Una pestaña del curso" },
+  { allowed: true, path: "/mod/forum/discuss.php?d=18822", reason: "Una discusión" },
+  { allowed: true, path: "/pluginfile.php/88140/…/Semana 3.pdf", reason: "Un archivo" },
+  { allowed: true, path: "/calendar/view.php?view=day&time=1760918400", reason: "Un día del calendario" },
+  { allowed: false, path: "/login/logout.php", reason: "Cerraría tu sesión" },
+  { allowed: false, path: "/mod/forum/post.php?reply=40211", reason: "Publicaría en el foro" },
+  { allowed: false, path: "/mod/forum/subscribe.php?id=94428", reason: "Te suscribiría" },
+  { allowed: false, path: "/course/view.php?id=2481&sesskey=…", reason: "Lleva tu clave de sesión" },
+  { allowed: false, path: "https://otro-sitio.com/robar?c=…", reason: "Fuera del aula" },
+];
+---
+
+<section class="section" id="seguridad">
+  <div class="wrap">
+    <div class="split">
+      <div class="copy">
+        <h2 class="section-title">Solo lee, y lo comprueba antes de cada pedido.</h2>
+        <p class="section-lede">
+          Antes de abrir una dirección, el servidor la compara con una lista de páginas de lectura conocidas, con sus
+          parámetros. Si no está, la rechaza sin pedirla. Lo mismo con cada redirección.
+        </p>
+        <ul class="facts">
+          <li>No publica, no entrega, no se suscribe ni cierra tu sesión.</li>
+          <li>Tu sesión queda en tu compu y nunca viaja a otro sitio ni aparece en lo que lee el agente.</li>
+          <li>Aunque un archivo trajera instrucciones escondidas, el servidor no tiene cómo publicar, entregar ni borrar nada en el aula.</li>
+        </ul>
+        <p class="caveat">
+          Como cualquier visita tuya, abrir una actividad queda en los registros del aula y puede marcarla como vista. Y
+          lo que el agente lee se lo manda al modelo que uses, como cuando pegás un apunte en el chat.
+        </p>
+      </div>
+
+      <figure class="log">
+        <figcaption>Pedidos que podría intentar un agente</figcaption>
+        <ul>
+          {
+            requests.map((request) => (
+              <li class:list={[request.allowed ? "allowed" : "refused"]}>
+                <span class="verdict">{request.allowed ? "Lee" : "Rechaza"}</span>
+                <code>{request.path}</code>
+                <span class="reason">{request.reason}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </figure>
+    </div>
+
+    <div class="disk">
+      <div class="disk-copy">
+        <h3>Lo único que escribe es en tu disco.</h3>
+        <p>
+          <code class="inline-code">unsada_download</code> guarda dentro de la carpeta donde abriste el agente, en la
+          subcarpeta que elija el modelo. Para permitir otras, las agregás vos en
+          <code class="inline-code">UNSADA_DOWNLOAD_ROOTS</code>.
+        </p>
+      </div>
+      <ul class="rules">
+        <li><strong>Nunca pisa un archivo.</strong> Si ya está con el mismo tamaño lo saltea; si es distinto, le agrega <code>(2)</code> al nombre.</li>
+        <li><strong>Nada en carpetas ocultas.</strong> Ni <code>.git</code>, ni <code>.claude</code>, ni <code>node_modules</code>.</li>
+        <li><strong>Nombres sensibles con guion bajo.</strong> Un <code>CLAUDE.md</code> del aula se guarda como <code>_CLAUDE.md</code>.</li>
+        <li><strong>Sin salirse de la carpeta.</strong> Cada ruta final se resuelve y se comprueba antes de escribir.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .facts {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+
+  .facts li {
+    position: relative;
+    padding-left: 26px;
+  }
+
+  .facts li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.5em;
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid var(--ok);
+    border-bottom: 2px solid var(--ok);
+    transform: rotate(-45deg);
+  }
+
+  .caveat {
+    margin-top: 28px;
+    padding: 14px 16px;
+    border-left: 2px solid var(--line-strong);
+    color: var(--text-2);
+    font-size: 0.94rem;
+  }
+
+  .log {
+    margin: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-l);
+    background: var(--bg-raised);
+    overflow: hidden;
+  }
+
+  figcaption {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--text-2);
+  }
+
+  .log ul {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+  }
+
+  .log li {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 14px;
+    padding: 9px 18px;
+    font-size: 0.86rem;
+  }
+
+  .log li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .verdict {
+    font-size: 0.76rem;
+    font-weight: 500;
+  }
+
+  .allowed .verdict {
+    color: var(--ok);
+  }
+
+  .refused {
+    background: var(--no-soft);
+  }
+
+  .refused .verdict {
+    color: var(--no);
+  }
+
+  .log code {
+    font-size: 0.78rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .refused code {
+    color: var(--text-2);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, var(--no) 60%, transparent);
+  }
+
+  .reason {
+    color: var(--text-3);
+    font-size: 0.82rem;
+    text-align: right;
+  }
+
+  .disk {
+    margin-top: clamp(64px, 8vw, 104px);
+    padding-top: clamp(40px, 5vw, 56px);
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 88px);
+  }
+
+  .disk h3 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  .disk-copy p {
+    margin-top: 16px;
+    color: var(--text-2);
+  }
+
+  .rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 40px;
+  }
+
+  .rules li {
+    color: var(--text-2);
+    font-size: 0.96rem;
+  }
+
+  .rules strong {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .rules code {
+    font-size: 0.84em;
+    color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .disk {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .log li {
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 2px 12px;
+    }
+
+    .reason {
+      grid-column: 2;
+      text-align: left;
+    }
+
+    .rules {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,298 @@
+<section class="section" id="como-funciona">
+  <div class="wrap">
+    <h2 class="section-title">Corre en tu compu y entra como vos.</h2>
+    <p class="section-lede">
+      No hay usuario ni contraseña que cargar. El servidor usa tu propio navegador para entrar con Google una vez y
+      después lee el aula con esa sesión, igual que si abrieras las páginas a mano.
+    </p>
+
+    <div class="diagram" role="img" aria-label="Tu agente habla con unsada-mcp por stdio; unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión; Edge o Chrome se abre una vez para entrar con Google.">
+      <div class="node agent">
+        <p class="node-name">Tu agente</p>
+        <p class="node-note">Claude, Codex, OpenCode o Cursor. Decide qué herramienta usar.</p>
+      </div>
+      <div class="edge e1"><span>stdio</span></div>
+      <div class="node server">
+        <p class="node-name">unsada-mcp</p>
+        <p class="node-note">En tu compu. Guarda la sesión en tu carpeta de usuario.</p>
+      </div>
+      <div class="edge e2"><span>HTTPS con tu sesión</span></div>
+      <div class="node moodle">
+        <p class="node-name">moodle.unsada.edu.ar</p>
+        <p class="node-note">Solo páginas de lectura conocidas.</p>
+      </div>
+      <div class="drop"><span>una vez, para entrar</span></div>
+      <div class="node browser">
+        <p class="node-name">Edge o Chrome</p>
+        <p class="node-when">unsada-mcp lo abre una vez, para entrar.</p>
+        <p class="node-note">Entrás con tu cuenta de Google. La ventana se cierra sola.</p>
+      </div>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Entrás una vez</h3>
+        <p>
+          <code class="inline-code">npx -y unsada-mcp login</code> abre el aula en tu navegador, directo en Google. Si la
+          sesión vence, vuelve a abrir la ventana sola.
+        </p>
+      </li>
+      <li>
+        <h3>Le preguntás a tu agente</h3>
+        <p>Como le hablarías a un compañero: “¿qué tengo que entregar?”, “resumime el apunte”, “¿qué nota me pusieron?”.</p>
+      </li>
+      <li>
+        <h3>El servidor lee y responde</h3>
+        <p>Abre las páginas que hacen falta, con pocos pedidos, y le devuelve al agente datos compactos, no HTML.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .diagram {
+    margin-top: clamp(48px, 7vw, 80px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(64px, 0.55fr) minmax(0, 1fr) minmax(64px, 0.7fr) minmax(0, 1fr);
+    grid-template-rows: auto 64px auto;
+    align-items: center;
+  }
+
+  .node {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--bg-raised);
+    padding: 16px 18px;
+    min-height: 108px;
+  }
+
+  .node-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: -0.01em;
+  }
+
+  .node-note {
+    margin-top: 6px;
+    font-size: 0.88rem;
+    color: var(--text-2);
+    line-height: 1.45;
+  }
+
+  .server {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .server .node-name {
+    font-family: var(--font-mono);
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .moodle .node-name {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .agent {
+    grid-area: 1 / 1;
+  }
+
+  .e1 {
+    grid-area: 1 / 2;
+  }
+
+  .server {
+    grid-area: 1 / 3;
+  }
+
+  .e2 {
+    grid-area: 1 / 4;
+  }
+
+  .moodle {
+    grid-area: 1 / 5;
+  }
+
+  .drop {
+    grid-area: 2 / 3;
+  }
+
+  .node-when {
+    display: none;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--text-3);
+  }
+
+  .browser {
+    grid-area: 3 / 3;
+    border-style: dashed;
+    background: transparent;
+  }
+
+  .edge {
+    position: relative;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  .edge::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    border: 4.5px solid transparent;
+    border-left: 6px solid var(--line-strong);
+    border-right: 0;
+  }
+
+  .edge span,
+  .drop span {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+
+  .edge span {
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+  }
+
+  .drop {
+    position: relative;
+    justify-self: center;
+    width: 1px;
+    height: 100%;
+    background: repeating-linear-gradient(var(--line-strong) 0 4px, transparent 4px 8px);
+  }
+
+  .drop span {
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: clamp(64px, 8vw, 96px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 56px);
+  }
+
+  .steps li {
+    counter-increment: step;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .steps h3 {
+    font-size: 1.2rem;
+    letter-spacing: -0.015em;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .steps h3::before {
+    content: counter(step);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .steps p {
+    margin-top: 10px;
+    color: var(--text-2);
+    font-size: 0.98rem;
+  }
+
+  @media (max-width: 900px) {
+    .diagram {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      max-width: 420px;
+    }
+
+    .agent,
+    .e1,
+    .server,
+    .e2,
+    .moodle,
+    .drop,
+    .browser {
+      grid-area: auto;
+    }
+
+    .server {
+      order: 3;
+    }
+
+    .e1 {
+      order: 2;
+    }
+
+    .agent {
+      order: 1;
+    }
+
+    .e2 {
+      order: 4;
+    }
+
+    .moodle {
+      order: 5;
+    }
+
+    .drop {
+      display: none;
+    }
+
+    .browser {
+      order: 6;
+      margin-top: 32px;
+    }
+
+    .node-when {
+      display: block;
+    }
+
+    .edge {
+      justify-self: center;
+      width: 1px;
+      height: 56px;
+    }
+
+    .edge::after {
+      right: -4px;
+      top: auto;
+      bottom: -1px;
+      border: 4.5px solid transparent;
+      border-top: 6px solid var(--line-strong);
+      border-bottom: 0;
+    }
+
+    .edge span {
+      left: 14px;
+      bottom: auto;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

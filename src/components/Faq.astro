@@ -1,0 +1,139 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const questions = [
+  {
+    question: "¿Es oficial de la UNSAdA?",
+    answer:
+      "No. Es un proyecto independiente de código abierto. No está afiliado ni avalado por la Universidad Nacional de San Antonio de Areco.",
+  },
+  {
+    question: "¿Puede entregar una tarea o escribir en un foro por mí?",
+    answer:
+      "No. En el aula solo lee: cualquier dirección que publique, entregue, suscriba o cierre sesión se rechaza antes de pedirla. Lo único que escribe es en tu disco, cuando le pedís descargar.",
+  },
+  {
+    question: "¿Guarda mi contraseña?",
+    answer:
+      "No hay contraseña que guardar: entrás con Google en tu propio navegador. Lo que queda en tu compu es la sesión del aula, en %APPDATA%\\unsada-mcp (Windows) o ~/.config/unsada-mcp (Linux y macOS). Con unsada-mcp logout la borrás.",
+  },
+  {
+    question: "¿Lo que lee le llega a la IA?",
+    answer:
+      "Sí: el contenido que abre el agente (un apunte, un foro, tus notas) se lo pasa al modelo que uses, igual que si lo pegaras en el chat. Tu sesión, en cambio, nunca sale de tu compu.",
+  },
+  {
+    question: "¿Se dan cuenta en el aula?",
+    answer:
+      "Para el aula es una visita tuya más: abrir una actividad queda en sus registros y puede marcarla como vista. No hace nada que no puedas hacer vos desde el navegador.",
+  },
+  {
+    question: "¿Cuánto cuesta?",
+    answer:
+      "Nada. Es software libre con licencia ISC. Lo que sí necesitás es un cliente con un modelo (Claude, Codex, Cursor…), que puede tener su propio costo.",
+  },
+  {
+    question: "¿Funciona en el celular?",
+    answer:
+      "No por ahora. El servidor corre en tu computadora y habla con el agente por stdio, así que lo usás desde un cliente de escritorio o una terminal.",
+  },
+  {
+    question: "¿Qué pasa si cambian el aula?",
+    answer:
+      "Como lee las mismas páginas que ves vos, si la UNSAdA actualiza Moodle o cambia el diseño, alguna herramienta puede dejar de entender una página hasta que se ajuste. Si te pasa, avisá en GitHub.",
+  },
+];
+---
+
+<section class="section" id="preguntas">
+  <div class="wrap split">
+    <div>
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <p class="section-lede">
+        ¿Algo más? Está todo en la <a href={`${base}docs/faq/`}>documentación</a>.
+      </p>
+    </div>
+    <div class="list">
+      {
+        questions.map((item) => (
+          <details>
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .section-lede a {
+    color: var(--text);
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+  }
+
+  .list {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 2px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.12rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: "";
+    flex: none;
+    width: 9px;
+    height: 9px;
+    margin-top: 0.45em;
+    border-right: 1.5px solid var(--text-3);
+    border-bottom: 1.5px solid var(--text-3);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  details[open] summary::after {
+    transform: rotate(-135deg) translate(-3px, -3px);
+  }
+
+  summary:hover::after {
+    border-color: var(--text);
+  }
+
+  details p {
+    padding: 0 2px 22px;
+    color: var(--text-2);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 900px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

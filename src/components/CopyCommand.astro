@@ -1,0 +1,68 @@
+---
+interface Props {
+  command: string;
+}
+
+const { command } = Astro.props;
+---
+
+<div class="copy-command">
+  <span class="prompt" aria-hidden="true">$</span>
+  <code>{command}</code>
+  <button type="button" data-copy={command}>Copiar</button>
+</div>
+
+<style>
+  .copy-command {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 6px 6px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--bg-sunken);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .prompt {
+    color: var(--text-3);
+  }
+
+  code {
+    flex: 1;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    font-size: inherit;
+  }
+
+  button {
+    flex: none;
+    font: inherit;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--bg-raised);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s);
+    padding: 6px 12px;
+    cursor: pointer;
+    min-width: 84px;
+  }
+
+  button:hover {
+    border-color: var(--text-3);
+  }
+</style>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-copy]")) {
+    button.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(button.dataset.copy ?? "");
+      button.textContent = "Copiado";
+      setTimeout(() => (button.textContent = "Copiar"), 1600);
+    });
+  }
+</script>

@@ -1,0 +1,141 @@
+:root {
+  --sl-font: var(--font-body);
+  --sl-font-mono: var(--font-mono);
+  --sl-color-accent-low: #12283b;
+  --sl-color-accent: #5fa6e0;
+  --sl-color-accent-high: #c4e1f8;
+  --sl-color-white: #ecebe7;
+  --sl-color-gray-1: #dcdbd7;
+  --sl-color-gray-2: #b9babd;
+  --sl-color-gray-3: #8f9196;
+  --sl-color-gray-4: #5d6065;
+  --sl-color-gray-5: #383b40;
+  --sl-color-gray-6: #1d1f22;
+  --sl-color-black: #131416;
+  --sl-color-bg-nav: #161719;
+  --sl-color-bg-sidebar: #131416;
+  --sl-color-hairline-light: #2a2c30;
+  --sl-color-hairline: #232528;
+  --sl-color-hairline-shade: #2c2f33;
+  --sl-text-h2: 1.6rem;
+  --sl-text-h3: 1.22rem;
+  --sl-content-width: 46rem;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #d9e9f7;
+  --sl-color-accent: #1f6fb5;
+  --sl-color-accent-high: #0f3e66;
+  --sl-color-white: #17181a;
+  --sl-color-gray-1: #26282b;
+  --sl-color-gray-2: #3f4247;
+  --sl-color-gray-3: #62656b;
+  --sl-color-gray-4: #8c8f94;
+  --sl-color-gray-5: #cfcfca;
+  --sl-color-gray-6: #ececea;
+  --sl-color-gray-7: #f4f4f2;
+  --sl-color-black: #fbfbfa;
+  --sl-color-bg-nav: #f7f7f5;
+  --sl-color-bg-sidebar: #f7f7f5;
+  --sl-color-hairline-light: #e6e6e2;
+  --sl-color-hairline: #e2e2de;
+  --sl-color-hairline-shade: #d6d6d1;
+}
+
+.sl-markdown-content :is(h2, h3, h4) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.sl-markdown-content h2 {
+  margin-top: 2.6rem;
+}
+
+.sl-markdown-content {
+  line-height: 1.72;
+}
+
+.sl-markdown-content :not(pre) > code {
+  font-size: 0.86em;
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-hairline-shade);
+}
+
+.sl-markdown-content a {
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.sl-markdown-content a:hover {
+  text-decoration-color: currentColor;
+}
+
+.sl-markdown-content table {
+  font-size: 0.94rem;
+}
+
+header.header {
+  border-bottom-color: var(--sl-color-hairline);
+}
+
+nav.sidebar .large {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+
+nav.sidebar a[aria-current="page"],
+nav.sidebar a[aria-current="page"]:hover {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+nav.sidebar a {
+  border-radius: 6px;
+}
+
+.right-sidebar-panel h2 {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--sl-color-gray-3);
+}
+
+starlight-toc a[aria-current="true"] {
+  color: var(--sl-color-white);
+}
+
+site-search button[data-open-modal] {
+  border-radius: 8px;
+}
+
+:root {
+  --sl-hue-blue: 207;
+  --sl-hue-purple: 207;
+}
+
+.starlight-aside {
+  border: 1px solid var(--sl-color-hairline-shade);
+  border-left: 2px solid var(--sl-color-asides-border);
+  border-radius: 8px;
+  background: var(--sl-color-bg-nav);
+}
+
+.starlight-aside--note,
+.starlight-aside--tip {
+  --sl-color-asides-border: var(--sl-color-accent);
+  --sl-color-asides-text-accent: var(--sl-color-accent-high);
+}
+
+:root[data-theme="light"] :is(.starlight-aside--note, .starlight-aside--tip) {
+  --sl-color-asides-text-accent: var(--sl-color-accent);
+}
+
+starlight-theme-select label {
+  --sl-select-width: 7.6em !important;
+}

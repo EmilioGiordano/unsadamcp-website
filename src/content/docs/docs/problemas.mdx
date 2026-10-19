@@ -1,0 +1,89 @@
+---
+title: Solución de problemas
+description: Qué hacer cuando la sesión vence, el cliente no encuentra el servidor o no se abre el navegador.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## La sesión venció
+
+**Qué ves:** el agente te dice que se abrió una ventana para entrar al aula.
+
+Entrá con Google en esa ventana (suele bastar un clic) y pedile al agente que lo intente de nuevo. Si la ventana no aparece, puede haber quedado detrás de otras. Si igual no la ves, corré:
+
+```bash
+npx -y unsada-mcp login
+```
+
+Si el aula rechaza una sesión recién creada, borrala y entrá de nuevo:
+
+```bash
+npx -y unsada-mcp logout
+npx -y unsada-mcp login
+```
+
+## Ya hay una ventana de login abierta
+
+**Qué ves:** *"A classroom sign-in window is already open."*
+
+Terminá de entrar en la ventana que ya está abierta, o cerrala, y volvé a intentar. Solo puede haber una a la vez porque comparten el perfil del navegador.
+
+## Pasaron cinco minutos sin entrar
+
+**Qué ves:** *"Five minutes passed without the user finishing the sign-in."*
+
+La ventana espera cinco minutos. Corré `npx -y unsada-mcp login` otra vez cuando puedas completar el login.
+
+## No se abre Edge ni Chrome
+
+**Qué ves:** *"Could not open Edge or Chrome to sign in."*
+
+- Instalá [Microsoft Edge](https://www.microsoft.com/edge) o [Google Chrome](https://www.google.com/chrome/). En Windows, Edge ya viene instalado.
+- Si tenés los dos y querés elegir, usá `UNSADA_BROWSER=msedge` o `UNSADA_BROWSER=chrome`.
+- En Linux, instalá el paquete oficial de Chrome o Edge.
+
+## Versión de Node vieja
+
+**Qué ves:** un aviso `EBADENGINE` de npm, o errores apenas arranca el servidor.
+
+Necesitás Node 22 o más nuevo. Comprobalo con `node -v` y, si es más viejo, instalá la versión LTS de [nodejs.org](https://nodejs.org/). Después cerrá y abrí de nuevo la terminal y el cliente.
+
+<Aside>Si usás nvm o varios Node, el cliente puede estar usando otro distinto del de tu terminal. Probá poner la ruta completa de `npx` en la configuración.</Aside>
+
+## El cliente no encuentra npx (Windows)
+
+**Qué ves:** el servidor no arranca, con errores como `spawn npx ENOENT`, `Connection closed` o `-32000`.
+
+Algunos clientes no pueden lanzar `npx` directamente en Windows. Usá `cmd /c` adelante:
+
+```bash
+claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp
+```
+
+En la configuración JSON:
+
+```json
+{
+  "mcpServers": {
+    "unsada": { "command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp"] }
+  }
+}
+```
+
+## El agente no ve las herramientas
+
+- Reiniciá el cliente después de cambiar la configuración. En Claude Desktop, cerralo también desde la bandeja del sistema.
+- En Claude Code, `claude mcp list` muestra si el servidor está conectado.
+- Revisá que el JSON sea válido: una coma de más alcanza para que el cliente ignore el archivo.
+
+## No encuentro los archivos descargados
+
+Se guardan dentro de la carpeta desde donde el cliente lanzó el servidor; la respuesta de `unsada_download` trae la ruta completa en `directory`. Con Claude Desktop esa carpeta no es la que esperás: configurá `UNSADA_DOWNLOAD_ROOTS` como dice [Descargas](../descargas/).
+
+## No puede leer un archivo
+
+Los `.doc` y `.ppt` viejos, `.zip`, `.rar` y videos no se pueden leer. El agente te pasa el enlace, o se lo podés pedir con `unsada_download`.
+
+## Una herramienta devuelve datos raros o vacíos
+
+El servidor lee las mismas páginas que ves en el navegador. Si la UNSAdA actualizó Moodle o cambió el diseño, alguna página puede haber dejado de entenderse. Abrí un [issue en GitHub](https://github.com/EmilioGiordano/unsada-mcp/issues) con qué pediste y qué devolvió, sin pegar datos personales.

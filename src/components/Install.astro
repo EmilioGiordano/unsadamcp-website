@@ -1,0 +1,254 @@
+---
+import { clients } from "../data/clients";
+import CopyCommand from "./CopyCommand.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section" id="instalar">
+  <div class="wrap">
+    <h2 class="section-title">Instalarlo lleva dos minutos.</h2>
+
+    <div class="split">
+      <ol class="steps">
+        <li>
+          <h3>Tené Node 22 y Edge o Chrome</h3>
+          <p>
+            Si no tenés Node, bajalo de <a href="https://nodejs.org/">nodejs.org</a> (la versión LTS). Edge ya viene con
+            Windows.
+          </p>
+        </li>
+        <li>
+          <h3>Entrá una vez con Google</h3>
+          <p>Se abre una ventana del aula. Entrás con tu cuenta y se cierra sola.</p>
+          <CopyCommand command="npx -y unsada-mcp login" />
+        </li>
+        <li>
+          <h3>Conectalo a tu cliente</h3>
+          <p>Elegí el tuyo, pegá la configuración y reinicialo. Después preguntale lo que quieras.</p>
+        </li>
+      </ol>
+
+      <div class="clients" data-clients>
+        <div class="tabs" role="tablist" aria-label="Clientes">
+          {
+            clients.map((client, index) => (
+              <button
+                type="button"
+                role="tab"
+                id={`client-tab-${client.id}`}
+                aria-controls={`client-${client.id}`}
+                aria-selected={index === 0 ? "true" : "false"}
+                tabindex={index === 0 ? 0 : -1}
+              >
+                {client.name}
+              </button>
+            ))
+          }
+        </div>
+        {
+          clients.map((client, index) => (
+            <div class="client" role="tabpanel" id={`client-${client.id}`} aria-labelledby={`client-tab-${client.id}`} hidden={index !== 0}>
+              <p class="where">{client.where}</p>
+              <div class="code">
+                <pre><code>{client.config}</code></pre>
+                <button type="button" data-copy={client.config}>Copiar</button>
+              </div>
+            </div>
+          ))
+        }
+        <p class="more">
+          ¿En Windows y el cliente no encuentra <code class="inline-code">npx</code>? Mirá la{" "}
+          <a href={`${base}docs/instalacion/`}>guía completa por sistema</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .split {
+    margin-top: clamp(40px, 6vw, 64px);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 32px;
+  }
+
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 44px;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+  }
+
+  .steps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 34px;
+    bottom: -26px;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .steps h3 {
+    font-size: 1.15rem;
+    letter-spacing: -0.015em;
+  }
+
+  .steps p {
+    margin: 8px 0 14px;
+    color: var(--text-2);
+    font-size: 0.98rem;
+  }
+
+  .steps a,
+  .more a {
+    color: var(--text);
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+  }
+
+  .clients {
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-l);
+    background: var(--bg-raised);
+    overflow: hidden;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 2px;
+    padding: 8px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tabs button {
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--text-2);
+    background: none;
+    border: 0;
+    border-radius: var(--radius-s);
+    padding: 7px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tabs button:hover {
+    color: var(--text);
+  }
+
+  .tabs button[aria-selected="true"] {
+    color: var(--text);
+    background: var(--bg-sunken);
+    box-shadow: 0 0 0 1px var(--line-strong);
+  }
+
+  .client {
+    padding: 20px;
+  }
+
+  .where {
+    font-size: 0.9rem;
+    color: var(--text-2);
+    margin-bottom: 14px;
+  }
+
+  .code {
+    position: relative;
+    border-radius: var(--radius-m);
+    background: var(--bg-sunken);
+    border: 1px solid var(--line);
+  }
+
+  pre {
+    margin: 0;
+    padding: 18px 92px 18px 20px;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    min-height: 92px;
+  }
+
+  .code button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font: inherit;
+    font-size: 0.78rem;
+    color: var(--text-2);
+    background: var(--bg-raised);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s);
+    padding: 4px 10px;
+    cursor: pointer;
+  }
+
+  .code button:hover {
+    color: var(--text);
+  }
+
+  .more {
+    padding: 0 20px 20px;
+    font-size: 0.88rem;
+    color: var(--text-3);
+  }
+
+  @media (max-width: 900px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-clients]")) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const select = (index: number) =>
+      tabs.forEach((tab, position) => {
+        const selected = position === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        panels[position].hidden = !selected;
+      });
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+        if (!step) return;
+        const next = (index + step + tabs.length) % tabs.length;
+        tabs[next].focus();
+        select(next);
+      });
+    });
+  }
+</script>

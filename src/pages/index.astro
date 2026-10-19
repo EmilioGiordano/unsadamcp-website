@@ -1,0 +1,27 @@
+---
+import Faq from "../components/Faq.astro";
+import Hero from "../components/Hero.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import Install from "../components/Install.astro";
+import Security from "../components/Security.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import ToolExplorer from "../components/ToolExplorer.astro";
+import Landing from "../layouts/Landing.astro";
+---
+
+<Landing
+  title="unsada-mcp: el aula virtual de la UNSAdA para tu agente"
+  description="Servidor MCP no oficial que le permite a tu agente leer tus cursos, apuntes, foros, tareas, notas y calendario del aula virtual de la UNSAdA."
+>
+  <SiteHeader />
+  <main>
+    <Hero />
+    <HowItWorks />
+    <ToolExplorer />
+    <Security />
+    <Install />
+    <Faq />
+  </main>
+  <SiteFooter />
+</Landing>

@@ -1,0 +1,79 @@
+---
+const { entry } = Astro.locals.starlightRoute;
+const markdown = (entry.body ?? "").replace(/^import .*\n/gm, "").trimStart();
+---
+
+<header class="page-title">
+  <h1 id="_top">{entry.data.title}</h1>
+  {entry.data.description && <p class="description">{entry.data.description}</p>}
+  <div class="actions">
+    <button type="button" class="copy-page" data-source={markdown}>
+      <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"
+        ><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"></rect><path
+          d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"></path></svg
+      >
+      <span>Copiar como Markdown</span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .page-title {
+    padding-bottom: 0.25rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--sl-color-white);
+  }
+
+  .description {
+    margin-top: 0.75rem;
+    font-size: 1.15rem;
+    color: var(--sl-color-gray-3);
+    max-width: 56ch;
+  }
+
+  .actions {
+    margin-top: 1.25rem;
+  }
+
+  .copy-page {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: inherit;
+    font-size: 0.82rem;
+    color: var(--sl-color-gray-2);
+    background: var(--sl-color-bg-nav);
+    border: 1px solid var(--sl-color-hairline-shade);
+    border-radius: 7px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .copy-page:hover {
+    color: var(--sl-color-white);
+    border-color: var(--sl-color-gray-5);
+  }
+</style>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>(".copy-page")) {
+    const label = button.querySelector("span");
+    button.addEventListener("click", async () => {
+      const title = document.getElementById("_top")?.textContent ?? "";
+      await navigator.clipboard.writeText(`# ${title}\n\n${button.dataset.source ?? ""}`);
+      if (!label) return;
+      label.textContent = "Copiado";
+      setTimeout(() => (label.textContent = "Copiar como Markdown"), 1600);
+    });
+  }
+</script>

@@ -1,0 +1,115 @@
+---
+import CopyCommand from "./CopyCommand.astro";
+import SessionReplay from "./SessionReplay.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="hero">
+  <div class="wrap grid">
+    <div class="copy">
+      <h1>Preguntá. Tu agente lee el aula.</h1>
+      <p class="lede">
+        Un servidor MCP no oficial para <span class="host">moodle.unsada.edu.ar</span>. Tu agente (Claude, Codex,
+        OpenCode, Cursor) lee tus cursos, apuntes, foros, tareas, notas y calendario con tu propia sesión, desde tu
+        compu. No publica ni entrega nada.
+      </p>
+      <div class="install">
+        <CopyCommand command="npx -y unsada-mcp login" />
+        <p class="install-note">
+          Necesitás Node 22 y Edge o Chrome. <a href={`${base}docs/instalacion/`}>Guía para Windows, macOS y Linux</a>
+        </p>
+      </div>
+    </div>
+    <div class="demo">
+      <SessionReplay />
+      <p class="caption">Sesión de ejemplo con datos inventados.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: clamp(56px, 9vw, 112px) 0 clamp(72px, 10vw, 128px);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    mask-image: radial-gradient(ellipse 70% 70% at 70% 40%, black, transparent 75%);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: center;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 6.6vw, 5.6rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+  }
+
+  .lede {
+    margin-top: 28px;
+    max-width: 44ch;
+    font-size: 1.14rem;
+    color: var(--text-2);
+  }
+
+  .host {
+    color: var(--text);
+  }
+
+  .install {
+    margin-top: 36px;
+    max-width: 440px;
+  }
+
+  .install-note {
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: var(--text-3);
+  }
+
+  .install-note a {
+    color: var(--text-2);
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+  }
+
+  .install-note a:hover {
+    color: var(--text);
+    text-decoration-color: currentColor;
+  }
+
+  .caption {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: var(--text-3);
+    text-align: right;
+  }
+
+  @media (max-width: 960px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      max-width: 12ch;
+    }
+  }
+</style>

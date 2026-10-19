@@ -1,0 +1,275 @@
+---
+import { tools } from "../data/tools";
+
+const access = { disk: "Escribe en tu disco", browser: "Abre tu navegador" } as const;
+---
+
+<section class="section" id="herramientas">
+  <div class="wrap">
+    <h2 class="section-title">Nueve herramientas. Ninguna escribe en el aula.</h2>
+    <p class="section-lede">
+      Tu agente elige cuál usar según lo que le pidas. Estos son los nombres reales y la forma de lo que devuelven, con
+      datos de ejemplo.
+    </p>
+
+    <div class="explorer" data-explorer>
+      <div class="list" role="tablist" aria-label="Herramientas" aria-orientation="vertical">
+        {
+          tools.map((tool, index) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tool-tab-${tool.name}`}
+              aria-controls={`tool-${tool.name}`}
+              aria-selected={index === 0 ? "true" : "false"}
+              tabindex={index === 0 ? 0 : -1}
+            >
+              <code>{tool.name}</code>
+              <span>{tool.summary}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="details">
+        {
+          tools.map((tool) => (
+            <article class="detail" role="tabpanel" id={`tool-${tool.name}`} aria-labelledby={`tool-tab-${tool.name}`}>
+              <header>
+                <h3>
+                  <code>{tool.name}</code>
+                </h3>
+                <span class:list={["access", tool.writes && "writes"]}>
+                  {tool.writes ? access[tool.writes] : "Solo lectura"}
+                </span>
+              </header>
+              <p class="text">{tool.detail}</p>
+              <p class="ask">
+                <span>Por ejemplo</span>“{tool.ask}”
+              </p>
+              <dl>
+                <div>
+                  <dt>Recibe</dt>
+                  <dd>
+                    <code>{tool.input}</code>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Devuelve</dt>
+                  <dd>
+                    <code>{tool.output}</code>
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .explorer {
+    margin-top: clamp(40px, 6vw, 64px);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    background: var(--bg-raised);
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--line);
+    padding: 8px;
+    gap: 2px;
+  }
+
+  .list button {
+    display: grid;
+    gap: 2px;
+    text-align: left;
+    font: inherit;
+    color: var(--text-2);
+    background: none;
+    border: 0;
+    border-radius: var(--radius-m);
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+
+  .list code {
+    font-size: 0.86rem;
+    color: var(--text);
+  }
+
+  .list span {
+    font-size: 0.86rem;
+    color: var(--text-3);
+  }
+
+  .list button:hover {
+    background: var(--bg-sunken);
+  }
+
+  .list button[aria-selected="true"] {
+    background: var(--accent-soft);
+  }
+
+  .list button[aria-selected="true"] code {
+    color: var(--accent);
+  }
+
+  .list button[aria-selected="true"] span {
+    color: var(--text-2);
+  }
+
+  .details {
+    padding: clamp(24px, 3.4vw, 40px);
+    background: var(--bg);
+  }
+
+  :global(.js-ready) .detail:not(.current) {
+    display: none;
+  }
+
+  .detail + .detail {
+    margin-top: 48px;
+  }
+
+  :global(.js-ready) .detail + .detail {
+    margin-top: 0;
+  }
+
+  .detail header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h3 code {
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 500;
+  }
+
+  .access {
+    font-size: 0.78rem;
+    color: var(--ok);
+    background: var(--ok-soft);
+    border-radius: 999px;
+    padding: 3px 10px;
+  }
+
+  .access.writes {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .text {
+    margin-top: 18px;
+    color: var(--text-2);
+    max-width: 56ch;
+  }
+
+  .ask {
+    margin-top: 22px;
+    font-size: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .ask span {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.82rem;
+    color: var(--text-3);
+    letter-spacing: 0;
+    margin-bottom: 4px;
+  }
+
+  dl {
+    margin: 28px 0 0;
+    display: grid;
+    gap: 14px;
+  }
+
+  dt {
+    font-size: 0.82rem;
+    color: var(--text-3);
+    margin-bottom: 6px;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  dd code {
+    display: block;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    padding: 12px 14px;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--line);
+    background: var(--bg-sunken);
+    color: var(--text-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  @media (max-width: 860px) {
+    .explorer {
+      grid-template-columns: 1fr;
+    }
+
+    .list {
+      flex-direction: row;
+      overflow-x: auto;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      scrollbar-width: thin;
+    }
+
+    .list button {
+      flex: none;
+    }
+
+    .list span {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-explorer]")) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const select = (index: number) => {
+      tabs.forEach((tab, position) => {
+        const selected = position === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        panels[position].classList.toggle("current", selected);
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const step = ["ArrowDown", "ArrowRight"].includes(event.key) ? 1 : ["ArrowUp", "ArrowLeft"].includes(event.key) ? -1 : 0;
+        if (!step) return;
+        event.preventDefault();
+        const next = (index + step + tabs.length) % tabs.length;
+        tabs[next].focus();
+        select(next);
+      });
+    });
+    select(0);
+    root.classList.add("js-ready");
+  }
+</script>
