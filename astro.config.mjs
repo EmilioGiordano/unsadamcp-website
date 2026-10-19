@@ -9,7 +9,6 @@ export default defineConfig({
       description: "Documentación de UNSAdA-MCP, el servidor MCP no oficial para el aula virtual de la UNSAdA.",
       locales: { root: { label: "Español", lang: "es" } },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/EmilioGiordano/unsada-mcp" }],
-      editLink: { baseUrl: "https://github.com/EmilioGiordano/unsada-mcp-website/edit/main/" },
       lastUpdated: false,
       customCss: [
         "@fontsource/funnel-display/600.css",

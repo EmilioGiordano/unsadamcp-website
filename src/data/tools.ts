@@ -26,7 +26,7 @@ export const tools: Tool[] = [
     ask: "¿Qué hay en la unidad 2 de Física?",
     input: '{"courseId":2477}',
     output:
-      '{"id":2477,"name":"Física II","sections":[{"name":"Unidad 2","modules":[{"module":"resource","name":"Guía 2","url":"…"}]}]}',
+      '{"id":2477,"name":"Física II","sections":[{"number":2,"name":"Unidad 2","activities":[{"module":"resource","name":"Guía 2","url":"…"}]}]}',
   },
   {
     name: "unsada_open",
@@ -35,7 +35,7 @@ export const tools: Tool[] = [
       "Devuelve el contenido según el tipo: un foro con sus discusiones, una discusión con todos sus mensajes, una tarea con la consigna, tu entrega y la devolución.",
     ask: "¿Qué dijo la profe en el foro de Trabajo de Grado?",
     input: '{"url":"…/mod/forum/view.php?id=94428"}',
-    output: '{"kind":"forum","name":"Consultas","discussions":[{"subject":"Fecha del coloquio","replies":4,"url":"…"}]}',
+    output: '{"kind":"forum","title":"Consultas","discussions":[{"title":"Fecha del coloquio","author":"…","replies":4,"url":"…"}],"page":0}',
   },
   {
     name: "unsada_read_file",
@@ -50,7 +50,7 @@ export const tools: Tool[] = [
     name: "unsada_download",
     summary: "Guarda archivos, recursos o carpetas enteras en tu disco.",
     detail:
-      "Lo único que escribe, y solo en tu compu: dentro de la carpeta donde abriste el agente. Nunca pisa un archivo; si ya está igual lo saltea y si es distinto agrega (2).",
+      "Lo único que escribe, y solo en tu compu: dentro de la carpeta donde abriste el agente. Nunca pisa un archivo: si ya hay uno del mismo tamaño lo saltea, y si es distinto agrega (2).",
     ask: "Bajame todo el material de Bases de Datos.",
     input: '{"directory":"Bases de Datos","urls":["…/mod/folder/view.php?id=95020"]}',
     output: '{"directory":"C:\\\\Facultad\\\\Bases de Datos","saved":11,"skipped":1,"failed":0,"files":[…]}',
@@ -79,7 +79,7 @@ export const tools: Tool[] = [
       "Lee el calendario mes por mes y día por día, porque la exportación del aula pierde las horas. Todo en hora de Argentina y en orden.",
     ask: "¿A qué hora cierra el cuestionario de Análisis?",
     input: '{"daysAhead":7}',
-    output: '{"events":[{"date":"2026-10-21","time":"18:00","title":"Cuestionario Unidad 4 cierra","course":"Análisis Matemático II"}]}',
+    output: '{"events":[{"date":"Wed 2026-10-21","time":"18:00","title":"Cuestionario Unidad 4 cierra","course":"Análisis Matemático II"}]}',
   },
   {
     name: "unsada_login",
