@@ -45,7 +45,7 @@ Sí. Necesitas Node 22 o más nuevo y Chrome o Edge instalado.
 
 ## ¿Puedo usarlo con otra cuenta?
 
-Sí. Pídele al agente que vuelva a entrar, o ejecuta `npx -y unsada-mcp logout` y después `login` con la otra cuenta.
+Sí. Pídele al agente que vuelva a entrar, o ejecuta `npx -y unsada-mcp logout` y después `login` con la otra cuenta. `logout` borra la sesión del aula, y Google nunca queda abierto, así que cada login te pide la cuenta de nuevo.
 
 ## ¿Qué pasa si cambian el aula?
 

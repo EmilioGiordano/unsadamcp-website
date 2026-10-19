@@ -9,10 +9,11 @@ El servidor corre en tu computadora, entra al aula con tu sesión y solo lee. Tu
 
 ## Tu sesión
 
-- No hay contraseña: entras con Google en una ventana de tu navegador.
-- Se guardan la cookie de sesión del aula y su clave de sesión en un archivo solo legible por tu usuario, dentro de `%APPDATA%\unsada-mcp` (Windows) o `~/.config/unsada-mcp` (Linux y macOS), junto al perfil del navegador del login.
+- No hay contraseña guardada: entras con Google en una ventana de incógnito de tu navegador, que no guarda nada en el disco. Google nunca queda con la sesión abierta.
+- Se guardan la cookie de sesión del aula y su clave de sesión en un archivo solo legible por tu usuario, dentro de `%APPDATA%\unsada-mcp` (Windows) o `~/.config/unsada-mcp` (Linux y macOS). Es lo único que se guarda.
 - La sesión nunca aparece en lo que devuelven las herramientas, en los registros del servidor ni en solicitudes a otros sitios.
 - `unsada-mcp logout` borra la sesión guardada.
+- Si tu agente puede ejecutar comandos en la terminal, puede leer ese archivo como cualquier otro de tu usuario. Configúralo para que te pregunte antes, por ejemplo en OpenCode con `"permission": { "bash": "ask" }`.
 
 ## Qué pide al aula
 
