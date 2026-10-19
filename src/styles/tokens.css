@@ -22,6 +22,8 @@
   --accent-soft: rgb(77 171 255 / 0.14);
   --accent-glow: rgb(77 171 255 / 0.22);
   --accent-ink: #04121f;
+  --mark-gold: #c9ad1a;
+  --mark-ink: #ecebe7;
   --ok: #8fd3a0;
   --ok-soft: rgb(143 211 160 / 0.1);
   --no: #f0978b;
@@ -54,6 +56,8 @@
   --accent-soft: rgb(10 102 216 / 0.1);
   --accent-glow: rgb(10 102 216 / 0.16);
   --accent-ink: #ffffff;
+  --mark-gold: #b2990c;
+  --mark-ink: #173640;
   --ok: #23824a;
   --ok-soft: rgb(35 130 74 / 0.08);
   --no: #b9432f;
@@ -80,6 +84,8 @@
     --accent-soft: rgb(10 102 216 / 0.1);
     --accent-glow: rgb(10 102 216 / 0.16);
     --accent-ink: #ffffff;
+    --mark-gold: #b2990c;
+    --mark-ink: #173640;
     --ok: #23824a;
     --ok-soft: rgb(35 130 74 / 0.08);
     --no: #b9432f;

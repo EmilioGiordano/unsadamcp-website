@@ -27,7 +27,9 @@ import { base } from "../lib/base";
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}icon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}icon-32.png`} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
     <script is:inline>
       try {
         const theme = localStorage.getItem("starlight-theme");

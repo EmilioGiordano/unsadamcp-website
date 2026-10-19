@@ -10,6 +10,11 @@ export default defineConfig({
       locales: { root: { label: "Español", lang: "es" } },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/EmilioGiordano/unsada-mcp" }],
       lastUpdated: false,
+      favicon: "/icon.svg",
+      head: [
+        { tag: "link", attrs: { rel: "icon", href: "/icon-32.png", type: "image/png", sizes: "32x32" } },
+        { tag: "link", attrs: { rel: "apple-touch-icon", href: "/apple-touch-icon.png" } },
+      ],
       customCss: [
         "@fontsource/funnel-display/600.css",
         "@fontsource/funnel-display/700.css",
