@@ -1,25 +1,25 @@
 ---
-title: Qué podés pedirle
+title: Qué puedes pedirle
 description: Ejemplos de preguntas, ordenados por tema.
 ---
 
-Hablale como a un compañero que tiene el aula abierta. El agente elige qué [herramientas](../herramientas/) usar y en qué orden; no hace falta nombrarlas.
+Háblale como a un compañero que tiene el aula abierta. El agente elige qué [herramientas](../herramientas/) usar y en qué orden; no hace falta nombrarlas.
 
 ## Entregas y fechas
 
 - *"¿Qué tengo que entregar esta semana?"*
 - *"¿Me falta entregar algo de Bases de Datos?"*
 - *"¿A qué hora cierra el cuestionario de Análisis?"*
-- *"Armame un calendario de las entregas del mes."*
+- *"Ármame un calendario de las entregas del mes."*
 
 Las horas salen del calendario del aula, en hora de Argentina.
 
 ## Apuntes y material
 
-- *"Resumime el apunte de la semana 3."*
+- *"Resúmeme el apunte de la semana 3."*
 - *"¿Qué entra en el parcial de Física según el programa?"*
-- *"Explicame la diapositiva 12 de la clase de normalización."*
-- *"Bajame todo el material de Bases de Datos."*
+- *"Explícame la diapositiva 12 de la clase de normalización."*
+- *"Descárgame todo el material de Bases de Datos."*
 
 Lee PDF (también escaneados), Word, PowerPoint, Excel, imágenes y texto. Los `.doc` o `.ppt` viejos, `.zip`, `.rar` y videos no los puede leer, pero sí [descargar](../descargas/).
 
@@ -41,4 +41,4 @@ Lee PDF (también escaneados), Word, PowerPoint, Excel, imágenes y texto. Los `
 
 ## Lo que no puede hacer
 
-No puede entregar, publicar, responder en foros ni anotarte en nada: el servidor no tiene herramientas para eso y rechaza esas direcciones. Tampoco ve lo que no ves vos: si un curso o una actividad está oculta para tu usuario, no aparece.
+No puede entregar, publicar, responder en foros ni inscribirte en nada: el servidor no tiene herramientas para eso y rechaza esas direcciones. Tampoco ve lo que no ves tú: si un curso o una actividad está oculta para tu usuario, no aparece.

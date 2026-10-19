@@ -8,16 +8,16 @@ import { base } from "../lib/base";
 <section class="hero">
   <div class="wrap grid">
     <div class="copy">
-      <h1>Preguntá. Tu agente lee el aula.</h1>
+      <h1>Conecta tu agente al aula virtual de la UNSAdA.</h1>
       <p class="lede">
-        Un servidor MCP no oficial para <span class="host">moodle.unsada.edu.ar</span>. Tu agente (Claude, Codex,
-        OpenCode, Cursor) lee tus cursos, apuntes, foros, tareas, notas y calendario con tu propia sesión, desde tu
-        compu. No publica ni entrega nada.
+        unsada-mcp es un servidor MCP que le da a Claude, Codex, OpenCode o Cursor acceso de lectura a tus materias en
+        Moodle. Pídele qué tienes que entregar, que descargue el material o que resuma un apunte: lo busca con tu propia
+        cuenta y nunca publica ni entrega nada.
       </p>
       <div class="install">
         <CopyCommand command="npx -y unsada-mcp login" />
         <p class="install-note">
-          Necesitás Node 22 y Edge o Chrome. <a href={`${base}docs/instalacion/`}>Guía para Windows, macOS y Linux</a>
+          Requisitos: Node 22 y Edge o Chrome. <a href={`${base}docs/instalacion/`}>Guía para Windows, macOS y Linux</a>
         </p>
       </div>
     </div>
@@ -48,15 +48,15 @@ import { base } from "../lib/base";
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(40px, 6vw, 88px);
     align-items: center;
   }
 
   h1 {
-    font-size: clamp(3rem, 6.6vw, 5.6rem);
-    line-height: 0.96;
-    letter-spacing: -0.045em;
+    font-size: clamp(2.6rem, 4.3vw, 3.7rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
     font-weight: 700;
   }
 
@@ -89,7 +89,7 @@ import { base } from "../lib/base";
   }
 
   .caption {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 0.8rem;
     color: var(--text-3);
     text-align: right;

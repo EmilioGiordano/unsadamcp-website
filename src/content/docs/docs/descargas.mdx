@@ -5,32 +5,32 @@ description: Dónde guarda los archivos unsada_download y cómo permitir otras c
 
 import { Aside, TabItem, Tabs } from "@astrojs/starlight/components";
 
-Cuando le pedís *"bajame el material de Bases de Datos"*, el agente usa `unsada_download`. Es lo único del servidor que escribe, y solo en tu disco.
+Cuando le pides *"descárgame el material de Bases de Datos"*, el agente usa `unsada_download`. Es lo único del servidor que escribe, y solo en tu disco.
 
 ## Dónde guarda
 
 Dentro de la **carpeta donde abriste el agente**, en la subcarpeta que elija el modelo. Si abriste Claude Code en `C:\Facultad` y el modelo elige `Bases de Datos/Unidad 1`, los archivos quedan en `C:\Facultad\Bases de Datos\Unidad 1`. La carpeta se crea si no existe.
 
-Por eso conviene abrir el agente en la carpeta donde guardás las cosas de la facultad, no en tu carpeta de usuario.
+Por eso conviene abrir el agente en la carpeta donde guardas las cosas de la facultad, no en tu carpeta de usuario.
 
 <Aside title="Claude Desktop y otras apps de escritorio">
-  Las apps que no se abren en una carpeta (como Claude Desktop) lanzan el servidor desde una carpeta que elige la app, y puede no ser la que esperás. Con ellas, agregá tu carpeta de la facultad a `UNSADA_DOWNLOAD_ROOTS` (ver abajo) y pedile al agente que guarde ahí con la ruta completa, por ejemplo *"bajalo en D:\Facultad\Bases de Datos"*.
+  Las apps que no se abren en una carpeta (como Claude Desktop) lanzan el servidor desde una carpeta que elige la app, y puede no ser la que esperas. Con ellas, agrega tu carpeta de la facultad a `UNSADA_DOWNLOAD_ROOTS` (ver abajo) y pídele al agente que guarde ahí con la ruta completa, por ejemplo *"descárgalo en D:\Facultad\Bases de Datos"*.
 </Aside>
 
 ## Reglas
 
-- **Nunca pisa un archivo.** Si ya existe uno con el mismo nombre y el mismo tamaño, lo saltea. Si es distinto, guarda el nuevo con ` (2)` al final del nombre.
+- **Nunca sobrescribe un archivo.** Si ya existe uno con el mismo nombre y el mismo tamaño, lo omite. Si es distinto, guarda el nuevo con ` (2)` al final del nombre.
 - **Nada en carpetas ocultas** ni de configuración: ninguna parte de la ruta puede empezar con punto (`.git`, `.claude`, `.vscode`…) ni ser `node_modules`.
 - **Nombres sensibles con guion bajo.** Un archivo que se llame como las instrucciones de un agente o algo que Windows ejecuta solo (`CLAUDE.md`, `AGENTS.md`, `desktop.ini`, `autorun.inf`…) se guarda con `_` adelante, por ejemplo `_CLAUDE.md`. Así un archivo del aula no se convierte en instrucciones para tu agente.
 - **Nombres válidos en Windows.** Cambia los caracteres no permitidos (`<>:"/\|?*`) por `_` y evita nombres reservados como `CON` o `NUL`.
 - **Sin salirse de la carpeta.** Cada ruta final se resuelve y se comprueba antes de escribir, también si hay enlaces simbólicos en el camino.
-- **Escritura segura.** Cada archivo se baja a un temporal en la misma carpeta y recién al final toma su nombre, así no quedan archivos a medias.
+- **Escritura segura.** Cada archivo se descarga a un temporal en la misma carpeta y solo al final toma su nombre, así no quedan archivos a medias.
 
 Límites: hasta 200 archivos por pedido y 500 MB por archivo.
 
 ## Permitir otras carpetas
 
-Si querés que pueda guardar fuera de la carpeta donde abriste el agente, agregá las carpetas a la variable `UNSADA_DOWNLOAD_ROOTS`. Las separás con `;` en Windows y con `:` en Linux y macOS. El modelo puede usar una ruta absoluta solo si está dentro de una de ellas.
+Si quieres que pueda guardar fuera de la carpeta donde abriste el agente, agrega las carpetas a la variable `UNSADA_DOWNLOAD_ROOTS`. Se separan con `;` en Windows y con `:` en Linux y macOS. El modelo puede usar una ruta absoluta solo si está dentro de una de ellas.
 
 <Tabs syncKey="os">
   <TabItem label="Windows">
@@ -42,7 +42,7 @@ Si querés que pueda guardar fuera de la carpeta donde abriste el agente, agreg�
         "unsada": {
           "command": "npx",
           "args": ["-y", "unsada-mcp"],
-          "env": { "UNSADA_DOWNLOAD_ROOTS": "D:\\Facultad;C:\\Users\\vos\\Documents\\Apuntes" }
+          "env": { "UNSADA_DOWNLOAD_ROOTS": "D:\\Facultad;C:\\Users\\tu-usuario\\Documents\\Apuntes" }
         }
       }
     }
@@ -57,7 +57,7 @@ Si querés que pueda guardar fuera de la carpeta donde abriste el agente, agreg�
         "unsada": {
           "command": "npx",
           "args": ["-y", "unsada-mcp"],
-          "env": { "UNSADA_DOWNLOAD_ROOTS": "/home/vos/Facultad:/home/vos/Apuntes" }
+          "env": { "UNSADA_DOWNLOAD_ROOTS": "/home/tu-usuario/Facultad:/home/tu-usuario/Apuntes" }
         }
       }
     }
@@ -68,5 +68,5 @@ Si querés que pueda guardar fuera de la carpeta donde abriste el agente, agreg�
 </Tabs>
 
 <Aside type="caution">
-  Agregá solo carpetas de material. Nunca tu carpeta de usuario entera, la de inicio de Windows ni una con proyectos de código: ahí un archivo descargado podría terminar ejecutándose o leído como configuración.
+  Agrega solo carpetas de material. Nunca tu carpeta de usuario entera, la de inicio de Windows ni una con proyectos de código: ahí un archivo descargado podría terminar ejecutándose o leído como configuración.
 </Aside>

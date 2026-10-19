@@ -1,9 +1,9 @@
 <section class="section" id="como-funciona">
   <div class="wrap">
-    <h2 class="section-title">Corre en tu compu y entra como vos.</h2>
+    <h2 class="section-title">Funciona en tu computadora, con tu cuenta.</h2>
     <p class="section-lede">
-      No hay usuario ni contraseña que cargar. El servidor usa tu propio navegador para entrar con Google una vez y
-      después lee el aula con esa sesión, igual que si abrieras las páginas a mano.
+      Tu contraseña no pasa por ningún servicio externo. Inicias sesión en el aula con Google una vez, como siempre, y
+      desde ahí tu agente puede leer tus materias como si las abrieras a mano.
     </p>
 
     <figure class="figure">
@@ -11,51 +11,48 @@
         class="diagram"
         data-diagram
         role="img"
-        aria-label="En tu compu, tu agente habla con unsada-mcp por stdio, y unsada-mcp abre Edge o Chrome una vez para entrar con Google. Desde tu compu, unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión."
+        aria-label="En tu computadora, tu agente habla con unsada-mcp por stdio, y unsada-mcp abre Edge o Chrome una vez para entrar con Google. Desde tu computadora, unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión."
       >
-        <div class="machine"><span>Tu compu</span></div>
+        <div class="machine"><span>Tu computadora</span></div>
         <div class="node agent">
           <p class="node-role">cliente MCP</p>
           <p class="node-name">Tu agente</p>
-          <p class="node-note">Claude, Codex, OpenCode o Cursor. Decide qué herramienta usar.</p>
+          <p class="node-note">Claude, Codex, OpenCode o Cursor. Entiende lo que le pides.</p>
         </div>
         <div class="edge e1"><span>stdio</span><i class="packet"></i></div>
         <div class="node server">
           <p class="node-role">servidor MCP</p>
           <p class="node-name">unsada-mcp</p>
-          <p class="node-note">Revisa cada dirección antes de pedirla. Guarda la sesión en tu carpeta de usuario.</p>
+          <p class="node-note">Busca en el aula lo que tu agente necesita y guarda tu sesión en tu computadora.</p>
         </div>
         <div class="edge e2"><span>HTTPS con tu sesión</span><i class="packet"></i></div>
         <div class="node moodle">
           <p class="node-role">aula virtual <span class="status">solo lectura</span></p>
           <p class="node-name">moodle.unsada.edu.ar</p>
-          <p class="node-note">Solo páginas de lectura conocidas.</p>
+          <p class="node-note">Lo ve igual que tú desde el navegador.</p>
         </div>
         <div class="drop"><span>una vez, para entrar</span></div>
         <div class="node browser">
           <p class="node-role">navegador</p>
           <p class="node-name">Edge o Chrome</p>
-          <p class="node-note">Entrás con tu cuenta de Google. La ventana se cierra sola.</p>
+          <p class="node-note">Inicio de sesión con tu cuenta de Google. La ventana se cierra sola.</p>
         </div>
       </div>
-      <figcaption>Lo que está dentro de la línea punteada corre en tu compu. Hacia el aula solo salen los pedidos de cada página.</figcaption>
+      <figcaption>Todo lo que está dentro de la línea punteada pasa en tu computadora. Al aula solo llegan pedidos para leer páginas.</figcaption>
     </figure>
 
     <ol class="steps">
       <li>
-        <h3>Entrás una vez</h3>
-        <p>
-          <code class="inline-code">npx -y unsada-mcp login</code> abre el aula en tu navegador, directo en Google. Si la
-          sesión vence, vuelve a abrir la ventana sola.
-        </p>
+        <h3>Inicio de sesión, una sola vez</h3>
+        <p>Se abre el aula en tu navegador y entras con Google, como siempre. Si la sesión vence, te lo vuelve a pedir.</p>
       </li>
       <li>
-        <h3>Le preguntás a tu agente</h3>
-        <p>Como le hablarías a un compañero: “¿qué tengo que entregar?”, “resumime el apunte”, “¿qué nota me pusieron?”.</p>
+        <h3>Un pedido en lenguaje natural</h3>
+        <p>Como a un compañero: “¿qué tengo que entregar?”, “descarga el material”, “¿qué me corrigieron en el TP?”.</p>
       </li>
       <li>
-        <h3>El servidor lee y responde</h3>
-        <p>Abre las páginas que hacen falta, con pocos pedidos, y le devuelve al agente datos compactos, no HTML.</p>
+        <h3>La respuesta, con datos del aula</h3>
+        <p>Abre solo lo que hace falta y te contesta con lo que encontró: fechas, notas, apuntes o archivos en tu carpeta.</p>
       </li>
     </ol>
   </div>

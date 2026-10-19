@@ -42,7 +42,7 @@ export const tools: Tool[] = [
     summary: "Lee PDF, Word, PowerPoint, Excel, imágenes y texto.",
     detail:
       "Trae el archivo por partes (páginas, diapositivas o bloques), las que entran en una respuesta. Las páginas escaneadas llegan como imagen para que el modelo las lea.",
-    ask: "Resumime el apunte de la semana 3.",
+    ask: "Resume el apunte de la semana 3.",
     input: '{"url":"…/pluginfile.php/88140/…/Semana 3.pdf"}',
     output: '{"file":"Semana 3 - Transacciones.pdf","format":"pdf","unit":"page","total":14,"from":1,"to":8,"next":9}',
   },
@@ -50,8 +50,8 @@ export const tools: Tool[] = [
     name: "unsada_download",
     summary: "Guarda archivos, recursos o carpetas enteras en tu disco.",
     detail:
-      "Lo único que escribe, y solo en tu compu: dentro de la carpeta donde abriste el agente. Nunca pisa un archivo: si ya hay uno del mismo tamaño lo saltea, y si es distinto agrega (2).",
-    ask: "Bajame todo el material de Bases de Datos.",
+      "Lo único que escribe, y solo en tu computadora: dentro de la carpeta donde abriste el agente. Nunca pisa un archivo: si ya hay uno del mismo tamaño lo omite, y si es distinto agrega (2).",
+    ask: "Descarga todo el material de Bases de Datos.",
     input: '{"directory":"Bases de Datos","urls":["…/mod/folder/view.php?id=95020"]}',
     output: '{"directory":"C:\\\\Facultad\\\\Bases de Datos","saved":11,"skipped":1,"failed":0,"files":[…]}',
     writes: "disk",
@@ -83,10 +83,10 @@ export const tools: Tool[] = [
   },
   {
     name: "unsada_login",
-    summary: "Abre el navegador para volver a entrar.",
+    summary: "Abre el navegador para volver a iniciar sesión.",
     detail:
       "Casi nunca hace falta: si la sesión vence, el servidor abre la ventana solo. Sirve para cambiar de cuenta o cuando la ventana no se ve.",
-    ask: "Entrá con mi otra cuenta.",
+    ask: "Inicia sesión con mi otra cuenta.",
     input: "{}",
     output: '{"signedIn":true}',
     writes: "browser",

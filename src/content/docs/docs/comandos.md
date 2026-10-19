@@ -7,7 +7,7 @@ description: Los comandos de la terminal y las variables de entorno opcionales.
 
 | Comando | Qué hace |
 |---|---|
-| `unsada-mcp` | Arranca el servidor MCP por stdio. Lo lanza tu cliente; no hace falta correrlo a mano. |
+| `unsada-mcp` | Arranca el servidor MCP por stdio. Lo lanza tu cliente; no hace falta ejecutarlo a mano. |
 | `unsada-mcp login` | Abre el navegador para entrar con Google. |
 | `unsada-mcp status` | Dice si hay una sesión guardada y desde cuándo. |
 | `unsada-mcp logout` | Borra la sesión guardada. |
@@ -17,7 +17,7 @@ Con `npx` van precedidos de `npx -y`, por ejemplo `npx -y unsada-mcp status`.
 
 ## Variables de entorno
 
-Todas son opcionales. Se configuran en el cliente (el bloque `env` en JSON, `-e` en `claude mcp add`) o en tu terminal antes de correr un comando.
+Todas son opcionales. Se configuran en el cliente (el bloque `env` en JSON, `-e` en `claude mcp add`) o en tu terminal antes de ejecutar un comando.
 
 | Variable | Para qué sirve | Ejemplo |
 |---|---|---|

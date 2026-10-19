@@ -5,12 +5,12 @@ description: Por qué lee páginas en lugar de usar una API, cómo está organiz
 
 ## Por qué lee páginas
 
-El aula de la UNSAdA es Moodle 3.2 con el tema *essential*. El servicio web para apps móviles está desactivado y el de AJAX no sirve sin él, y el login es solo con Google. No hay una API usable, así que el servidor hace lo mismo que vos: abre las páginas con tu sesión y las convierte en datos.
+El aula de la UNSAdA es Moodle 3.2 con el tema *essential*. El servicio web para apps móviles está desactivado y el de AJAX no sirve sin él, y el login es solo con Google. No hay una API usable, así que el servidor hace lo mismo que tú: abre las páginas con tu sesión y las convierte en datos.
 
 Algunas decisiones salen de cómo es esta aula en particular:
 
 - **Calendario:** la exportación iCal pierde las horas, así que se leen las vistas de mes y de día.
-- **Cursos:** el tablero deja afuera los cursos viejos, así que se combina con el resumen de notas.
+- **Cursos:** el tablero deja fuera los cursos viejos, así que se combina con el resumen de notas.
 - **Formatos de curso:** muchos cursos usan pestañas (`onetopic`), una página por pestaña; el servidor las recorre todas.
 - **Fechas:** todo en hora de Argentina (`America/Argentina/Buenos_Aires`).
 

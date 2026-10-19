@@ -17,19 +17,19 @@ const requests = [
   <div class="wrap">
     <div class="split">
       <div class="copy">
-        <h2 class="section-title">Solo lee, y lo comprueba antes de cada pedido.</h2>
+        <h2 class="section-title">Mira el aula, pero no la toca.</h2>
         <p class="section-lede">
-          Antes de abrir una dirección, el servidor la compara con una lista de páginas de lectura conocidas, con sus
-          parámetros. Si no está, la rechaza sin pedirla. Lo mismo con cada redirección.
+          Antes de abrir cualquier página, unsada-mcp comprueba que sea una de las que solo se leen. Si no lo es, ni
+          siquiera la pide.
         </p>
         <ul class="facts">
           <li>No publica, no entrega, no se suscribe ni cierra tu sesión.</li>
-          <li>Tu sesión queda en tu compu y nunca viaja a otro sitio ni aparece en lo que lee el agente.</li>
-          <li>Aunque un archivo trajera instrucciones escondidas, el servidor no tiene cómo publicar, entregar ni borrar nada en el aula.</li>
+          <li>Tu sesión se queda en tu computadora: no viaja a ningún otro sitio y tu agente nunca la ve.</li>
+          <li>Aunque un archivo trajera instrucciones escondidas, no hay forma de que publique, entregue ni borre nada.</li>
         </ul>
         <p class="caveat">
           Como cualquier visita tuya, abrir una actividad queda en los registros del aula y puede marcarla como vista. Y
-          lo que el agente lee se lo manda al modelo que uses, como cuando pegás un apunte en el chat.
+          lo que el agente lee se lo manda al modelo que uses, como cuando pegas un apunte en el chat.
         </p>
       </div>
 
@@ -51,18 +51,17 @@ const requests = [
 
     <div class="disk">
       <div class="disk-copy">
-        <h3>Lo único que escribe es en tu disco.</h3>
+        <h3>Lo único que guarda queda en tu computadora, y con cuidado.</h3>
         <p>
-          <code class="inline-code">unsada_download</code> guarda dentro de la carpeta donde abriste el agente, en la
-          subcarpeta que elija el modelo. Para permitir otras, las agregás vos en
-          <code class="inline-code">UNSADA_DOWNLOAD_ROOTS</code>.
+          Cuando le pides material, lo deja en la carpeta donde estás trabajando, ordenado como le indiques. Guardar en
+          otro lugar solo es posible si tú lo habilitas.
         </p>
       </div>
       <ul class="rules">
-        <li><strong>Nunca pisa un archivo.</strong> Si ya está con el mismo tamaño lo saltea; si es distinto, le agrega <code>(2)</code> al nombre.</li>
-        <li><strong>Nada en carpetas ocultas.</strong> Ni <code>.git</code>, ni <code>.claude</code>, ni <code>node_modules</code>.</li>
-        <li><strong>Nombres sensibles con guion bajo.</strong> Un <code>CLAUDE.md</code> del aula se guarda como <code>_CLAUDE.md</code>.</li>
-        <li><strong>Sin salirse de la carpeta.</strong> Cada ruta final se resuelve y se comprueba antes de escribir.</li>
+        <li><strong>Nunca pisa tus archivos.</strong> Si ya lo descargaste lo omite, y si cambió guarda la versión nueva al lado con un <code>(2)</code>.</li>
+        <li><strong>No toca carpetas ocultas.</strong> Nada dentro de <code>.git</code>, <code>.claude</code> o <code>node_modules</code>.</li>
+        <li><strong>No se deja engañar.</strong> Un <code>CLAUDE.md</code> que venga del aula se guarda como <code>_CLAUDE.md</code>, para que tu agente no lo tome como instrucciones.</li>
+        <li><strong>Siempre dentro de tu carpeta.</strong> Antes de guardar, comprueba que el archivo quede adentro.</li>
       </ul>
     </div>
   </div>

@@ -6,7 +6,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "unsada-mcp",
-      description: "Documentación de UNSAdA-MCP, el servidor MCP no oficial para el aula virtual de la UNSAdA.",
+      description: "Documentación de unsada-mcp, el servidor MCP no oficial para el aula virtual de la UNSAdA.",
       locales: { root: { label: "Español", lang: "es" } },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/EmilioGiordano/unsada-mcp" }],
       lastUpdated: false,
@@ -43,7 +43,7 @@ export default defineConfig({
             { label: "Introducción", slug: "docs" },
             { label: "Instalación", slug: "docs/instalacion" },
             { label: "Primer inicio de sesión", slug: "docs/primer-login" },
-            { label: "Qué podés pedirle", slug: "docs/que-podes-pedirle" },
+            { label: "Qué puedes pedirle", slug: "docs/que-puedes-pedirle" },
           ],
         },
         {
