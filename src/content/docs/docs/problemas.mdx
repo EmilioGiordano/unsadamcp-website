@@ -12,14 +12,14 @@ import { Aside } from "@astrojs/starlight/components";
 Entra con Google en esa ventana (te pide el correo, la contraseña y la verificación de nuevo) y pídele al agente que lo intente de nuevo. Si la ventana no aparece, puede haber quedado detrás de otras. Si aun así no la ves, ejecuta:
 
 ```bash
-npx -y unsada-mcp login
+npx -y unsada-mcp@latest login
 ```
 
 Si el aula rechaza una sesión recién creada, bórrala y entra de nuevo:
 
 ```bash
-npx -y unsada-mcp logout
-npx -y unsada-mcp login
+npx -y unsada-mcp@latest logout
+npx -y unsada-mcp@latest login
 ```
 
 ## Ya hay una ventana de login abierta
@@ -32,7 +32,7 @@ Termina de entrar en la ventana que ya está abierta, o ciérrala, y vuelve a in
 
 **Qué ves:** *"Five minutes passed without the user finishing the sign-in."*
 
-La ventana espera cinco minutos. Ejecuta `npx -y unsada-mcp login` otra vez cuando puedas completar el login.
+La ventana espera cinco minutos. Ejecuta `npx -y unsada-mcp@latest login` otra vez cuando puedas completar el login.
 
 ## No se abre Edge ni Chrome
 
@@ -57,7 +57,7 @@ Necesitas Node 22 o más nuevo. Compruébalo con `node -v` y, si es más viejo, 
 Algunos clientes no pueden lanzar `npx` directamente en Windows. Usa `cmd /c` delante:
 
 ```bash
-claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp
+claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp@latest
 ```
 
 En la configuración JSON:
@@ -65,7 +65,7 @@ En la configuración JSON:
 ```json
 {
   "mcpServers": {
-    "unsada": { "command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp"] }
+    "unsada": { "command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp@latest"] }
   }
 }
 ```

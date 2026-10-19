@@ -14,7 +14,7 @@ export const clients: Client[] = [
     file: "terminal",
     lang: "sh",
     where: "En una terminal. Con -s user queda disponible en todas tus carpetas.",
-    config: "claude mcp add unsada -s user -- npx -y unsada-mcp",
+    config: "claude mcp add unsada -s user -- npx -y unsada-mcp@latest",
   },
   {
     id: "claude-desktop",
@@ -24,7 +24,7 @@ export const clients: Client[] = [
     where: "En claude_desktop_config.json. Se abre desde Settings, Developer, Edit Config.",
     config: `{
   "mcpServers": {
-    "unsada": { "command": "npx", "args": ["-y", "unsada-mcp"] }
+    "unsada": { "command": "npx", "args": ["-y", "unsada-mcp@latest"] }
   }
 }`,
   },
@@ -36,7 +36,7 @@ export const clients: Client[] = [
     where: "En ~/.codex/config.toml.",
     config: `[mcp_servers.unsada]
 command = "npx"
-args = ["-y", "unsada-mcp"]`,
+args = ["-y", "unsada-mcp@latest"]`,
   },
   {
     id: "opencode",
@@ -46,7 +46,7 @@ args = ["-y", "unsada-mcp"]`,
     where: "En opencode.json.",
     config: `{
   "mcp": {
-    "unsada": { "type": "local", "command": ["npx", "-y", "unsada-mcp"] }
+    "unsada": { "type": "local", "command": ["npx", "-y", "unsada-mcp@latest"] }
   }
 }`,
   },
@@ -58,7 +58,7 @@ args = ["-y", "unsada-mcp"]`,
     where: "En ~/.cursor/mcp.json, o .cursor/mcp.json dentro de un proyecto.",
     config: `{
   "mcpServers": {
-    "unsada": { "command": "npx", "args": ["-y", "unsada-mcp"] }
+    "unsada": { "command": "npx", "args": ["-y", "unsada-mcp@latest"] }
   }
 }`,
   },

@@ -41,14 +41,14 @@ Si quieres que pueda guardar fuera de la carpeta donde abriste el agente, agrega
       "mcpServers": {
         "unsada": {
           "command": "npx",
-          "args": ["-y", "unsada-mcp"],
+          "args": ["-y", "unsada-mcp@latest"],
           "env": { "UNSADA_DOWNLOAD_ROOTS": "D:\\Facultad;C:\\Users\\tu-usuario\\Documents\\Apuntes" }
         }
       }
     }
     ```
 
-    Con Claude Code: `claude mcp add unsada -s user -e UNSADA_DOWNLOAD_ROOTS="D:\Facultad" -- npx -y unsada-mcp`.
+    Con Claude Code: `claude mcp add unsada -s user -e UNSADA_DOWNLOAD_ROOTS="D:\Facultad" -- npx -y unsada-mcp@latest`.
   </TabItem>
   <TabItem label="macOS y Linux">
     ```json
@@ -56,14 +56,14 @@ Si quieres que pueda guardar fuera de la carpeta donde abriste el agente, agrega
       "mcpServers": {
         "unsada": {
           "command": "npx",
-          "args": ["-y", "unsada-mcp"],
+          "args": ["-y", "unsada-mcp@latest"],
           "env": { "UNSADA_DOWNLOAD_ROOTS": "/home/tu-usuario/Facultad:/home/tu-usuario/Apuntes" }
         }
       }
     }
     ```
 
-    Con Claude Code: `claude mcp add unsada -s user -e UNSADA_DOWNLOAD_ROOTS="$HOME/Facultad" -- npx -y unsada-mcp`.
+    Con Claude Code: `claude mcp add unsada -s user -e UNSADA_DOWNLOAD_ROOTS="$HOME/Facultad" -- npx -y unsada-mcp@latest`.
   </TabItem>
 </Tabs>
 

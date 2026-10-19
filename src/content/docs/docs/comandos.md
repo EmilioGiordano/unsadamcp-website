@@ -13,7 +13,7 @@ description: Los comandos de la terminal y las variables de entorno opcionales.
 | `unsada-mcp logout` | Borra la sesión del aula guardada. |
 | `unsada-mcp help` | Muestra la ayuda. |
 
-Con `npx` van precedidos de `npx -y`, por ejemplo `npx -y unsada-mcp status`.
+Con `npx` van precedidos de `npx -y`, por ejemplo `npx -y unsada-mcp@latest status`.
 
 ## Variables de entorno
 

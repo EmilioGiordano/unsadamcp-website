@@ -53,7 +53,7 @@ No hace falta clonar nada: `npx` descarga el paquete [`unsada-mcp`](https://www.
 ## 2. Inicio de sesión
 
 ```bash
-npx -y unsada-mcp login
+npx -y unsada-mcp@latest login
 ```
 
 Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cuenta y la ventana se cierra sola. Está explicado paso a paso en [Primer inicio de sesión](../primer-login/).
@@ -65,7 +65,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     En una terminal. Con `-s user` queda disponible en todas tus carpetas.
 
     ```bash
-    claude mcp add unsada -s user -- npx -y unsada-mcp
+    claude mcp add unsada -s user -- npx -y unsada-mcp@latest
     ```
 
     Comprueba que aparece con `claude mcp list`.
@@ -76,7 +76,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     ```json
     {
       "mcpServers": {
-        "unsada": { "command": "npx", "args": ["-y", "unsada-mcp"] }
+        "unsada": { "command": "npx", "args": ["-y", "unsada-mcp@latest"] }
       }
     }
     ```
@@ -89,7 +89,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     ```toml
     [mcp_servers.unsada]
     command = "npx"
-    args = ["-y", "unsada-mcp"]
+    args = ["-y", "unsada-mcp@latest"]
     ```
   </TabItem>
   <TabItem label="OpenCode">
@@ -98,7 +98,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     ```json
     {
       "mcp": {
-        "unsada": { "type": "local", "command": ["npx", "-y", "unsada-mcp"] }
+        "unsada": { "type": "local", "command": ["npx", "-y", "unsada-mcp@latest"] }
       }
     }
     ```
@@ -109,7 +109,7 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
     ```json
     {
       "mcpServers": {
-        "unsada": { "command": "npx", "args": ["-y", "unsada-mcp"] }
+        "unsada": { "command": "npx", "args": ["-y", "unsada-mcp@latest"] }
       }
     }
     ```
@@ -119,8 +119,12 @@ Se abre una ventana del aula directo en la pantalla de Google. Entras con tu cue
 Reinicia el cliente y pregúntale algo, por ejemplo *"¿qué materias tengo este año?"*.
 
 <Aside type="caution" title="En Windows, si el cliente no encuentra npx">
-  Algunos clientes no lanzan `npx` directamente en Windows y el servidor no arranca (errores como `spawn npx ENOENT` o `-32000`). En ese caso usa `cmd /c` delante: por ejemplo `claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp`, o en JSON `"command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp"]`. Más en [Solución de problemas](../problemas/).
+  Algunos clientes no lanzan `npx` directamente en Windows y el servidor no arranca (errores como `spawn npx ENOENT` o `-32000`). En ese caso usa `cmd /c` delante: por ejemplo `claude mcp add unsada -s user -- cmd /c npx -y unsada-mcp@latest`, o en JSON `"command": "cmd", "args": ["/c", "npx", "-y", "unsada-mcp@latest"]`. Más en [Solución de problemas](../problemas/).
 </Aside>
+
+## Actualizar
+
+Para actualizar, reinicia tu agente: `@latest` baja la versión nueva al arrancar. Tras un release puede tardar unos minutos en aparecer.
 
 ## Desde el código
 
