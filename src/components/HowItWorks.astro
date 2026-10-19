@@ -9,6 +9,7 @@
     <figure class="figure">
       <div
         class="diagram"
+        data-diagram
         role="img"
         aria-label="En tu compu, tu agente habla con unsada-mcp por stdio, y unsada-mcp abre Edge o Chrome una vez para entrar con Google. Desde tu compu, unsada-mcp lee moodle.unsada.edu.ar por HTTPS con tu sesión."
       >
@@ -267,11 +268,11 @@
     opacity: 0;
   }
 
-  :global(.motion) .e1 .packet {
+  :global(.motion) .in-view .e1 .packet {
     animation: travel-e1 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
   }
 
-  :global(.motion) .e2 .packet {
+  :global(.motion) .in-view .e2 .packet {
     animation: travel-e2 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
   }
 
@@ -438,11 +439,11 @@
       left: calc(var(--dot) / -2);
     }
 
-    :global(.motion) .e1 .packet {
+    :global(.motion) .in-view .e1 .packet {
       animation-name: fall-e1;
     }
 
-    :global(.motion) .e2 .packet {
+    :global(.motion) .in-view .e2 .packet {
       animation-name: fall-e2;
     }
 
@@ -490,3 +491,11 @@
     }
   }
 </style>
+
+<script>
+  for (const diagram of document.querySelectorAll<HTMLElement>("[data-diagram]")) {
+    new IntersectionObserver(([entry]) => diagram.classList.toggle("in-view", entry.isIntersecting), {
+      threshold: 0.35,
+    }).observe(diagram);
+  }
+</script>
