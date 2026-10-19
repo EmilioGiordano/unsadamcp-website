@@ -62,7 +62,7 @@ export const tools: Tool[] = [
     detail: "Una fila por tarea: cuándo vence, si ya entregaste y qué nota tiene. La consigna completa se abre con unsada_open.",
     ask: "¿Me falta entregar algo de Bases de Datos?",
     input: '{"courseId":2481}',
-    output: '[{"name":"TP2: Normalización","dueDate":"martes, 20 de octubre de 2026, 23:59","submission":"No entregado","grade":"-"}]',
+    output: '[{"name":"TP2: Normalización","dueDate":"2026-10-20T23:59-03:00","submission":"notSubmitted","url":"…"}]',
   },
   {
     name: "unsada_get_grades",
@@ -70,7 +70,7 @@ export const tools: Tool[] = [
     detail: "Sin curso, el total de cada materia. Con curso, cada ítem calificado con nota, rango, porcentaje y comentario.",
     ask: "¿Qué nota me pusieron en el TP1?",
     input: '{"courseId":2481}',
-    output: '{"courseId":2481,"items":[{"item":"TP1: Modelo entidad-relación","grade":"8,00","range":"0–10","percentage":"80,00 %"}]}',
+    output: '{"courseId":2481,"items":[{"item":"TP1: Modelo entidad-relación","grade":8,"range":"0–10","percentage":80}]}',
   },
   {
     name: "unsada_get_calendar",
