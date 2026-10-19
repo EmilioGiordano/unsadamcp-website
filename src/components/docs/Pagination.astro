@@ -1,0 +1,101 @@
+---
+const { prev, next } = Astro.locals.starlightRoute.pagination;
+---
+
+<nav class="pagination print:hidden" aria-label="Otras páginas">
+  {
+    prev && (
+      <a href={prev.href} rel="prev">
+        <span class="direction">
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M9.5 3.5 5 8l4.5 4.5" />
+          </svg>
+          Anterior
+        </span>
+        <span class="title">{prev.label}</span>
+      </a>
+    )
+  }
+  {
+    next && (
+      <a href={next.href} rel="next">
+        <span class="direction">
+          Siguiente
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M6.5 3.5 11 8l-4.5 4.5" />
+          </svg>
+        </span>
+        <span class="title">{next.label}</span>
+      </a>
+    )
+  }
+</nav>
+
+<style>
+  .pagination {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--sl-color-hairline-shade);
+    border-radius: 8px;
+    background: var(--sl-color-bg-nav);
+    text-decoration: none;
+    transition: border-color 0.15s;
+  }
+
+  a:hover {
+    border-color: var(--sl-color-gray-4);
+  }
+
+  [rel="next"] {
+    grid-column: 2;
+    align-items: flex-end;
+    text-align: end;
+  }
+
+  .direction {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--sl-color-white);
+  }
+
+  a:hover .title {
+    color: var(--sl-color-text-accent);
+  }
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 30rem) {
+    .pagination {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    [rel="next"] {
+      grid-column: 1;
+    }
+  }
+</style>
