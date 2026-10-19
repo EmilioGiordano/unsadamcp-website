@@ -1,120 +1,180 @@
-export interface ToolCall {
-  tool: string;
-  args?: string;
-  result: string;
-}
-
 export type AnswerBlock =
   | { kind: "text"; text: string }
   | { kind: "rows"; rows: { day: string; time: string; what: string; where: string; flag?: string }[] }
   | { kind: "points"; points: string[] }
   | { kind: "files"; folder: string; files: { name: string; note?: string }[] };
 
+export type Step =
+  | { kind: "think"; text: string }
+  | { kind: "plan"; tasks: string[] }
+  | { kind: "call"; tool: string; args?: string; result: string; ms: number; agentTool?: boolean; completes?: number }
+  | { kind: "progress"; tool: string; args: string; total: number; result: string; ms: number; completes?: number }
+  | AnswerBlock;
+
 export interface Session {
   id: string;
   label: string;
   prompt: string;
-  calls: ToolCall[];
-  answer: AnswerBlock[];
+  steps: Step[];
 }
 
 export const sessions: Session[] = [
   {
-    id: "entregas",
-    label: "Entregas",
-    prompt: "¿Qué tengo que entregar esta semana?",
-    calls: [
-      { tool: "unsada_get_calendar", args: '{"daysAhead":7}', result: "4 eventos" },
-      { tool: "unsada_list_assignments", args: '{"courseId":2481}', result: "5 tareas" },
-    ],
-    answer: [
-      { kind: "text", text: "Tenés tres entregas y un cuestionario hasta el viernes:" },
+    id: "parcial",
+    label: "Parcial",
+    prompt:
+      "Descarga todo el material de Bases de Datos, ordénalo por unidad en la carpeta de la materia y prepárame resúmenes para el primer parcial.",
+    steps: [
+      { kind: "think", text: "Primero veo qué hay en el curso y qué entra en el parcial." },
       {
-        kind: "rows",
-        rows: [
-          { day: "Mar 20", time: "23:59", what: "TP2: Normalización", where: "Bases de Datos", flag: "Sin entregar" },
-          { day: "Mié 21", time: "18:00", what: "Cuestionario Unidad 4", where: "Análisis Matemático II" },
-          { day: "Jue 22", time: "23:59", what: "Informe de laboratorio 3", where: "Física II" },
-          { day: "Vie 23", time: "12:00", what: "Avance del anteproyecto", where: "Trabajo de Grado" },
+        kind: "plan",
+        tasks: [
+          "Revisar el curso y la fecha del parcial",
+          "Descargar el material, una carpeta por unidad",
+          "Leer los apuntes de las unidades 1 a 4",
+          "Escribir un resumen por unidad",
         ],
       },
-      { kind: "text", text: "El TP2 es el más cercano y todavía figura sin entregar. ¿Te abro la consigna?" },
-    ],
-  },
-  {
-    id: "apunte",
-    label: "Apunte",
-    prompt: "Resumime el apunte de la semana 3 de Bases de Datos.",
-    calls: [
-      { tool: "unsada_get_course", args: '{"courseId":2481}', result: "9 secciones" },
+      { kind: "call", tool: "unsada_get_course", args: '{"courseId":2481}', result: "9 secciones, 31 archivos", ms: 412 },
       {
-        tool: "unsada_read_file",
-        args: '{"url":"…/pluginfile.php/88140/mod_resource/content/2/Semana 3 - Transacciones.pdf"}',
-        result: "14 páginas",
+        kind: "call",
+        tool: "unsada_get_calendar",
+        args: '{"daysAhead":30}',
+        result: "Parcial 1: jue 29, 18:00",
+        ms: 655,
+        completes: 0,
       },
-    ],
-    answer: [
-      { kind: "text", text: "«Semana 3 – Transacciones» (14 páginas), en cinco ideas:" },
+      { kind: "think", text: "Según el programa entran las unidades 1 a 4. Descargo cada una en su carpeta." },
       {
-        kind: "points",
-        points: [
-          "Una transacción es una unidad de trabajo: se aplica entera o no se aplica (atomicidad).",
-          "ACID: atomicidad, consistencia, aislamiento y durabilidad, con un ejemplo de transferencia bancaria.",
-          "Los niveles de aislamiento evitan lecturas sucias, no repetibles y fantasma; el apunte compara los cuatro en una tabla.",
-          "El log de escritura anticipada permite deshacer y rehacer después de una caída.",
-          "La página 12 tiene el ejercicio que la cátedra marcó para el parcial.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "nota",
-    label: "Nota",
-    prompt: "¿Qué nota me pusieron en el TP1 y qué me corrigieron?",
-    calls: [
-      { tool: "unsada_list_courses", result: "7 cursos" },
-      { tool: "unsada_get_grades", args: '{"courseId":2481}', result: "6 ítems" },
-      { tool: "unsada_open", args: '{"url":"…/mod/assign/view.php?id=95112"}', result: "tarea" },
-    ],
-    answer: [
-      { kind: "text", text: "En el TP1: Modelo entidad-relación de Bases de Datos te pusieron 8 sobre 10." },
-      {
-        kind: "points",
-        points: [
-          "Comentario de la docente: «Muy claro el diagrama. Revisá la cardinalidad de Inscripción: un alumno puede cursar varias comisiones.»",
-          "Te dejó el diagrama corregido como archivo de devolución, TP1-devolucion.pdf.",
-        ],
-      },
-      { kind: "text", text: "Con esto, tu promedio parcial del curso queda en 8,25." },
-    ],
-  },
-  {
-    id: "material",
-    label: "Material",
-    prompt: "Bajame todo el material de Bases de Datos.",
-    calls: [
-      { tool: "unsada_get_course", args: '{"courseId":2481}', result: "9 secciones" },
-      {
+        kind: "progress",
         tool: "unsada_download",
-        args: '{"directory":"Bases de Datos","urls":[12]}',
-        result: "11 guardados, 1 salteado",
+        args: '{"directory":"Bases de Datos/Unidad 1…4"}',
+        total: 31,
+        result: "30 guardados, 1 ya estaba",
+        ms: 8240,
+        completes: 1,
       },
-    ],
-    answer: [
-      { kind: "text", text: "Listo. Guardé el material en la carpeta Bases de Datos, dentro de la que abriste:" },
+      { kind: "call", tool: "unsada_read_file", args: '{"url":"…/Unidad 1 - Modelo ER.pdf"}', result: "18 páginas", ms: 930 },
+      { kind: "call", tool: "unsada_read_file", args: '{"url":"…/Unidad 2 - Relacional.pptx"}', result: "32 diapositivas", ms: 1104 },
+      { kind: "call", tool: "unsada_read_file", args: '{"url":"…/Unidad 3 - Normalización.pdf"}', result: "22 páginas", ms: 870 },
+      {
+        kind: "call",
+        tool: "unsada_read_file",
+        args: '{"url":"…/Unidad 4 - SQL.pdf"}',
+        result: "26 páginas",
+        ms: 1012,
+        completes: 2,
+      },
+      {
+        kind: "call",
+        tool: "Write",
+        args: "Bases de Datos/Resúmenes/*.md",
+        result: "4 archivos",
+        ms: 96,
+        agentTool: true,
+        completes: 3,
+      },
+      { kind: "text", text: "Listo. Quedó así, dentro de la carpeta donde me abriste:" },
       {
         kind: "files",
         folder: "Bases de Datos",
         files: [
-          { name: "Programa 2026.pdf" },
-          { name: "Semana 1 - Introducción.pdf" },
-          { name: "Semana 2 - Modelo relacional.pptx" },
-          { name: "Semana 3 - Transacciones.pdf" },
-          { name: "Guía de ejercicios SQL.docx", note: "ya estaba, igual tamaño" },
-          { name: "Datasets/", note: "carpeta, 7 archivos" },
+          { name: "Unidad 1/", note: "8 archivos" },
+          { name: "Unidad 2/", note: "9 archivos" },
+          { name: "Unidad 3/", note: "7 archivos" },
+          { name: "Unidad 4/", note: "7 archivos, 1 ya estaba" },
+          { name: "Resúmenes/", note: "4 resúmenes" },
         ],
       },
-      { kind: "text", text: "No pisé nada: el archivo que ya tenías lo salteé." },
+      {
+        kind: "text",
+        text: "El parcial es el jueves 29 a las 18:00. En cada resumen marqué los ejercicios que la cátedra dijo que entran. ¿Te preparo un simulacro con las guías?",
+      },
+    ],
+  },
+  {
+    id: "entregas",
+    label: "Entregas",
+    prompt: "Revisa todas mis materias y dime qué me falta entregar este mes, de lo más urgente a lo menos.",
+    steps: [
+      { kind: "think", text: "Cruzo el calendario con las tareas de cada materia para saber qué ya entregaste." },
+      { kind: "call", tool: "unsada_list_courses", result: "6 cursos", ms: 388 },
+      { kind: "call", tool: "unsada_get_calendar", args: '{"daysAhead":30}', result: "9 eventos", ms: 702 },
+      {
+        kind: "progress",
+        tool: "unsada_list_assignments",
+        args: "6 cursos",
+        total: 6,
+        result: "14 tareas, 9 entregadas",
+        ms: 2310,
+      },
+      { kind: "think", text: "Quedan cinco sin entregar. El TP2 cierra en dos días y no tiene nada subido." },
+      { kind: "text", text: "Te faltan cinco, por fecha de cierre:" },
+      {
+        kind: "rows",
+        rows: [
+          { day: "Mar 20", time: "23:59", what: "TP2: Normalización", where: "Bases de Datos", flag: "En 2 días" },
+          { day: "Mié 21", time: "18:00", what: "Cuestionario Unidad 4", where: "Análisis Matemático II" },
+          { day: "Vie 23", time: "12:00", what: "Avance del anteproyecto", where: "Trabajo de Grado" },
+          { day: "Lun 26", time: "23:59", what: "Informe de laboratorio 3", where: "Física II" },
+          { day: "Vie 30", time: "23:59", what: "TP3: Consultas SQL", where: "Bases de Datos" },
+        ],
+      },
+      {
+        kind: "text",
+        text: "Empezaría por el TP2. ¿Quieres que lea la consigna y te prepare un plan para terminarlo a tiempo?",
+      },
+    ],
+  },
+  {
+    id: "notas",
+    label: "Notas",
+    prompt: "¿Cómo vengo en Bases de Datos? Mira las notas y las devoluciones y dime qué tengo que repasar.",
+    steps: [
+      { kind: "think", text: "Busco las notas del curso y abro la devolución de cada trabajo corregido." },
+      { kind: "call", tool: "unsada_get_grades", args: '{"courseId":2481}', result: "6 ítems, 2 corregidos", ms: 540 },
+      { kind: "call", tool: "unsada_open", args: '{"url":"…/mod/assign/view.php?id=95112"}', result: "TP1: 8/10", ms: 611 },
+      { kind: "call", tool: "unsada_read_file", args: '{"url":"…/TP1-devolucion.pdf"}', result: "2 páginas", ms: 734 },
+      { kind: "call", tool: "unsada_open", args: '{"url":"…/mod/quiz/view.php?id=95140"}', result: "Cuestionario 2: 6/10", ms: 498 },
+      { kind: "think", text: "Los dos errores apuntan al mismo tema: claves y cardinalidad." },
+      { kind: "text", text: "Llevas 7 de promedio en lo que ya está corregido:" },
+      {
+        kind: "points",
+        points: [
+          "TP1, Modelo ER: 8. La docente marcó la cardinalidad de Inscripción: un alumno puede cursar varias comisiones.",
+          "Cuestionario 2, Modelo relacional: 6. Las tres preguntas de claves foráneas quedaron mal.",
+          "Conviene repasar dependencias funcionales y claves: es lo que más pesa en el parcial del jueves 29.",
+        ],
+      },
+      { kind: "text", text: "¿Te preparo diez ejercicios de claves y cardinalidad con las guías del curso?" },
+    ],
+  },
+  {
+    id: "foros",
+    label: "Foros",
+    prompt: "¿Hubo avisos en los foros esta semana que cambien alguna fecha?",
+    steps: [
+      { kind: "think", text: "Reviso el foro de avisos de cada materia y abro solo las discusiones nuevas." },
+      { kind: "call", tool: "unsada_list_courses", result: "6 cursos", ms: 362 },
+      {
+        kind: "progress",
+        tool: "unsada_open",
+        args: "6 foros de avisos",
+        total: 6,
+        result: "4 discusiones nuevas",
+        ms: 2580,
+      },
+      { kind: "call", tool: "unsada_open", args: '{"url":"…/mod/forum/discuss.php?d=18822"}', result: "7 respuestas", ms: 590 },
+      { kind: "call", tool: "unsada_open", args: '{"url":"…/mod/forum/discuss.php?d=18840"}', result: "2 respuestas", ms: 545 },
+      { kind: "text", text: "Sí, hubo dos cambios de fecha:" },
+      {
+        kind: "points",
+        points: [
+          "Física II: el informe de laboratorio 3 pasa al lunes 26 a las 23:59. Lo avisó el ayudante el martes.",
+          "Análisis Matemático II: el cuestionario de la Unidad 4 abre una hora antes, a las 17:00.",
+        ],
+      },
+      { kind: "text", text: "Los otros dos avisos suben material nuevo, sin cambios de fecha. ¿Te lo resumo?" },
     ],
   },
 ];
