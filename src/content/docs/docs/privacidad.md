@@ -45,7 +45,7 @@ El aula registra las visitas del servidor como visitas del usuario. Abrir una ac
 
 ## Datos enviados al modelo
 
-El contenido que abre el agente (apuntes, foros, notas) se envía al modelo del cliente. Su tratamiento depende de la política del proveedor.
+El contenido que abre el agente (apuntes, foros, notas) se envía al modelo del cliente. Su tratamiento depende de la política del proveedor. Si hay algo que no quieres compartir, no se lo pidas.
 
 ## Contenido hostil
 

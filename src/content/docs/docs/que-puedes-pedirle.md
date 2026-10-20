@@ -3,7 +3,7 @@ title: Qué puedes pedirle
 description: Ejemplos de pedidos, ordenados por tema.
 ---
 
-Los pedidos se escriben en lenguaje natural. El agente elige qué [herramientas](../herramientas/) usar y en qué orden.
+Háblale como a un compañero que tiene el aula abierta. El agente elige qué [herramientas](../herramientas/) usar y en qué orden; no hace falta nombrarlas.
 
 ## Pedidos compuestos
 

@@ -25,7 +25,7 @@ Sí. Lo que lee el agente se envía al modelo del cliente. La sesión no sale de
 
 ## ¿Queda registro en el aula?
 
-Sí, como cualquier visita: abrir una actividad queda en los registros y puede marcarla como vista.
+Sí, como cualquier visita: abrir una actividad queda en los registros y puede marcarla como vista. El servidor no hace nada que no puedas hacer tú desde el navegador.
 
 ## ¿Tiene costo?
 
